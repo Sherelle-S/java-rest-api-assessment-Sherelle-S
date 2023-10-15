@@ -1,0 +1,5 @@
+Here are a list of things that i will need to do
+
+choose topic
+choose database to connect to
+create readme.md
