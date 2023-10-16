@@ -1,5 +1,7 @@
 Here are a list of things that i will need to do
 
 choose topic
+decide on the architecture.
+    Java base, Im thinking Spring Boot with a mongodb database. though it would be advantageous to use postgres to be able to say I have experience.
 choose database to connect to
 create readme.md
