@@ -259,3 +259,10 @@ D=25%
 E = 20%
 
 F = 15%
+
+
+create your api
+make a file for api
+put everything api related in there
+create constructor
+what can be inherited?

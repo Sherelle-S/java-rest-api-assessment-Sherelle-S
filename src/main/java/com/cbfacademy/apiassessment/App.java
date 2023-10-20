@@ -1,7 +1,8 @@
 package com.cbfacademy.apiassessment;
 
-import java.util.Scanner;
-
+import java.time.LocalDate;
+import java.time.Month;
+import java.util.List;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,16 +18,29 @@ public class App {
 
 	@GetMapping("/greeting")
 	public String greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
-		// try (Scanner sc = new Scanner(System.in);) {
-		// 	System.out.println("What is your name?");
-		// String userName = sc.nextLine();
-		// 	return userName.isBlank() ? String.format("Hello %s", name) : String.format("Hello %s", userName);
-		// } catch (Exception e) {	
-		// 	System.out.println("Error occurred while greeting client.");
-		// }
-		// return greeting(name);
-	
 			return String.format("Hello %s", name);
+			
+	}
+
+	@GetMapping("/hi")
+	private List<WatchlistConstructor> hello() {
+		return List.of(
+			new WatchlistConstructor(
+				1,
+				"Gold",
+				"GLD",
+				true,
+				"Hold",
+				"GBP",
+				LocalDate.of(2020, Month.APRIL, 21),
+				1200,
+				1.25,
+				1.298,
+				6.267,
+				6.287,
+				6.316
+			)
+		);
 	}
 
 }
