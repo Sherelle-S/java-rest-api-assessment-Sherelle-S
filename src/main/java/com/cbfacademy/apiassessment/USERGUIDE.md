@@ -11,6 +11,8 @@ Versioning
 *Error Handling*
 *Documentation*
 *Request and Response formats - JSON*
+*Search Algo*
+*Sort Algo*
 Request Validation
 *Database Design - MongoDB*
 Caching - look into this, it may be implemented.
