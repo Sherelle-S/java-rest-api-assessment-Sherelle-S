@@ -1,6 +1,6 @@
 package com.cbfacademy.apiassessment;
 
-public class controller {
+public class Controller {
 
     // business logic layer that controls the aoi data 
     

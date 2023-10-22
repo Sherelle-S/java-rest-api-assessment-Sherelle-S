@@ -46,14 +46,14 @@ public class App {
 		);
 	}
 
-	@PostMapping("/create")
-	public 
+	// @PostMapping("/create")
+	// public 
 
 
-	@PutMapping("/update")
-	public
-
-	@DeleteMapping("/delete")
+	// @PutMapping("/update")
 	// public
+
+	// @DeleteMapping("/delete")
+	// // public
 
 }
