@@ -1,6 +1,0 @@
-spring:
-  data:
-    mongo:
-      uri: mongodb+srv://CBFAssessment:Hbe5nQeAl4rC3u2u@watchlist.gknfv05.mongodb.net/?retryWrites=true&w=majority
-      # mongodb+srv://sherellescottdev:dAU7UOveNJytye0g@watchlist.hqwwdqi.mongodb.net/?retryWrites=true&w=majority
-      database: WatchList
