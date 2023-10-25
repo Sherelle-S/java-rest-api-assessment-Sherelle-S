@@ -36,7 +36,7 @@ public class App implements CommandLineRunner{
         
         repository.deleteAll();
 
-        repository.save(new WatchListModel(
+        repository.save(new WatchList(
             "Gold",
         			"GLD",
         			true,
@@ -44,28 +44,14 @@ public class App implements CommandLineRunner{
         			"GBP",
         			LocalDate.of(2020, Month.APRIL, 21),
         			1200,
-        			1.25,
+        			0,
         			1.298,
         			6.267,
         			6.287,
         			6.316));
 
-         repository.save(new WatchListModel(
-            "Silver",
-        			"SLV",
-        			true,
-        			"Hold",
-        			"GBP",
-        			LocalDate.of(2018, Month.JUNE, 15),
-        			600,
-        			.95,
-        			1.38,
-        			2.287,
-        			1.237,
-        			2.912));
-
                     System.out.println("----------------------------");
-                    for (WatchListModel watch : repository.findAll()){
+                    for (WatchList watch : repository.findAll()){
                         System.out.println(watch);
                     }
                     System.err.println();
@@ -76,8 +62,9 @@ public class App implements CommandLineRunner{
 
                     System.out.println("Stock found by findByStockName('Gold'):");
                     System.out.println("----------------------------");
-                    for(WatchListModel watchModel : repository.findByStockName("Gold")){
-                        System.out.println("watchModel");
+                    for(WatchList watchModel : repository.findByStockName("Gold")){
+                        System.out.println(watchModel);
+						System.out.println();
                     }
     }
 

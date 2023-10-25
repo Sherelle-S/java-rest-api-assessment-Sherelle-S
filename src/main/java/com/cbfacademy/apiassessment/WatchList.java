@@ -7,7 +7,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
-public class WatchListModel {
+public class WatchList {
 
     @Id
     private ObjectId id;
@@ -15,7 +15,7 @@ public class WatchListModel {
     private String symbol;
     private boolean owned;
     private String status;
-    private String Currency;
+    private String currency;
     private LocalDate datePurchased;
     private Integer unitsOwned;
     private double pointsChange;
@@ -65,11 +65,11 @@ public class WatchListModel {
     }
 
     public String getCurrency() {
-        return Currency;
+        return currency;
     }
 
     public void setCurrency(String currency) {
-        this.Currency = currency;
+        this.currency = currency;
     }
 
     public LocalDate getDatePurchased() {
@@ -92,8 +92,8 @@ public class WatchListModel {
         return pointsChange;
     }
 
-    public void setPointsChange(double pointsChange) {
-        this.pointsChange = pointsChange;
+    public void setPointsChange() {
+        this.pointsChange = this.close - this.open;
     }
 
     public double getProfit() {
@@ -128,17 +128,17 @@ public class WatchListModel {
         this.high = high;
     }
 
-    public WatchListModel() {
+    public WatchList() {
     }
     
-     public WatchListModel(String stockName, String symbol, boolean owned, String status, String currency,
+     public WatchList(String stockName, String symbol, boolean owned, String status, String currency,
             LocalDate datePurchased, Integer unitsOwned, double pointsChange, double profit, double open, double close,
             double high) {
-        stockName = stockName;
-        symbol = symbol;
+        this.stockName = stockName;
+        this.symbol = symbol;
         this.owned = owned;
         this.status = status;
-        Currency = currency;
+        this.currency = currency;
         this.datePurchased = datePurchased;
         this.unitsOwned = unitsOwned;
         this.pointsChange = pointsChange;
@@ -151,7 +151,7 @@ public class WatchListModel {
        @Override
     public String toString() {
         return "DatabaseModel [id=" + id + ", StockName=" + stockName + ", Symbol=" + symbol + ", owned=" + owned
-                + ", status=" + status + ", Currency=" + Currency + ", datePurchased=" + datePurchased + ", unitsOwned="
+                + ", status=" + status + ", Currency=" + currency + ", datePurchased=" + datePurchased + ", unitsOwned="
                 + unitsOwned + ", pointsChange=" + pointsChange + ", profit=" + profit + ", open=" + open + ", close="
                 + close + ", high=" + high + "]";
     }
