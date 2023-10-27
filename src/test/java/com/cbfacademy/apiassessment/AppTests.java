@@ -1,6 +1,7 @@
 package com.cbfacademy.apiassessment;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,9 +12,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 
+import com.cbfacademy.apiassessment.Exceptions.ItemNotFoundException;
+
 import java.net.URL;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest(classes = App.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class AppTests {
@@ -67,11 +71,30 @@ class AppTests {
 	}
 
 	@Test
-	@Description("/AddStock endpoint goes to localhost:8080/addStock")
-	public void addStockEndpointIslocalhost8080addstock(){
-		String url = "http://localhost:" + port + "/addstock";
+	@Description("/addEntry endpoint goes to localhost:8080/addEntry")
+	public void addEntryEndpointIslocalhost8080addEntry(){
+		String url = "http://localhost:" + port + "/addEntry";
 		HttpStatusCode statusCode = restTemplate.getForEntity(url, String.class).getStatusCode();
 		assertEquals(HttpStatus.OK, statusCode);
 	}
+
+	@Test
+	@Description("/unknown endpoint returns 404")
+	public void unknownEndpointReturns404(){
+		String url = "http://localhost:" +port +"/unknown-endpoint";
+		ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+		HttpStatusCode statusCode = restTemplate.getForEntity(url, String.class).getStatusCode();
+		assertEquals(HttpStatus.NOT_FOUND, statusCode);
+	}
+
+	 @Test
+    @DisplayName("/unknown endpoint throws itemNotFoundException")
+    public void unknownEndpointThrowsException (){
+		String url = "http://localhost:" +port +"/unknown-endpoint";
+
+        assertThrows(ItemNotFoundException.class, () -> {
+			restTemplate.getForEntity(url, String.class);
+        });
+    }
 	// do a 404 NOT_FOUND
 }

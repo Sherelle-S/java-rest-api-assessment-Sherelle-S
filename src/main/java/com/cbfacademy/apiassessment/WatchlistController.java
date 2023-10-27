@@ -5,11 +5,26 @@ import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.cbfacademy.apiassessment.Exceptions.ItemNotFoundException;
 
 @RestController
 public class WatchlistController {
+
+    private final WatchListRepository repository;
+
+    WatchlistController(WatchListRepository repository){
+        this.repository = repository;
+    }
 
     // Get method
     // use localhost 8080 to return the page
@@ -36,38 +51,79 @@ public class WatchlistController {
         	2.912);
     }
 
-    @GetMapping("/ShowWatchlists")
-    public List<WatchList> getWatchlists(){
+    // @GetMapping("/ShowWatchlist")
+    // public List<WatchList> getWatchlist(){
 
-        List<WatchList> watchlist = new ArrayList<>();
-        watchlist.add(new WatchList(
-            "American Dollars", 
-            "USD", 
-            true, 
-            null, 
-            "USD",
-            LocalDate.of( 2021, Month.AUGUST, 10), 
-            1520, 
-            0.5, 
-            1.20, 
-            10, 
-            11, 
-            12));
-            watchlist.add(new WatchList(
-            "Silver",
-        	"SLV",
-        	true,
-        	"Hold",
-        	"GBP",
-        	LocalDate.of(2018, Month.JUNE, 15),
-        	600,
-        	.95,
-        	1.38,
-        	2.287,
-        	1.237,
-        	2.912));
-            return watchlist;
+    //     return repository.findAll();
+    //     // List<WatchList> watchlist = new ArrayList<>();
+    //     // watchlist.add(new WatchList(
+    //     //     "American Dollars", 
+    //     //     "USD", 
+    //     //     true, 
+    //     //     null, 
+    //     //     "USD",
+    //     //     LocalDate.of( 2021, Month.AUGUST, 10), 
+    //     //     1520, 
+    //     //     0.5, 
+    //     //     1.20, 
+    //     //     10, 
+    //     //     11, 
+    //     //     12));
+    //     //     watchlist.add(new WatchList(
+    //     //     "Silver",
+    //     // 	"SLV",
+    //     // 	true,
+    //     // 	"Hold",
+    //     // 	"GBP",
+    //     // 	LocalDate.of(2018, Month.JUNE, 15),
+    //     // 	600,
+    //     // 	.95,
+    //     // 	1.38,
+    //     // 	2.287,
+    //     // 	1.237,
+    //     // 	2.912));
+    //     //     return watchlist;
         
+    // }
+
+    @PostMapping("/addEntry")
+    WatchList newWatchListItem(@RequestBody WatchList newWatchListItem){
+        return repository.save(newWatchListItem(newWatchListItem));
+    // public ResponseEntity<?> newWatchListItem(@RequestBody WatchList neWatchList){
+        
+    //     EntityModel<WatchList> entityModel = assembler.toModel(repository.save(newWatchListItem(neWatchList)));
+
+    //     return ResponseEntity
+    //     .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
+    //     .body(entityModel);
     }
+
+    @GetMapping("/showWatchlist/{id}")
+    WatchList one(@PathVariable String id){
+        return repository.findById(id).orElseThrow(() -> new ItemNotFoundException(id));
+    }
+
+    // @PutMapping("/addEntry/{id}")
+    // WatchList replaceWatchList(@RequestBody WatchList newWatchListItem, @PathVariable Long id){
+    //     // return SearchAlgo.
+    //     // // your search algo should go here
+    //     // .orElseGet(() -> {
+    //     //     newWatchListItem.setId(id);
+    //     //     return repository.save(newWatchListItem);
+    //     // });
+    // }
+
+    @DeleteMapping("/showwatchlist/{id}")
+    void deleteWatchlistItem(@PathVariable String id){
+        repository.deleteById(id);
+    }
+    // // Create path variables
+    // @GetMapping("{stockName}/{symbol}")
+    // public WatchList watchListPathVariable(@PathVariable("stockName") String stockName, @PathVariable("symbol") String symbol){
+    //     return new WatchList(stockName, symbol);
+    // }
     
+    // public WatchList watchListQueryParam(@RequestParam(name = "stockName") String stockName, @RequestParam( symbol = "symbol") String symbol){
+    //     return new WatchList(stockName, symbol, false, stockName, symbol, null, null, 0, 0, 0, 0, 0);
+    // }
 }

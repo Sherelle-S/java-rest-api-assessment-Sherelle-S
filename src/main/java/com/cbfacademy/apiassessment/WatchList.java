@@ -89,11 +89,7 @@ public class WatchList {
     }
 
     public double getPointsChange() {
-        return pointsChange;
-    }
-
-    public void setPointsChange() {
-        this.pointsChange = this.close - this.open;
+        return this.close - this.open;
     }
 
     public double getProfit() {
