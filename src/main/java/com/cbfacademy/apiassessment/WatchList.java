@@ -18,8 +18,8 @@ public class WatchList {
     private String currency;
     private LocalDate datePurchased;
     private Integer unitsOwned;
-    private double pointsChange;
     private double profit;
+    private double pointsChange;
     private double open;
     private double close;
     private double high;
