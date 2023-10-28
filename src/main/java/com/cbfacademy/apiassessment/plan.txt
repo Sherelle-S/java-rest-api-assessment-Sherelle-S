@@ -1,5 +1,10 @@
 Here are a list of things that i will need to do
 
+
+fix test issues, fix ui. 
+refactor code again again.
+make sure controller and app class are working again.
+
 choose topic
 decide on the architecture.
     Java base, Im thinking Spring Boot with a mongodb database. though it would be advantageous to use postgres to be able to say I have experience.

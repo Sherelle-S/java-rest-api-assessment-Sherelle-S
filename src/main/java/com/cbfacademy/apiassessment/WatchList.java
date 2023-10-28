@@ -22,7 +22,7 @@ public class WatchList {
     private double pointsChange;
     private double open;
     private double close;
-    private double high;
+    private double intradayHigh;
 
     public ObjectId getId() {
         return id;
@@ -89,7 +89,11 @@ public class WatchList {
     }
 
     public double getPointsChange() {
-        return this.close - this.open;
+        return this.pointsChange;
+    }
+
+    public void setPointsChange(double pointsChange) {
+        this.pointsChange = pointsChange;
     }
 
     public double getProfit() {
@@ -116,12 +120,12 @@ public class WatchList {
         this.close = close;
     }
 
-    public double getHigh() {
-        return high;
+    public double getIntradayHigh() {
+        return intradayHigh;
     }
 
-    public void setHigh(double high) {
-        this.high = high;
+    public void setIntradayHigh(double high) {
+        this.intradayHigh = high;
     }
 
     public WatchList() {
@@ -141,7 +145,7 @@ public class WatchList {
         this.profit = profit;
         this.open = open;
         this.close = close;
-        this.high = high;
+        this.intradayHigh = high;
     }
 
        @Override
@@ -149,7 +153,7 @@ public class WatchList {
         return "DatabaseModel [id=" + id + ", StockName=" + stockName + ", Symbol=" + symbol + ", owned=" + owned
                 + ", status=" + status + ", Currency=" + currency + ", datePurchased=" + datePurchased + ", unitsOwned="
                 + unitsOwned + ", pointsChange=" + pointsChange + ", profit=" + profit + ", open=" + open + ", close="
-                + close + ", high=" + high + "]";
+                + close + ", high=" + intradayHigh + "]";
     }
 
 }

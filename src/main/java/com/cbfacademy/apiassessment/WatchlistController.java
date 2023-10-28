@@ -24,6 +24,7 @@ import com.cbfacademy.apiassessment.Exceptions.ItemNotFoundException;
 public class WatchlistController {
 
     private final WatchListRepository repository;
+    UserInterface userInterface = new UserInterface();
 
     @Autowired
     public WatchlistController(WatchListRepository repository){
@@ -33,11 +34,11 @@ public class WatchlistController {
     // Get method
     // use localhost 8080 to return the page
     // localhost:8080/watchlist
-    @GetMapping("/form")
-    public String showForm(Model model){
-        model.addAttribute("Watchlist", new WatchList());
-        return "index.html";
-    } 
+    // @GetMapping("/form")
+    // public String showForm(Model model){
+    //     model.addAttribute("Watchlist", new WatchList());
+    //     return "index.html";
+    // } 
 
     @GetMapping("/showList")
     // here we the method is the watchlistModel Bean
@@ -95,15 +96,19 @@ public class WatchlistController {
         
     // }
 
-    @PostMapping("/submitForm")
-    public String formDetails(@ModelAttribute WatchList watchList){
-        repository.save(watchList);
-        return "redirect:/showList";
-    }
+    // method for using html form
+    // @PostMapping("/submitForm")
+    // public String formDetails(@ModelAttribute WatchList watchList){
+    //     repository.save(watchList);
+    //     return "redirect:/showList";
+    // }
 
     @PostMapping("/addEntry")
     WatchList newWatchListItem(@RequestBody WatchList newWatchListItem){
-        return repository.save(newWatchListItem);
+        WatchList watchList = userInterface.enterDetails();
+            return repository.save(watchList);
+        }
+        // return repository.save(newWatchListItem);
     // public ResponseEntity<?> newWatchListItem(@RequestBody WatchList neWatchList){
         
     //     EntityModel<WatchList> entityModel = assembler.toModel(repository.save(newWatchListItem(neWatchList)));
@@ -111,7 +116,7 @@ public class WatchlistController {
     //     return ResponseEntity
     //     .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
     //     .body(entityModel);
-    }
+    
 
     @GetMapping("/showList/{id}")
     WatchList one(@PathVariable String id){
