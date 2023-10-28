@@ -19,8 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class App implements CommandLineRunner{
 
+	 private final WatchListRepository repository;
+
 	 @Autowired
-	 private WatchListRepository repository;
+	 public App(WatchListRepository repository){
+		this.repository = repository;
+	 }
 	public static void main(String[] args) {
 		SpringApplication.run(App.class, args);
 	}

@@ -5,9 +5,12 @@ import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -22,15 +25,21 @@ public class WatchlistController {
 
     private final WatchListRepository repository;
 
-    WatchlistController(WatchListRepository repository){
+    @Autowired
+    public WatchlistController(WatchListRepository repository){
         this.repository = repository;
     }
 
     // Get method
     // use localhost 8080 to return the page
     // localhost:8080/watchlist
+    @GetMapping("/form")
+    public String showForm(Model model){
+        model.addAttribute("Watchlist", new WatchList());
+        return "index.html";
+    } 
 
-    @GetMapping("/ShowWatchlist")
+    @GetMapping("/showList")
     // here we the method is the watchlistModel Bean
     // This data must be written to a JSON file and the data should append the data on each post request.
     // json data should be rendered in an algo format of search or sort.
@@ -51,7 +60,7 @@ public class WatchlistController {
         	2.912);
     }
 
-    // @GetMapping("/ShowWatchlist")
+    // @GetMapping("/showList")
     // public List<WatchList> getWatchlist(){
 
     //     return repository.findAll();
@@ -86,9 +95,15 @@ public class WatchlistController {
         
     // }
 
+    @PostMapping("/submitForm")
+    public String formDetails(@ModelAttribute WatchList watchList){
+        repository.save(watchList);
+        return "redirect:/showList";
+    }
+
     @PostMapping("/addEntry")
     WatchList newWatchListItem(@RequestBody WatchList newWatchListItem){
-        return repository.save(newWatchListItem(newWatchListItem));
+        return repository.save(newWatchListItem);
     // public ResponseEntity<?> newWatchListItem(@RequestBody WatchList neWatchList){
         
     //     EntityModel<WatchList> entityModel = assembler.toModel(repository.save(newWatchListItem(neWatchList)));
@@ -98,12 +113,12 @@ public class WatchlistController {
     //     .body(entityModel);
     }
 
-    @GetMapping("/showWatchlist/{id}")
+    @GetMapping("/showList/{id}")
     WatchList one(@PathVariable String id){
         return repository.findById(id).orElseThrow(() -> new ItemNotFoundException(id));
     }
 
-    // @PutMapping("/addEntry/{id}")
+    // @PutMapping("/update-List/{id}")
     // WatchList replaceWatchList(@RequestBody WatchList newWatchListItem, @PathVariable Long id){
     //     // return SearchAlgo.
     //     // // your search algo should go here
@@ -113,7 +128,7 @@ public class WatchlistController {
     //     // });
     // }
 
-    @DeleteMapping("/showwatchlist/{id}")
+    @DeleteMapping("/deleteEntry/{id}")
     void deleteWatchlistItem(@PathVariable String id){
         repository.deleteById(id);
     }

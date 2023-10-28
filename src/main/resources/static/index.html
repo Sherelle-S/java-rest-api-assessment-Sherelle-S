@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Sherelles Api Assessment</title>
+</head>
+<body>
+    <form action="/submitForm" method="post" id="formBox">
+        <label for="stockName">Stock Name</label>
+        <input type="text" name="stockName" id="stockName"><br>
+        <label for="symbol">Symbol</label>
+        <input type="text" name="symbol" id="symbol"><br>
+        <label for="owned">Owned</label>
+        <input type="checkbox" name="owned" id="owned"><br>
+        <label for="status">Status</label>
+        <input type="text" name="Status" id="status"><br>
+        <label for="currency">Currency Owned in</label>
+        <input type="text" name="currency" id="currency"><br>
+        <label for="datePurchased">Date purchased</label>
+        <input type="date"><br>
+        <label for="units">Units Owned</label>
+        <input type="text" name="units" id="units" step="any"><br> <!-- Allow decimal input -->
+        <label for="profit"> Profit made</label>
+        <input type="text" name="profit" id="profit" step="any"><br> <!-- Allow decimal input -->
+        <label for="open">Opening Price</label>
+        <input type="text" name="open" id="open" step="any"><br> <!-- Allow decimal input -->
+        <label for="close">Closing Price</label>
+        <input type="text" name="close" id="close" step="any"><br> <!-- Allow decimal input -->
+        <label for="high">Intraday high</label>
+        <input type="text" name="high" id="high" step="any"><br> <!-- Allow decimal input -->
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>

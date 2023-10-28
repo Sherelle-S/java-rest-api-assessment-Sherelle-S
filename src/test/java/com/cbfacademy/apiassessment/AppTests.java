@@ -54,8 +54,8 @@ class AppTests {
 	}
 
 	// @Test
-	// @Description("/ShowWatchlists endpoint returns a list of the current items in the watchlist")
-	// public void ShowWatchlists_ExpectedResponseWithCurrentDocumentAdded(){
+	// @Description("/showList endpoint returns a list of the current items in the watchlist")
+	// public void showList_ExpectedResponseWithCurrentDocumentAdded(){
 	// 	ResponseEntity<String> response = restTemplate.getForEntity(base.toString() + "", String.class);
 
 	// 	assertEquals(200, response.getStatusCode().value());
@@ -63,16 +63,16 @@ class AppTests {
 	// }
 
 	@Test
-	@Description("/ShowWatchlist end point goes to localhost:8080/showwatchlist")
-	public void showwatchlistsEndpointIslocalhost8080showwatchlists(){
-		String url = "http://localhost:" + port + "/ShowWatchlists";
+	@Description("/show-list end point goes to localhost:8080/showlist")
+	public void showListEndpointIslocalhost8080showList(){
+		String url = "http://localhost:" + port + "/showList";
 		HttpStatusCode statusCode = restTemplate.getForEntity(url, String.class).getStatusCode();
 		assertEquals(HttpStatus.OK, statusCode);
 	}
 
 	@Test
-	@Description("/addEntry endpoint goes to localhost:8080/addEntry")
-	public void addEntryEndpointIslocalhost8080addEntry(){
+	@Description("/addListEntry endpoint goes to localhost:8080/addEntry")
+	public void addListEntryEndpointIslocalhost8080addListEntry(){
 		String url = "http://localhost:" + port + "/addEntry";
 		HttpStatusCode statusCode = restTemplate.getForEntity(url, String.class).getStatusCode();
 		assertEquals(HttpStatus.OK, statusCode);
