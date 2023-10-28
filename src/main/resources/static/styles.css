@@ -27,4 +27,18 @@ input[type="submit"] {
     width: 70px; /* Submit button takes up full width */
 }
 
-/* Additional styling for the form elements can be added as needed. */
+/* for controls page */
+/* Add this CSS in your <style> tags or in an external CSS file */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+button {
+    padding: 10px 20px; /* Adjust the padding to your liking */
+    margin: 10px; /* Add spacing between buttons */
+}
+
