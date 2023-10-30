@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class App implements CommandLineRunner{
 
-	 private WatchListRepository repository;
+	 private WatchlistRepository repository;
 
 	 @Autowired
-	 public App (WatchListRepository repository){
+	 public App (WatchlistRepository repository){
 		this.repository = repository;
 	 }
 	public static void main(String[] args) {
@@ -31,28 +31,13 @@ public class App implements CommandLineRunner{
 	@Override
     public void run(String... args) throws Exception {
 		
+		repository.deleteAll();
 
-        
-
-// UserInterface userInterface = new UserInterface();
-// userInterface.enterDetails();
-// 		WatchList watchlist = new WatchList();
-//         repository.save(new WatchList(
-//             itemName,
-//         	Acronym,
-//         	owner,
-//         	currentStatus,
-//         	currencyOwned,
-//         	date,
-//         	units,
-//         	profitAmount,
-//         	watchlist.getPointsChange(),
-//         	openingPrice,
-//         	closingPrice,
-//         	intradayHigh));
+		repository.save(new Watchlist(null, null, false, null, null, null, null, 0, 0, 0, 0, 0));
+		repository.save(new Watchlist("Gold", "GLD", true, "Hold", "GBP", 21/04/2020, 1200, 1.25, 1.29, 6.267, 6.287, 6.316));
 
                     System.out.println("----------------------------");
-                    for (WatchList watch : repository.findAll()){
+                    for (Watchlist watch : repository.findAll()){
                         System.out.println(watch);
                     }
                     System.err.println();
@@ -63,7 +48,7 @@ public class App implements CommandLineRunner{
 
                     System.out.println("Stock found by findByStockName('Gold'):");
                     System.out.println("----------------------------");
-                    for(WatchList watchModel : repository.findByStockName("Gold")){
+                    for(Watchlist watchModel : repository.findByStockName("Gold")){
                         System.out.println(watchModel);
 						System.out.println();
                     }

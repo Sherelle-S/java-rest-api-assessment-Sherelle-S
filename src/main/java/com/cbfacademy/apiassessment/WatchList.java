@@ -7,7 +7,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
-public class WatchList {
+public class Watchlist {
 
     @Id
     private ObjectId id;
@@ -128,10 +128,10 @@ public class WatchList {
         this.intradayHigh = high;
     }
 
-    public WatchList() {
+    public Watchlist() {
     }
     
-     public WatchList(String stockName, String symbol, boolean owned, String status, String currency,
+     public Watchlist(String stockName, String symbol, boolean owned, String status, String currency,
             LocalDate datePurchased, Integer unitsOwned, double pointsChange, double profit, double open, double close,
             double high) {
         this.stockName = stockName;

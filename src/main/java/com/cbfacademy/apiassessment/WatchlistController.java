@@ -23,11 +23,11 @@ import com.cbfacademy.apiassessment.Exceptions.ItemNotFoundException;
 @RestController
 public class WatchlistController {
 
-    private final WatchListRepository repository;
-    UserInterface userInterface = new UserInterface();
+    private final WatchlistRepository repository;
+    UserInteractions userInterface = new UserInteractions();
 
     @Autowired
-    public WatchlistController(WatchListRepository repository){
+    public WatchlistController(WatchlistRepository repository){
         this.repository = repository;
     }
 
@@ -45,8 +45,8 @@ public class WatchlistController {
     // This data must be written to a JSON file and the data should append the data on each post request.
     // json data should be rendered in an algo format of search or sort.
     // create a file that writes to JSON
-    public WatchList getWatchlist(){
-        return new WatchList(
+    public Watchlist getWatchlist(){
+        return new Watchlist(
             "Silver",
         	"SLV",
         	true,
@@ -104,8 +104,8 @@ public class WatchlistController {
     // }
 
     @PostMapping("/addEntry")
-    WatchList newWatchListItem(@RequestBody WatchList newWatchListItem){
-        WatchList watchList = userInterface.enterDetails();
+    Watchlist newWatchListItem(@RequestBody Watchlist newWatchListItem){
+        Watchlist watchList = userInterface.enterDetails();
             return repository.save(watchList);
         }
         // return repository.save(newWatchListItem);
@@ -119,7 +119,7 @@ public class WatchlistController {
     
 
     @GetMapping("/showList/{id}")
-    WatchList one(@PathVariable String id){
+    Watchlist one(@PathVariable String id){
         return repository.findById(id).orElseThrow(() -> new ItemNotFoundException(id));
     }
 

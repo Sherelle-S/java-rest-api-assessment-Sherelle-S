@@ -5,6 +5,13 @@ fix test issues, fix ui.
 refactor code again again.
 make sure controller and app class are working again.
 
+make new classes and seperate out concerns
+- database
+- user input
+- http requests
+- data entry
+
+
 choose topic
 decide on the architecture.
     Java base, Im thinking Spring Boot with a mongodb database. though it would be advantageous to use postgres to be able to say I have experience.

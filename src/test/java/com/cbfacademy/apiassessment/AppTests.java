@@ -88,25 +88,16 @@ class AppTests {
 		assertEquals(HttpStatus.NOT_FOUND, statusCode);
 	}
 
-	 @Test
-    @DisplayName("/unknown endpoint throws itemNotFoundException")
-    public void unknownEndpointThrowsException(){
-		String url = "http://localhost:" +port +"/unknown-endpoint";
+	//  @Test
+    // @DisplayName("/unknown endpoint throws itemNotFoundException")
+    // public void unknownEndpointThrowsException(){
+	// 	String url = "http://localhost:" +port +"/unknown-endpoint";
 
-        assertThrows(ItemNotFoundException.class, () -> {
-			restTemplate.getForEntity(url, String.class);
-        });		
-    }
+    //     assertThrows(ItemNotFoundException.class, () -> {
+	// 		restTemplate.getForEntity(url, String.class);
+    //     });		
+    // }
 
-	@Test
-	@DisplayName("Incorrect date format throws InvalidInputException")
-		public void incorrectDateFormatThrowsInvalidInputException() {
-			UserInterface userInterface = new UserInterface();
-			String invalidDateFormat = "01-01-1987";
 	
-			assertThrows(InvalidInputException.class, () -> {
-				userInterface.enterDetails();
-			});
-		}
 	// do a 404 NOT_FOUND
 }

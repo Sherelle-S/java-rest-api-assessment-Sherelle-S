@@ -4,10 +4,10 @@ import java.util.List;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface WatchListRepository extends MongoRepository<WatchList, String> {
+public interface WatchlistRepository extends MongoRepository<Watchlist, String> {
     
-    public WatchList findBySymbol(String symbol);
-    public List<WatchList> findByStockName(String stockName);
+    public Watchlist findBySymbol(String symbol);
+    public List<Watchlist> findByStockName(String stockName);
 //     public void save(WatchList watchList, int units, double profitAmount, Object pointsChange, double openingPrice,
 //             double closingPrice, double intradayHigh);
 }
