@@ -7,9 +7,9 @@ import com.cbfacademy.apiassessment.Watchlist;
 import com.cbfacademy.apiassessment.WatchlistRepository;
 
 @Service
-public class ImplementService implements WatchListService{
+public class ImplementService implements WatchlistService{
 
-    private WatchlistRepository watchListRepository;
+    private WatchlistRepository watchlistRepository;
 
     @Autowired
     public ImplementService(WatchlistRepository watchlistRepository){
@@ -19,7 +19,7 @@ public class ImplementService implements WatchListService{
 
     @Override
     public Watchlist saveWatchlist(Watchlist watchlist) {
-        return watchListRepository.save(watchlist);
+        return watchlistRepository.save(watchlist);
     }
 
     

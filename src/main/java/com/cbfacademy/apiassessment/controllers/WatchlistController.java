@@ -1,4 +1,4 @@
-package com.cbfacademy.apiassessment;
+package com.cbfacademy.apiassessment.controllers;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,22 +16,36 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cbfacademy.apiassessment.Watchlist;
 import com.cbfacademy.apiassessment.Exceptions.ItemNotFoundException;
+import com.cbfacademy.apiassessment.Service.ImplementService;
 
 @RestController
+@RequestMapping("/api/watchlist")
 public class WatchlistController {
 
-    private final WatchlistRepository repository;
-    UserInteractions userInterface = new UserInteractions();
+    // private final WatchlistRepository repository;
+    // UserInteractions userInterface = new UserInteractions();
 
-    @Autowired
-    public WatchlistController(WatchlistRepository repository){
-        this.repository = repository;
+    private ImplementService implementService;
+
+    public WatchlistController(ImplementService implementService) {
+        this.implementService = implementService;
     }
 
+    // @Autowired
+    // public WatchlistController(WatchlistRepository repository){
+    //     this.repository = repository;
+    // }
+
+    @PostMapping
+    public ResponseEntity<Watchlist> saveWatchlist(@RequestBody Watchlist watchlist){
+        return new ResponseEntity<Watchlist>(implementService.saveWatchlist(watchlist), HttpStatus.CREATED);
+    }
     // Get method
     // use localhost 8080 to return the page
     // localhost:8080/watchlist
@@ -103,47 +118,47 @@ public class WatchlistController {
     //     return "redirect:/showList";
     // }
 
-    @PostMapping("/addEntry")
-    Watchlist newWatchListItem(@RequestBody Watchlist newWatchListItem){
-        Watchlist watchList = userInterface.enterDetails();
-            return repository.save(watchList);
-        }
-        // return repository.save(newWatchListItem);
-    // public ResponseEntity<?> newWatchListItem(@RequestBody WatchList neWatchList){
+//     @PostMapping("/addEntry")
+//     Watchlist newWatchListItem(@RequestBody Watchlist newWatchListItem){
+//         Watchlist watchList = UserInteractions.enterDetails();
+//             return repository.save(watchList);
+//         }
+//         // return repository.save(newWatchListItem);
+//     // public ResponseEntity<?> newWatchListItem(@RequestBody WatchList neWatchList){
         
-    //     EntityModel<WatchList> entityModel = assembler.toModel(repository.save(newWatchListItem(neWatchList)));
+//     //     EntityModel<WatchList> entityModel = assembler.toModel(repository.save(newWatchListItem(neWatchList)));
 
-    //     return ResponseEntity
-    //     .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
-    //     .body(entityModel);
+//     //     return ResponseEntity
+//     //     .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
+//     //     .body(entityModel);
     
 
-    @GetMapping("/showList/{id}")
-    Watchlist one(@PathVariable String id){
-        return repository.findById(id).orElseThrow(() -> new ItemNotFoundException(id));
-    }
+//     @GetMapping("/showList/{id}")
+//     Watchlist one(@PathVariable String id){
+//         return repository.findById(id).orElseThrow(() -> new ItemNotFoundException(id));
+//     }
 
-    // @PutMapping("/update-List/{id}")
-    // WatchList replaceWatchList(@RequestBody WatchList newWatchListItem, @PathVariable Long id){
-    //     // return SearchAlgo.
-    //     // // your search algo should go here
-    //     // .orElseGet(() -> {
-    //     //     newWatchListItem.setId(id);
-    //     //     return repository.save(newWatchListItem);
-    //     // });
-    // }
+//     // @PutMapping("/update-List/{id}")
+//     // WatchList replaceWatchList(@RequestBody WatchList newWatchListItem, @PathVariable Long id){
+//     //     // return SearchAlgo.
+//     //     // // your search algo should go here
+//     //     // .orElseGet(() -> {
+//     //     //     newWatchListItem.setId(id);
+//     //     //     return repository.save(newWatchListItem);
+//     //     // });
+//     // }
 
-    @DeleteMapping("/deleteEntry/{id}")
-    void deleteWatchlistItem(@PathVariable String id){
-        repository.deleteById(id);
-    }
-    // // Create path variables
-    // @GetMapping("{stockName}/{symbol}")
-    // public WatchList watchListPathVariable(@PathVariable("stockName") String stockName, @PathVariable("symbol") String symbol){
-    //     return new WatchList(stockName, symbol);
-    // }
+//     @DeleteMapping("/deleteEntry/{id}")
+//     void deleteWatchlistItem(@PathVariable String id){
+//         repository.deleteById(id);
+//     }
+//     // // Create path variables
+//     // @GetMapping("{stockName}/{symbol}")
+//     // public WatchList watchListPathVariable(@PathVariable("stockName") String stockName, @PathVariable("symbol") String symbol){
+//     //     return new WatchList(stockName, symbol);
+//     // }
     
-    // public WatchList watchListQueryParam(@RequestParam(name = "stockName") String stockName, @RequestParam( symbol = "symbol") String symbol){
-    //     return new WatchList(stockName, symbol, false, stockName, symbol, null, null, 0, 0, 0, 0, 0);
-    // }
+//     // public WatchList watchListQueryParam(@RequestParam(name = "stockName") String stockName, @RequestParam( symbol = "symbol") String symbol){
+//     //     return new WatchList(stockName, symbol, false, stockName, symbol, null, null, 0, 0, 0, 0, 0);
+//     // }
 }

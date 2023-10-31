@@ -33,8 +33,8 @@ public class App implements CommandLineRunner{
 		
 		repository.deleteAll();
 
-		repository.save(new Watchlist(null, null, false, null, null, null, null, 0, 0, 0, 0, 0));
-		repository.save(new Watchlist("Gold", "GLD", true, "Hold", "GBP", 21/04/2020, 1200, 1.25, 1.29, 6.267, 6.287, 6.316));
+		// repository.save(new Watchlist(null, null, false, null, null, null, null, 0, 0, 0, 0, 0));
+		// repository.save(new Watchlist("Gold", "GLD", true, "Hold", "GBP", 21/04/2020, 1200, 1.25, 1.29, 6.267, 6.287, 6.316));
 
                     System.out.println("----------------------------");
                     for (Watchlist watch : repository.findAll()){
