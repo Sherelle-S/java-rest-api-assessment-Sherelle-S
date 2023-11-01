@@ -1,5 +1,5 @@
-package com.cbfacademy.apiassessment;
+// package com.cbfacademy.apiassessment;
 
-public class Interface {
+// public class Interface {
     
-}
+// }

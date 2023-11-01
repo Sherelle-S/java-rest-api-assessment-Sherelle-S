@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cbfacademy.apiassessment.Watchlist;
 import com.cbfacademy.apiassessment.WatchlistRepository;
+import com.cbfacademy.apiassessment.model.Watchlist;
 
 @RestController //tells spring this is a rest controller
 @RequestMapping("/watchlist") //base usrl for rquests

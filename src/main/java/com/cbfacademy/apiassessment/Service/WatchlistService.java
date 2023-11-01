@@ -1,6 +1,6 @@
 package com.cbfacademy.apiassessment.Service;
 
-import com.cbfacademy.apiassessment.Watchlist;
+import com.cbfacademy.apiassessment.model.Watchlist;
 
 public interface WatchlistService {
 

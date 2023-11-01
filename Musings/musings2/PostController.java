@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cbfacademy.apiassessment.Watchlist;
+import com.cbfacademy.apiassessment.model.Watchlist;
 
 @RestController
 public class PostController {
