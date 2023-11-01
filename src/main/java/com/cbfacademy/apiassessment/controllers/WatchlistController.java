@@ -25,7 +25,7 @@ import com.cbfacademy.apiassessment.Exceptions.ItemNotFoundException;
 import com.cbfacademy.apiassessment.Service.ImplementService;
 
 @RestController
-@RequestMapping("/api/watchlist")
+@RequestMapping("/watchlist")
 public class WatchlistController {
 
     // private final WatchlistRepository repository;

@@ -24,6 +24,23 @@ public class Watchlist {
     private double close;
     private double intradayHigh;
 
+    public Watchlist(String stockName, String symbol, boolean owned, String status, String currency,
+        LocalDate datePurchased, Integer unitsOwned, double pointsChange, double profit, double open, double close,
+        double high) {
+            this.stockName = stockName;
+            this.symbol = symbol;
+            this.owned = owned;
+            this.status = status;
+            this.currency = currency;
+            this.datePurchased = datePurchased;
+            this.unitsOwned = unitsOwned;
+            this.pointsChange = pointsChange;
+            this.profit = profit;
+            this.open = open;
+            this.close = close;
+            this.intradayHigh = high;
+        }
+    
     public ObjectId getId() {
         return id;
     }
@@ -131,29 +148,31 @@ public class Watchlist {
     public Watchlist() {
     }
     
-     public Watchlist(String stockName, String symbol, boolean owned, String status, String currency,
-            LocalDate datePurchased, Integer unitsOwned, double pointsChange, double profit, double open, double close,
-            double high) {
-        this.stockName = stockName;
-        this.symbol = symbol;
-        this.owned = owned;
-        this.status = status;
-        this.currency = currency;
-        this.datePurchased = datePurchased;
-        this.unitsOwned = unitsOwned;
-        this.pointsChange = pointsChange;
-        this.profit = profit;
-        this.open = open;
-        this.close = close;
-        this.intradayHigh = high;
-    }
-
        @Override
     public String toString() {
         return "DatabaseModel [id=" + id + ", StockName=" + stockName + ", Symbol=" + symbol + ", owned=" + owned
                 + ", status=" + status + ", Currency=" + currency + ", datePurchased=" + datePurchased + ", unitsOwned="
                 + unitsOwned + ", pointsChange=" + pointsChange + ", profit=" + profit + ", open=" + open + ", close="
                 + close + ", high=" + intradayHigh + "]";
+    }
+
+    public Watchlist upWatchlist(Watchlist watchlist){
+        return new Watchlist(
+            //this.id, may need to add id to the consturctor also
+        watchlist.stockName,
+            watchlist.symbol,
+            watchlist.owned,
+            watchlist.status,
+            watchlist.currency,
+            watchlist.datePurchased,
+            watchlist.unitsOwned,
+            watchlist.pointsChange,
+            watchlist.profit,
+            watchlist.open,
+            watchlist.close,
+            watchlist.intradayHigh
+        );
+        
     }
 
 }

@@ -4,12 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
 @RestController
+@ComponentScan(basePackages = "com.cbfacademy.apiassessment")
 public class App implements CommandLineRunner{
 
 	 private WatchlistRepository repository;
@@ -33,25 +35,25 @@ public class App implements CommandLineRunner{
 		
 		repository.deleteAll();
 
-		// repository.save(new Watchlist(null, null, false, null, null, null, null, 0, 0, 0, 0, 0));
-		// repository.save(new Watchlist("Gold", "GLD", true, "Hold", "GBP", 21/04/2020, 1200, 1.25, 1.29, 6.267, 6.287, 6.316));
+		// // repository.save(new Watchlist(null, null, false, null, null, null, null, 0, 0, 0, 0, 0));
+		// // repository.save(new Watchlist("Gold", "GLD", true, "Hold", "GBP", 21/04/2020, 1200, 1.25, 1.29, 6.267, 6.287, 6.316));
 
-                    System.out.println("----------------------------");
-                    for (Watchlist watch : repository.findAll()){
-                        System.out.println(watch);
-                    }
-                    System.err.println();
+        //             System.out.println("----------------------------");
+        //             for (Watchlist watch : repository.findAll()){
+        //                 System.out.println(watch);
+        //             }
+        //             System.err.println();
 
-                    System.out.println("Stock found by Symbol('GLD'):");
-                    System.out.println("----------------------------");
-                    System.out.println(repository.findBySymbol("GLD"));
+        //             System.out.println("Stock found by Symbol('GLD'):");
+        //             System.out.println("----------------------------");
+        //             System.out.println(repository.findBySymbol("GLD"));
 
-                    System.out.println("Stock found by findByStockName('Gold'):");
-                    System.out.println("----------------------------");
-                    for(Watchlist watchModel : repository.findByStockName("Gold")){
-                        System.out.println(watchModel);
-						System.out.println();
-                    }
+        //             System.out.println("Stock found by findByStockName('Gold'):");
+        //             System.out.println("----------------------------");
+        //             for(Watchlist watchModel : repository.findByStockName("Gold")){
+        //                 System.out.println(watchModel);
+		// 				System.out.println();
+        //             }
     
 		
 		

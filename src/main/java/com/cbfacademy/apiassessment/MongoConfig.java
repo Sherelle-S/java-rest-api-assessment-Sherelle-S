@@ -39,14 +39,14 @@ public class MongoConfig extends AbstractMongoClientConfiguration {
     // }
 
     
-  @Override
-  public MongoClient reactiveMongoClient() {
-    return MongoClients.create();
-  }
+  // @Override
+  // public MongoClient reactiveMongoClient() {
+  //   return MongoClients.create();
+  // }
 
-  @Override
-  protected String getMappingBasePackage() {
-    return "com.oreilly.springdata.mongodb";
-  }
+  // @Override
+  // protected String getMappingBasePackage() {
+  //   return "com.oreilly.springdata.mongodb";
+  // }
     
 }
