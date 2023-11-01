@@ -8,14 +8,20 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.context.annotation.Description;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 import com.cbfacademy.apiassessment.Exceptions.InvalidInputException;
 import com.cbfacademy.apiassessment.Exceptions.ItemNotFoundException;
+import com.cbfacademy.apiassessment.model.Watchlist;
 
 import java.net.URL;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -63,25 +69,63 @@ class AppTests {
 	// 	assertEquals("", response.getBody());
 	// }
 
+
+// 	@Test
+// @Description("/show-list end point goes to localhost:8080/watchlist")
+// public void showListEndpointIslocalhost8080showList() {
+//     String url = "http://localhost:" + port + "/watchlist";
+//     HttpStatusCode statusCode = restTemplate.ForEntity(url, List.class).getStatusCode();
+//     assertEquals(HttpStatus.OK, statusCode);
+// }
+
+@Test
+@Description("/show-list end point goes to localhost:8080/watchlist")
+public void showListEndpointIslocalhost8080showList() {
+    String url = "http://localhost:" + port + "/watchlist";
+
+    // Send a GET request to the /watchlist endpoint using postForEntity
+    ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, null, String.class);
+
+    // Check the response status code
+    assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+}
+
+
+	// @Test
+	// @Description("/show-list end point goes to localhost:8080/watchlist")
+	// public void showListEndpointIslocalhost8080showList(){
+	// 	String url = "http://localhost:" + port + "/watchlist";
+	// 	HttpStatusCode statusCode = restTemplate.getForEntity(url, String.class).getStatusCode();
+	// 	assertEquals(HttpStatus.OK, statusCode);
+	// }
+
 	@Test
-	@Description("/show-list end point goes to localhost:8080/showlist")
-	public void showListEndpointIslocalhost8080showList(){
-		String url = "http://localhost:" + port + "/showList";
-		HttpStatusCode statusCode = restTemplate.getForEntity(url, String.class).getStatusCode();
-		assertEquals(HttpStatus.OK, statusCode);
+	@Description("/addEntry endpoint goes to localhost:8080/watchlist/addEntry")
+	public void addEntryEndpointIslocalhost8080addEntry(){
+		String url = "http://localhost:" + port + "/watchlist/addEntry";
+		Watchlist watchlist = new Watchlist();
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		ResponseEntity<Watchlist> responseEntity = restTemplate.exchange(url, HttpMethod.POST, new HttpEntity<>(watchlist, headers), Watchlist.class);
+		assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
 	}
 
 	@Test
-	@Description("/addListEntry endpoint goes to localhost:8080/addEntry")
-	public void addListEntryEndpointIslocalhost8080addListEntry(){
-		String url = "http://localhost:" + port + "/addEntry";
-		HttpStatusCode statusCode = restTemplate.getForEntity(url, String.class).getStatusCode();
-		assertEquals(HttpStatus.OK, statusCode);
+	@Description("/deleteEntry/{id} endpoint goes to localhost:8080/watchlist/deleteEntry/{id}")
+	public void deleteEntryEndpointIslocalhost8080deleteEntry(){
+		String url = "http://localhost:" + port + "/watchlist//deleteEntry/{id}";
+		Watchlist watchlist = new Watchlist();
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		ResponseEntity<Watchlist> responseEntity = restTemplate.exchange(url, HttpMethod.DELETE, new HttpEntity<>(watchlist, headers), Watchlist.class);
+		assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
 	}
+
 
 	@Test
 	@Description("/unknown endpoint returns 404")
 	public void unknownEndpointReturns404(){
+		
 		String url = "http://localhost:" +port +"/unknown-endpoint";
 		ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 		HttpStatusCode statusCode = restTemplate.getForEntity(url, String.class).getStatusCode();

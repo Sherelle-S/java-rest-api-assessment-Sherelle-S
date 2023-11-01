@@ -25,10 +25,16 @@ public class Controller {
     @Autowired //injects an instance of watchlistRepository
     private WatchlistRepository watchlistRepository;
 
-    @GetMapping("/")
-    public List<Watchlist> getAllWatchlist(){ //handles get requests
-        return watchlistRepository.findAll();
-    }
+    // @GetMapping("/")
+    // public List<Watchlist> getAllWatchlist(){ //handles get requests
+    //     return watchlistRepository.findAll();
+    // }
+
+    @GetMapping("/watchlist")
+public ResponseEntity<List<Watchlist>> getAllWatchlist() {
+    List<Watchlist> watchlist = watchlistRepository.findAll();
+    return new ResponseEntity<>(watchlist, HttpStatus.OK);
+}
 
     @GetMapping("/{id}") //get user by id returns a 404 if not found
     public ResponseEntity<Watchlist> getWatchlistById(@PathVariable String id){
@@ -41,7 +47,7 @@ public class Controller {
     }
 
     
-    @PostMapping("") //posts new user and call save to the repo passing the user object as a param
+    @PostMapping("/addEntry") //posts new user and call save to the repo passing the user object as a param
     public ResponseEntity<Watchlist> createWatchlist(@RequestBody Watchlist watchlist){
         Watchlist savedWatchlist = watchlistRepository.save(watchlist);
         return new ResponseEntity<>(savedWatchlist, HttpStatus.CREATED);
@@ -80,7 +86,7 @@ public class Controller {
         // });
     }
 
-    @DeleteMapping("/{id}") //deletes a user by its is
+    @DeleteMapping("/deleteEntry/{id}") //deletes a user by its is
     public ResponseEntity<HttpStatus> deleteWatchlist(@PathVariable("id") String id){
         Watchlist watchlist = watchlistRepository.findById(id).orElse(null);
         if(watchlist == null){

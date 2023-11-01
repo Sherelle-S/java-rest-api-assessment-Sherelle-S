@@ -63,3 +63,4 @@ build/
 
 config.properties
 application.yml
+application.properties

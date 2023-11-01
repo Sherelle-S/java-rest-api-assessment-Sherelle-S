@@ -1,4 +1,4 @@
-package com.cbfacademy.apiassessment.controllers;
+package com.cbfacademy.apiassessment.musings2;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
