@@ -1,5 +1,7 @@
 package com.cbfacademy.apiassessment;
 
+import java.util.Scanner;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -8,6 +10,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.cbfacademy.apiassessment.model.Watchlist;
 
 @SpringBootApplication
 @RestController
@@ -32,8 +36,16 @@ public class App implements CommandLineRunner{
 
 	@Override
     public void run(String... args) throws Exception {
+
+		UserInput userInput = new UserInput(new UserInteractions(new Scanner(System.in)));
+
+		Watchlist watchlist = userInput.useDetails();
+
+		System.out.println("User input collected: " + watchlist);
 		
 		repository.deleteAll();
+
+		
 
 		// // repository.save(new Watchlist(null, null, false, null, null, null, null, 0, 0, 0, 0, 0));
 		// // repository.save(new Watchlist("Gold", "GLD", true, "Hold", "GBP", 21/04/2020, 1200, 1.25, 1.29, 6.267, 6.287, 6.316));

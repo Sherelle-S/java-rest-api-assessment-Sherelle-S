@@ -99,6 +99,29 @@ public void showListEndpointIslocalhost8080showList() {
 	// 	assertEquals(HttpStatus.OK, statusCode);
 	// }
 
+	// @Test
+	// @Description("/watchlist endpoint goes to localhost:8080/watchlist")
+	// public void watchlistEndpointIslocalhost8080watchlist(){
+	// 	String url = "http://localhost:" + port + "/watchlist";
+	// 	// Watchlist watchlist = new Watchlist();
+	// 	// HttpHeaders headers = new HttpHeaders();
+	// 	// headers.setContentType(MediaType.APPLICATION_JSON);
+	// 	ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+	// 	assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+	// }
+
+	@Test
+    @Description("/watchlist endpoint goes to localhost:8080/watchlist")
+    public void watchlistEndpointIslocalhost8080watchlist() {
+        String url = "http://localhost:" + port + "/watchlist";
+
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+
+        // Check the response status code
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        // You can also check the response content or any other expectations here
+    }
+
 	@Test
 	@Description("/addEntry endpoint goes to localhost:8080/watchlist/addEntry")
 	public void addEntryEndpointIslocalhost8080addEntry(){

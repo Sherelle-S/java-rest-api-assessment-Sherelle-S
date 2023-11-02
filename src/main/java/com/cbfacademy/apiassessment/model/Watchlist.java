@@ -158,7 +158,7 @@ public class Watchlist {
 
     public Watchlist upWatchlist(Watchlist watchlist){
         return new Watchlist(
-            //this.id, may need to add id to the consturctor also
+            //this.id, may need to add id to the constructor also
         watchlist.stockName,
             watchlist.symbol,
             watchlist.owned,

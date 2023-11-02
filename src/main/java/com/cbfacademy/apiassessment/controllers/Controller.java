@@ -16,14 +16,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cbfacademy.apiassessment.UserInteractions;
 import com.cbfacademy.apiassessment.WatchlistRepository;
 import com.cbfacademy.apiassessment.model.Watchlist;
 
 @RestController //tells spring this is a rest controller
-@RequestMapping("/watchlist") //base usrl for rquests
+@RequestMapping("/watchlist") //base url for requests
 public class Controller {
     @Autowired //injects an instance of watchlistRepository
     private WatchlistRepository watchlistRepository;
+    private final UserInteractions userInteractions;
+
+    @Autowired
+    public Controller(UserInteractions userInteractions){
+        this.userInteractions = userInteractions;
+    }
 
     // @GetMapping("/")
     // public List<Watchlist> getAllWatchlist(){ //handles get requests
@@ -31,7 +38,7 @@ public class Controller {
     // }
 
     @GetMapping("/watchlist")
-public ResponseEntity<List<Watchlist>> getAllWatchlist() {
+    public ResponseEntity<List<Watchlist>> getAllWatchlist() {
     List<Watchlist> watchlist = watchlistRepository.findAll();
     return new ResponseEntity<>(watchlist, HttpStatus.OK);
 }
@@ -45,6 +52,15 @@ public ResponseEntity<List<Watchlist>> getAllWatchlist() {
         return new ResponseEntity<>(watchlist, HttpStatus.OK);
         //  watchlistRepository.findById(id);
     }
+
+    @GetMapping("colectUserInput")
+    public String collectUserInput(){
+        String userData = userInteractions.inputStockName();
+
+        return "User data: " + userData; 
+
+    }
+    
 
     
     @PostMapping("/addEntry") //posts new user and call save to the repo passing the user object as a param
