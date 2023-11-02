@@ -1,9 +1,9 @@
-package com.cbfacademy.apiassessment.Service;
+package com.cbfacademy.apiassessment.Mongo.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.cbfacademy.apiassessment.MongoWatchlistRepository;
+import com.cbfacademy.apiassessment.Mongo.MongoWatchlistRepository;
 import com.cbfacademy.apiassessment.model.Watchlist;
 
 @Service

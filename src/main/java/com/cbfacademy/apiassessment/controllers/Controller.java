@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cbfacademy.apiassessment.UserInteractions;
-import com.cbfacademy.apiassessment.MongoWatchlistRepository;
+import com.cbfacademy.apiassessment.Mongo.MongoWatchlistRepository;
 import com.cbfacademy.apiassessment.model.Watchlist;
 
 @RestController //tells spring this is a rest controller

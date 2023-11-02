@@ -6,10 +6,11 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+@Document(collection = "WatchList")
 public class Watchlist {
 
     @Id
-    private Long id;
+    private ObjectId id;
     private String stockName;
     private String symbol;
     private boolean owned;
@@ -23,29 +24,28 @@ public class Watchlist {
     private double close;
     private double intradayHigh;
 
-    public Watchlist(Long id, String stockName, String symbol, boolean owned, String status, String currency,
-            LocalDate datePurchased, Integer unitsOwned, double profit, double pointsChange, double open, double close,
-            double intradayHigh) {
-        this.id = id;
-        this.stockName = stockName;
-        this.symbol = symbol;
-        this.owned = owned;
-        this.status = status;
-        this.currency = currency;
-        this.datePurchased = datePurchased;
-        this.unitsOwned = unitsOwned;
-        this.profit = profit;
-        this.pointsChange = pointsChange;
-        this.open = open;
-        this.close = close;
-        this.intradayHigh = intradayHigh;
-    }
+    public Watchlist(String stockName, String symbol, boolean owned, String status, String currency,
+        LocalDate datePurchased, Integer unitsOwned, double pointsChange, double profit, double open, double close,
+        double high) {
+            this.stockName = stockName;
+            this.symbol = symbol;
+            this.owned = owned;
+            this.status = status;
+            this.currency = currency;
+            this.datePurchased = datePurchased;
+            this.unitsOwned = unitsOwned;
+            this.pointsChange = pointsChange;
+            this.profit = profit;
+            this.open = open;
+            this.close = close;
+            this.intradayHigh = high;
+        }
     
-    public Long getId() {
+    public ObjectId getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(ObjectId id) {
         this.id = id;
     }
 
@@ -158,8 +158,8 @@ public class Watchlist {
 
     public Watchlist upWatchlist(Watchlist watchlist){
         return new Watchlist(
-            watchlist.id, //this.id, may need to add id to the constructor also
-            watchlist.stockName,
+            //this.id, may need to add id to the constructor also
+        watchlist.stockName,
             watchlist.symbol,
             watchlist.owned,
             watchlist.status,
