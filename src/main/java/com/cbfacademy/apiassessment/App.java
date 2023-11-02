@@ -18,10 +18,10 @@ import com.cbfacademy.apiassessment.model.Watchlist;
 @ComponentScan(basePackages = "com.cbfacademy.apiassessment")
 public class App implements CommandLineRunner{
 
-	 private WatchlistRepository repository;
+	 private MongoWatchlistRepository repository;
 
 	 @Autowired
-	 public App (WatchlistRepository repository){
+	 public App (MongoWatchlistRepository repository){
 		this.repository = repository;
 	 }
 	public static void main(String[] args) {
@@ -42,6 +42,9 @@ public class App implements CommandLineRunner{
 		Watchlist watchlist = userInput.useDetails();
 
 		System.out.println("User input collected: " + watchlist);
+
+		// so do you want to save your answers WatchlistRepository.save(watchlist);
+		// ?may be a good time to serialize your data
 		
 		repository.deleteAll();
 
