@@ -11,6 +11,7 @@ make new classes and seperate out concerns
 - http requests
 - data entry
 
+revert to how it was using mongo in service layer get post to JSON put to JSON get to JSON delete to JSON. then fo the same writing the json files to mongoDB
 
 choose topic
 decide on the architecture.

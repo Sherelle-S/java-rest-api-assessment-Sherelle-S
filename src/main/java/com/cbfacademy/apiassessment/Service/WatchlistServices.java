@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
+import com.cbfacademy.apiassessment.UserInteractions;
 import com.cbfacademy.apiassessment.model.Watchlist;
 
 @Service
@@ -41,23 +42,38 @@ public class WatchlistServices {
     }
 
     public Watchlist create(Watchlist copyOfWatchlist){
-        Watchlist copy = new Watchlist(
-        copy.setStockName(copyOfWatchlist.getStockName());
+        Watchlist copy = new Watchlist();
         copy.setSymbol(copyOfWatchlist.getSymbol());
         copy.setOwned(copyOfWatchlist.isOwned());
         copy.setStatus(copyOfWatchlist.getStatus());
         copy.setCurrency(copyOfWatchlist.getCurrency());
-        LocalDate date = userInteractions.userPurchaseDate();
+        // LocalDate date = UserInteractions.userPurchaseDate();
         copy.setDatePurchased(copyOfWatchlist.getDatePurchased());
         copy.setUnitsOwned(copyOfWatchlist.getUnitsOwned());
         copy.setProfit(copyOfWatchlist.getProfit());
         double pointsChange = copyOfWatchlist.getClose() - copyOfWatchlist.getOpen();
-        copy.setPointsChange(copyOfWatchlist.getPointsChange(pointsChange));
+        copy.setPointsChange(pointsChange);
         copy.setOpen(copyOfWatchlist.getOpen());
         copy.setClose(copyOfWatchlist.getClose());
         copy.setIntradayHigh(copyOfWatchlist.getIntradayHigh());
-        );
+        
         return repository.save(copy);
     }
     
+    // retrieves old watchlist from repo using repo.findBy(id). checks if Optional contains the id, if so get the old id and update the list with the new one and save the new list. or else if nto present return an empty optional
+    public Optional<Watchlist> update(Long id, Watchlist newWatchlist){
+        Optional<Watchlist> optionalOriginalList = repository.findById(id);
+        if(optionalOriginalList.isPresent()){
+            Watchlist originalList = optionalOriginalList.get();
+            Watchlist updatedList = originalList.upWatchlist(newWatchlist);
+            Watchlist savedList = repository.save(updatedList);
+            return Optional.of(savedList);
+        }else{
+            return Optional.empty();
+        }        
+    }
+
+    public void delete(Long id) {
+        repository.deleteById(id);
+    }
 }

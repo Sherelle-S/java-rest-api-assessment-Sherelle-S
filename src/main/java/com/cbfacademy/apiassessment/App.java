@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cbfacademy.apiassessment.Mongo.MongoWatchlistRepository;
+import com.cbfacademy.apiassessment.CRUDWatchlistRepository;
 import com.cbfacademy.apiassessment.model.Watchlist;
 
 @SpringBootApplication
@@ -19,10 +19,9 @@ import com.cbfacademy.apiassessment.model.Watchlist;
 @ComponentScan(basePackages = "com.cbfacademy.apiassessment")
 public class App implements CommandLineRunner{
 
-	 private MongoWatchlistRepository repository;
 
 	 @Autowired
-	 public App (MongoWatchlistRepository repository){
+	 public App (CRUDWatchlistRepository repository){
 		this.repository = repository;
 	 }
 	public static void main(String[] args) {

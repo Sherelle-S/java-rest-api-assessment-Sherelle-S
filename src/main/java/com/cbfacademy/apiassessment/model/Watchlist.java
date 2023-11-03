@@ -1,11 +1,13 @@
 package com.cbfacademy.apiassessment.model;
 
 import java.time.LocalDate;
+import javax.persistence.Entity;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+@Entity
 public class Watchlist {
 
     @Id
@@ -40,7 +42,7 @@ public class Watchlist {
         this.close = close;
         this.intradayHigh = intradayHigh;
     }
-    
+    @Id
     public Long getId() {
         return id;
     }

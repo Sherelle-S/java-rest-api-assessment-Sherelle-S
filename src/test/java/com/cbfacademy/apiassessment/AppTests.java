@@ -165,6 +165,6 @@ public void showListEndpointIslocalhost8080showList() {
     //     });		
     // }
 
-	
-	// do a 404 NOT_FOUND
+	@Test
+	@Description("/UserDetails returns user input from user input")
 }
