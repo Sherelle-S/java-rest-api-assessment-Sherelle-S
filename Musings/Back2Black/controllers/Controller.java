@@ -16,15 +16,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cbfacademy.apiassessment.CRUDWatchlistRepository;
 import com.cbfacademy.apiassessment.UserInteractions;
-import com.cbfacademy.apiassessment.WatchlistRepository;
 import com.cbfacademy.apiassessment.model.Watchlist;
 
 @RestController //tells spring this is a rest controller
 @RequestMapping("/watchlist") //base url for requests
 public class Controller {
     @Autowired //injects an instance of watchlistRepository
-    private WatchlistRepository watchlistRepository;
+    private CRUDWatchlistRepository watchlistRepository;
     private final UserInteractions userInteractions;
 
     @Autowired
@@ -53,13 +53,14 @@ public class Controller {
         //  watchlistRepository.findById(id);
     }
 
-    @GetMapping("colectUserInput")
-    public String collectUserInput(){
-        String userData = userInteractions.inputStockName();
+    // probably delete this
+    // @GetMapping("collectUserInput")
+    // public String collectUserInput(){
+    //     String userData = userInteractions.inputStockName();
 
-        return "User data: " + userData; 
+    //     return "User data: " + userData; 
 
-    }
+    // }
     
 
     

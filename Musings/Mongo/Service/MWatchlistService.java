@@ -1,8 +1,8 @@
-package com.cbfacademy.apiassessment.Service;
+package com.cbfacademy.apiassessment.Mongo.Service;
 
 import com.cbfacademy.apiassessment.model.Watchlist;
 
-public interface WatchlistService {
+public interface MWatchlistService {
 
     Watchlist saveWatchlist(Watchlist watchList);
 
