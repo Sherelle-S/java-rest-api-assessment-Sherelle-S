@@ -167,6 +167,11 @@ class AppTests {
     //     });
     // }
 
+<<<<<<< HEAD
 	// @Test
 	// @Description("/UserDetails returns user input from user input")
+=======
+	@Test
+	@Description("/UserDetails returns user input from user input")
+>>>>>>> e2e2602ffccfe3b4a066249db4180796a5eba5c1
 }
