@@ -62,16 +62,16 @@ public class WatchlistController {
     //     }
     // }
 
-    // @PostMapping(value = "/addEntry", produces = MediaType.APPLICATION_JSON_VALUE)
-    // @ResponseBody // may need to remove this to put in own personal serialization to deserialization points
-    // public ResponseEntity<deserializeToJSON> postResponseJsonContent(
-    //     @RequestBody CreateItem createItem) {
+    @PostMapping(value = "/addEntry", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody // may need to remove this to put in own personal serialization to deserialization points
+    public ResponseEntity<deserializeToJSON> postResponseJsonContent(
+        @RequestBody CreateItem createItem) {
         
-    //     deserializeToJSON response = deserializeToJSON("JSON FILES");
-    //     return new ResponseEntity<>(response, HttpStatus.CREATED);
-    // }
-    // // Watchlist savedWatchlist = watchlistRepository.save(watchlist);
-    // // 
+        deserializeToJSON response = deserializeToJSON("JSON FILES");
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+    // Watchlist savedWatchlist = watchlistRepository.save(watchlist);
+    // 
 
     
     // Entity<Watchlist> create(@RequestBody Watchlist watchlist) 
