@@ -1,15 +1,15 @@
 package com.cbfacademy.apiassessment;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.annotation.Id;
 
-@Configuration
+// @Configuration
 public class Watchlist {
     
-    @Id
-    private Long id;
+    private UUID id;
     private String stockName;
     private String symbol;
     private boolean owned;
@@ -23,10 +23,10 @@ public class Watchlist {
     private double close;
     private double intradayHigh;
 
-    public Watchlist(Long id, String stockName, String symbol, boolean owned, String status, String currency,
+    public Watchlist(String stockName, String symbol, boolean owned, String status, String currency,
             LocalDate datePurchased, Integer unitsOwned, double profit, double pointsChange, double open, double close,
             double intradayHigh) {
-        this.id = id;
+        this.id = UUID.nameUUIDFromBytes(stockName.getBytes());
         this.stockName = stockName;
         this.symbol = symbol;
         this.owned = owned;
@@ -41,10 +41,11 @@ public class Watchlist {
         this.intradayHigh = intradayHigh;
     }
 
-    public Long getId() {
+   public UUID getUuid() {
         return id;
     }
-    public void setId(Long id) {
+
+    public void setId(UUID id) {
         this.id = id;
     }
     public String getStockName() {
