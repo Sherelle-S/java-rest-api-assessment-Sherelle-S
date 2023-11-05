@@ -60,6 +60,18 @@ class AppTests {
 		assertEquals("Hello John", response.getBody());
 	}
 
+	@Test
+	@Description("exceptions class invalidInputException returns HttpStatus.BAD_REQUEST")
+	public void invalidInputExceptionReturnsBadRequest(){
+
+	}
+
+	// @Test
+	@Description("exceptions class ItemNotFoundException returns HttpStatus.NOT_FOUND")
+	public void itemNotFoundExceptionReturns(){
+		
+	}
+
 	// @Test
 	// @Description("/showList endpoint returns a list of the current items in the watchlist")
 	// public void showList_ExpectedResponseWithCurrentDocumentAdded(){
@@ -122,16 +134,16 @@ class AppTests {
     //     // You can also check the response content or any other expectations here
     // }
 
-	@Test
-	@Description("/addEntry endpoint goes to localhost:8080/watchlist/addEntry")
-	public void addEntryEndpointIslocalhost8080addEntry(){
-		String url = "http://localhost:" + port + "/watchlist/addEntry";
-		Watchlist watchlist = new Watchlist();
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_JSON);
-		ResponseEntity<Watchlist> responseEntity = restTemplate.exchange(url, HttpMethod.POST, new HttpEntity<>(watchlist, headers), Watchlist.class);
-		assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
-	}
+	// @Test
+	// @Description("/addEntry endpoint goes to localhost:8080/watchlist/addEntry")
+	// public void addEntryEndpointIslocalhost8080addEntry(){
+	// 	String url = "http://localhost:" + port + "/watchlist/addEntry";
+	// 	Watchlist watchlist = new Watchlist();
+	// 	HttpHeaders headers = new HttpHeaders();
+	// 	headers.setContentType(MediaType.APPLICATION_JSON);
+	// 	ResponseEntity<Watchlist> responseEntity = restTemplate.exchange(url, HttpMethod.POST, new HttpEntity<>(watchlist, headers), Watchlist.class);
+	// 	assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
+	// }
 
 	// @Test
 	// @Description("/deleteEntry/{id} endpoint goes to localhost:8080/watchlist/deleteEntry/{id}")
@@ -165,11 +177,6 @@ class AppTests {
     //     });
     // }
 
-<<<<<<< HEAD
 	// @Test
 	// @Description("/UserDetails returns user input from user input")
-=======
-	@Test
-	@Description("/UserDetails returns user input from user input")
->>>>>>> e2e2602ffccfe3b4a066249db4180796a5eba5c1
 }

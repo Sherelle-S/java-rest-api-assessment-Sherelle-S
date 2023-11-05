@@ -11,17 +11,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cbfacademy.apiassessment.model.Watchlist;
+import com.cbfacademy.apiassessment.WatchlistRepository;
 
 @SpringBootApplication
 @RestController
 @ComponentScan(basePackages = "com.cbfacademy.apiassessment")
 public class App implements CommandLineRunner{
 
+	private WatchlistRepository watchlistRepository;
 
 	 @Autowired
-	 public App (CRUDWatchlistRepository repository){
-		this.repository = repository;
+	 public App (WatchlistRepository watchlistRepository){
+		this.watchlistRepository = watchlistRepository;
 	 }
 	public static void main(String[] args) {
 		SpringApplication.run(App.class, args);
@@ -36,16 +37,16 @@ public class App implements CommandLineRunner{
 	@Override
     public void run(String... args) throws Exception {
 
-		UserInput userInput = new UserInput(new UserInteractions(new Scanner(System.in)));
+		// UserInput userInput = new UserInput(new UserInteractions(new Scanner(System.in)));
 
-		Watchlist watchlist = userInput.useDetails();
+		// Watchlist watchlist = userInput.useDetails();
 
-		System.out.println("User input collected: " + watchlist);
+		// System.out.println("User input collected: " + watchlist);
 
-		// so do you want to save your answers WatchlistRepository.save(watchlist);
-		// ?may be a good time to serialize your data
+		// // so do you want to save your answers WatchlistRepository.save(watchlist);
+		// // ?may be a good time to serialize your data
 		
-		repository.deleteAll();
+		// repository.deleteAll();
 
 		
 

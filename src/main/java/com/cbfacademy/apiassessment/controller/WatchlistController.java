@@ -2,6 +2,7 @@ package com.cbfacademy.apiassessment.controller;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,25 +21,29 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.cbfacademy.apiassessment.Watchlist;
+import com.cbfacademy.apiassessment.WatchlistRepository;
 
 @RestController
 @RequestMapping("/watchlist")
 public class WatchlistController {
 
-    // @Autowired
-    // private CRUDWatchlistRepository watchlistRepository;
+    @Autowired
+    private WatchlistRepository watchlistRepository;
     // // this may need to be a service private WatchlistService service;
 
      @GetMapping("/")
     public ResponseEntity<List<Watchlist>> getAllWatchlist() {
-    List<Watchlist> watchlist = watchlistRepository.findAll();
+        Iterable<Watchlist> iterableWatchlist = watchlistRepository.findAll();
+        List<Watchlist> watchlist = new ArrayList<>();
+        
+        iterableWatchlist.forEach(watchlist::add);
     return new ResponseEntity<>(watchlist, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     // public Watchlist read(@PathVariable String id) {
         // return service.find(id);
-         public ResponseEntity<Watchlist> getWatchlistById(@PathVariable String id){
+         public ResponseEntity<Watchlist> getWatchlistById(@PathVariable Long id){
         Watchlist watchlist = watchlistRepository.findById(id).orElse(null);
         if(watchlist == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -57,16 +62,16 @@ public class WatchlistController {
     //     }
     // }
 
-    @PostMapping(value = "/addEntry", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody // may need to remove this to put in own personal serialization to deserialization points
-    public ResponseEntity<deserializeToJSON> postResponseJsonContent(
-        @RequestBody CreateItem createItem) {
+    // @PostMapping(value = "/addEntry", produces = MediaType.APPLICATION_JSON_VALUE)
+    // @ResponseBody // may need to remove this to put in own personal serialization to deserialization points
+    // public ResponseEntity<deserializeToJSON> postResponseJsonContent(
+    //     @RequestBody CreateItem createItem) {
         
-        deserializeToJSON response = deserializeToJSON("JSON FILES");
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
-    }
-    // Watchlist savedWatchlist = watchlistRepository.save(watchlist);
-    // 
+    //     deserializeToJSON response = deserializeToJSON("JSON FILES");
+    //     return new ResponseEntity<>(response, HttpStatus.CREATED);
+    // }
+    // // Watchlist savedWatchlist = watchlistRepository.save(watchlist);
+    // // 
 
     
     // Entity<Watchlist> create(@RequestBody Watchlist watchlist) 
@@ -87,7 +92,7 @@ public class WatchlistController {
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<UpdateList> updateWatchlist(@PathVariable String id, @RequestBody Watchlist watchlist){
+    public ResponseEntity<UpdateList> updateWatchlist(@PathVariable Long id, @RequestBody Watchlist watchlist){
         Watchlist currentWatchlist = watchlistRepository.findById(id).orElse(null);
         if(currentWatchlist == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -113,7 +118,7 @@ public class WatchlistController {
     // public deserializeToJSON postResponseJsonContent(
     //     @RequestBody UpdateList updateList) {
     //     return new deserializeToJSON("JSON FILES");
-    // }
+    }
 
     // @PutMapping("/{id}")
     // public ResponseEntity<Watchlist> update(@RequestBody Watchlist Watchlist, @PathVariable Long id) {
@@ -130,7 +135,7 @@ public class WatchlistController {
     //     service.delete(id);
     //     return ResponseEntity.noContent().build();
     // }
-    public ResponseEntity<HttpStatus> deleteWatchlist(@PathVariable("id") String id){
+    public ResponseEntity<HttpStatus> deleteWatchlist(@PathVariable("id") Long id){
         Watchlist watchlist = watchlistRepository.findById(id).orElse(null);
         if(watchlist == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

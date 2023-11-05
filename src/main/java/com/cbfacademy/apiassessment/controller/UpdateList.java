@@ -1,5 +1,7 @@
 package com.cbfacademy.apiassessment.controller;
 
+import com.cbfacademy.apiassessment.Watchlist;
+
 public class UpdateList {
     private Watchlist oldWatchlist;
     private Watchlist newWatchlist;
