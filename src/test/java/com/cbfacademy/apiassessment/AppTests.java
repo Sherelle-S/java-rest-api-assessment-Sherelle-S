@@ -16,8 +16,6 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-import com.cbfacademy.apiassessment.controllers.App;
-
 // import com.cbfacademy.apiassessment.Exceptions.InvalidInputException;
 // import com.cbfacademy.apiassessment.Exceptions.ItemNotFoundException;
 // import com.cbfacademy.apiassessment.model.Watchlist;

@@ -1,12 +1,12 @@
 package com.cbfacademy.apiassessment.controller;
 
-public class deserializeToJSON {
+public class DeserializeToJSON {
     
 
     private String detailsInput;
 // class will writ the nput to json file and save it
 
-    public deserializeToJSON(String string) {
+    public DeserializeToJSON(String string) {
     }
     // public deserializeToJSON(String string) {
     //     this.detailsInput = detailsInput;
