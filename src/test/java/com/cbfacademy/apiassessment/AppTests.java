@@ -17,6 +17,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 
+import com.cbfacademy.apiassessment.model.Watchlist;
+
 // import com.cbfacademy.apiassessment.Exceptions.InvalidInputException;
 // import com.cbfacademy.apiassessment.Exceptions.ItemNotFoundException;
 // import com.cbfacademy.apiassessment.model.Watchlist;
@@ -117,13 +119,14 @@ class AppTests {
 	// }
 
 
-// 	@Test
-// @Description("/show-list end point goes to localhost:8080/watchlist")
-// public void showListEndpointIslocalhost8080showList() {
-//     String url = "http://localhost:" + port + "/watchlist";
-//     HttpStatusCode statusCode = restTemplate.ForEntity(url, List.class).getStatusCode();
-//     assertEquals(HttpStatus.OK, statusCode);
-// }
+	@Test
+@Description("/show-list end point goes to localhost:8080/watchlist")
+public void showListEndpointIslocalhost8080watchlist() {
+    String url = "http://localhost:" + port + "/watchlist/";
+	ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+    // HttpStatusCode statusCode = restTemplate.ForEntity(url, List.class).getStatusCode();
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+}
 
 // @Test
 // @Description("/show-list end point goes to localhost:8080/watchlist")

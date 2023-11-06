@@ -1,24 +1,33 @@
-package com.cbfacademy.apiassessment;
+package com.cbfacademy.apiassessment.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
-// @RestController
-// @RequestMapping("/watchlist")
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+// import com.cbfacademy.apiassessment.WatchlistRepository;
+import com.cbfacademy.apiassessment.model.Watchlist;
+import com.cbfacademy.apiassessment.service.WatchlistService;
+import com.cbfacademy.apiassessment.service.WatchlistServiceImplemented;
+
+@RestController
+@RequestMapping("/watchlist")
 public class WatchlistController {
 
-    // // @Autowired
-    // // private WatchlistRepository watchlistRepository;
-    // // // // this may need to be a service private WatchlistService service;
+    @Autowired
+    private WatchlistService service;
 
-    //  @GetMapping("/")
-    // public ResponseEntity<List<Watchlist>> getAllWatchlist() {
-    //     Iterable<Watchlist> iterableWatchlist = watchlistRepository.findAll();
-    //     List<Watchlist> watchlist = new ArrayList<>();
-        
-    //     iterableWatchlist.forEach(watchlist::add);
-    // return new ResponseEntity<>(watchlist, HttpStatus.OK);
-    // }
-
+     @GetMapping("/")
+    public ResponseEntity<List<Watchlist>> getAllWatchlist() {
+        return service.getAllWatchlist();
+    }
+}
     // @GetMapping("/{id}")
     // // public Watchlist read(@PathVariable String id) {
     //     // return service.find(id);
@@ -122,4 +131,4 @@ public class WatchlistController {
     //     watchlistRepository.deleteById(id);
     //     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     // }
-}
+// }

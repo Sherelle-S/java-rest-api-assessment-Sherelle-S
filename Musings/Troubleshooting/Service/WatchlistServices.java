@@ -25,7 +25,7 @@
 
 //     private static List<Watchlist> defaultWatchlist(){
 //         return List.of(
-//             //new Wathclist()
+//             //new Watchlist()
 //             // return the list of things that will be coming back from the data inputted by the user
 //         );
 //     }

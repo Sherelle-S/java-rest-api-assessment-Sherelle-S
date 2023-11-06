@@ -1,4 +1,4 @@
-package com.cbfacademy.apiassessment;
+package com.cbfacademy.apiassessment.model;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -26,8 +26,8 @@ public class Watchlist {
     private double intradayHigh;
 
     public Watchlist(String stockName, String symbol, boolean owned, String status, String currency,
-            LocalDate datePurchased, Integer unitsOwned, double profit, double pointsChange, double open, double close,
-            double intradayHigh) {
+        LocalDate datePurchased, Integer unitsOwned, double profit, double pointsChange, double open, double close,
+        double intradayHigh) {
         this.id = generateUUID(stockName);
         this.stockName = stockName;
         this.symbol = symbol;
