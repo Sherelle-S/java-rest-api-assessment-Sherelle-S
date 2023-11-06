@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: Watchlist
+  profiles:
+    active: default
+  main:
+    allow-bean-definition-overriding: true
+json:
+  file:
+    path: src/main/java/com/cbfacademy/apiassessment/JSONFiles/JsonWatchlist.json
+logging:
+  level:
+    root: INFO
