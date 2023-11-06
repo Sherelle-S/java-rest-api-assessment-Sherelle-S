@@ -1,6 +1,8 @@
 package com.cbfacademy.apiassessment;
 
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 // @Configuration REMOVED
@@ -8,6 +10,7 @@ import java.util.UUID;
 // see about making this inheritable
 public class Watchlist {
     
+    private static final Map<String, Integer> stockNameIncrement = new HashMap<>();
     private final UUID id;
     private final String stockName;
     private String symbol;
@@ -25,7 +28,7 @@ public class Watchlist {
     public Watchlist(String stockName, String symbol, boolean owned, String status, String currency,
             LocalDate datePurchased, Integer unitsOwned, double profit, double pointsChange, double open, double close,
             double intradayHigh) {
-        this.id = UUID.nameUUIDFromBytes((stockName + System.currentTimeMillis()).getBytes());
+        this.id = generateUUID(stockName);
         this.stockName = stockName;
         this.symbol = symbol;
         this.owned = owned;
@@ -41,8 +44,10 @@ public class Watchlist {
     }
 
     // generates a unique ID for each item as DB's usually create their own, we must find a way to make one
-    public UUID generateUniqueUUID(String stockName){
-        return UUID.nameUUIDFromBytes((stockName + System.currentTimeMillis()).getBytes());
+    public UUID generateUUID(String stockName){
+        int stockNameCount = stockNameIncrement.getOrDefault(stockName, 0);
+        stockNameIncrement.put(stockName, stockNameCount + 1);
+        return UUID.nameUUIDFromBytes((stockName + stockNameCount).getBytes());
     }
 
    public UUID getUuid() {
