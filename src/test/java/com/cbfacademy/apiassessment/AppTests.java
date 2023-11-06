@@ -15,15 +15,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.annotation.DirtiesContext;
 
 // import com.cbfacademy.apiassessment.Exceptions.InvalidInputException;
 // import com.cbfacademy.apiassessment.Exceptions.ItemNotFoundException;
 // import com.cbfacademy.apiassessment.model.Watchlist;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest(classes = App.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -61,7 +65,38 @@ class AppTests {
 	}
 
 	@Test
-	@Description("exceptions class invalidInputException returns HttpStatus.BAD_REQUEST")
+	@DirtiesContext
+	@Description("/watchlist gives items with the same stockName a unique id")
+	public void testUUIDForSameStockName(){
+		String stockName = "Tester";
+
+		Watchlist sampleWatchlist3 = new Watchlist("Gold", "XAU", true, "TestStatus", "GBP", LocalDate.now(), 100, 50.0, 2.0, 60.0, 62.0, 70.0);
+		Watchlist sampleWatchlist4 = new Watchlist("Gold", "GC:CMX", false, "TestStatus", "EUR", LocalDate.now(), 100, 50.0, 2.0, 60.0, 62.0, 70.0);
+	
+		UUID Id3 = sampleWatchlist3.getUuid();
+		UUID Id4 = sampleWatchlist4.getUuid();
+	
+		assertNotEquals(Id3, Id4);
+	}	
+	
+	@Test
+	@DirtiesContext
+	@Description("/watchlist gives each json item generated a unique id")
+	public void testUUIDForDifferentStockName(){
+		String stockName = "Tester";
+
+		Watchlist sampleWatchlist1 = new Watchlist("Vodaphone", "VOD", true, "TestStatus", "GBP", LocalDate.now(), 100, 50.0, 2.0, 60.0, 62.0, 70.0);
+		Watchlist sampleWatchlist2 = new Watchlist("Silver", "XAG", false, "TestStatus", "EUR", LocalDate.now(), 50, 20.0, 1.0, 370.0, 34.0, 20.0);
+
+		UUID Id2 = sampleWatchlist1.getUuid();
+		UUID Id1 = sampleWatchlist2.getUuid();
+		assertNotEquals(Id1, Id2);
+	}
+
+
+
+	@Test
+	@Description("/exceptions class invalidInputException returns HttpStatus.BAD_REQUEST")
 	public void invalidInputExceptionReturnsBadRequest(){
 
 	}
