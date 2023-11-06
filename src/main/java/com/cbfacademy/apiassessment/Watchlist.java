@@ -1,13 +1,11 @@
 package com.cbfacademy.apiassessment;
 
-import java.time.Instant;
 import java.time.LocalDate;
 import java.util.UUID;
 
-import org.springframework.context.annotation.Configuration;
-import org.springframework.data.annotation.Id;
-
-// @Configuration
+// @Configuration REMOVED
+// the database model that lets the watchlist know what it should have
+// see about making this inheritable
 public class Watchlist {
     
     private final UUID id;
@@ -42,6 +40,7 @@ public class Watchlist {
         this.intradayHigh = intradayHigh;
     }
 
+    // generates a unique ID for each item as DB's usually create their own, we must find a way to make one
     public UUID generateUniqueUUID(String stockName){
         return UUID.nameUUIDFromBytes((stockName + System.currentTimeMillis()).getBytes());
     }
