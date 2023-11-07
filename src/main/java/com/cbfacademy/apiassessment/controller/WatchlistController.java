@@ -8,7 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 // import com.cbfacademy.apiassessment.WatchlistRepository;
@@ -27,7 +30,7 @@ public class WatchlistController {
     public ResponseEntity<List<Watchlist>> getAllWatchlist() {
         return service.getAllWatchlist();
     }
-}
+
     // @GetMapping("/{id}")
     // // public Watchlist read(@PathVariable String id) {
     //     // return service.find(id);
@@ -50,16 +53,15 @@ public class WatchlistController {
     // //     }
     // // }
 
-    // @PostMapping(value = "/addEntry", produces = MediaType.APPLICATION_JSON_VALUE)
-    // @ResponseBody // may need to remove this to put in own personal serialization to deserialization points
-    // public ResponseEntity<deserializeToJSON> postResponseJsonContent(
-    //     @RequestBody CreateItem createItem) {
+    @PostMapping(value = "/addEntry", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody // may need to remove this to put in own personal serialization to deserialization points
+    public ResponseEntity<writeToJson> postResponseJsonContent(
+        @RequestBody CreateItem createItem) {
         
-    //     deserializeToJSON response = deserializeToJSON("JSON FILES");
-    //     return new ResponseEntity<>(response, HttpStatus.CREATED);
-    // }
-    // // Watchlist savedWatchlist = watchlistRepository.save(watchlist);
-    // // 
+        return service.postResponseJsonContent();
+    }
+    // Watchlist savedWatchlist = watchlistRepository.save(watchlist);
+    // 
 
     
     // // Entity<Watchlist> create(@RequestBody Watchlist watchlist) 
@@ -131,4 +133,4 @@ public class WatchlistController {
     //     watchlistRepository.deleteById(id);
     //     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     // }
-// }
+}

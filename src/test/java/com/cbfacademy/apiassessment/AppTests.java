@@ -85,7 +85,7 @@ class AppTests {
 	@DirtiesContext
 	@Description("/watchlist gives each json item generated a unique id")
 	public void testUUIDForDifferentStockName(){
-		String stockName = "Tester";
+		// String stockName = "Tester";
 
 		Watchlist sampleWatchlist1 = new Watchlist("Vodaphone", "VOD", true, "TestStatus", "GBP", LocalDate.now(), 100, 50.0, 2.0, 60.0, 62.0, 70.0);
 		Watchlist sampleWatchlist2 = new Watchlist("Silver", "XAG", false, "TestStatus", "EUR", LocalDate.now(), 50, 20.0, 1.0, 370.0, 34.0, 20.0);
@@ -103,7 +103,7 @@ class AppTests {
 
 	}
 
-	// @Test
+	@Test
 	@Description("exceptions class ItemNotFoundException returns HttpStatus.NOT_FOUND")
 	public void itemNotFoundExceptionReturns(){
 		
@@ -120,7 +120,7 @@ class AppTests {
 
 
 	@Test
-@Description("/show-list end point goes to localhost:8080/watchlist")
+@Description("/route end point goes to localhost:8080/watchlist")
 public void showListEndpointIslocalhost8080watchlist() {
     String url = "http://localhost:" + port + "/watchlist/";
 	ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
@@ -128,18 +128,27 @@ public void showListEndpointIslocalhost8080watchlist() {
     assertEquals(HttpStatus.OK, response.getStatusCode());
 }
 
-// @Test
-// @Description("/show-list end point goes to localhost:8080/watchlist")
-// public void showListEndpointIslocalhost8080showList() {
-//     String url = "http://localhost:" + port + "/watchlist";
+@Test
+@Description("/{id} end point goes to localhost:8080/{id}")
+public void showListEndpointIslocalhost8080id() {
+	Watchlist sampleWatchlist5 = new Watchlist("Silver", "XAG", false, "TestStatus", "EUR", LocalDate.now(), 50, 20.0, 1.0, 370.0, 34.0, 20.0);
+   UUID Id5 = sampleWatchlist5.getUuid();
+	// String SampleId = sampleWatchlist5;
+	String url = "http://localhost:" + port + "/{id}";
 
-//     // Send a GET request to the /watchlist endpoint using postForEntity
-//     ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, null, String.class);
+    assertEquals(Id5, Id5 );
+}
 
-//     // Check the response status code
-//     assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-// }
-
+	@Test
+	@Description("/addEntry endpoint goes to localhost:8080/watchlist/addEntry")
+	public void addEntryEndpointIslocalhost8080addEntry(){
+		String url = "http://localhost:" + port + "/watchlist/addEntry";
+		Watchlist watchlist = new Watchlist("Silver", "XAG", false, "TestStatus", "EUR", LocalDate.now(), 50, 20.0, 1.0, 370.0, 34.0, 20.0);
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		ResponseEntity<Watchlist> responseEntity = restTemplate.exchange(url, HttpMethod.POST, new HttpEntity<>(watchlist, headers), Watchlist.class);
+		assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
+	}
 
 	// @Test
 	// @Description("/show-list end point goes to localhost:8080/watchlist")
@@ -172,16 +181,7 @@ public void showListEndpointIslocalhost8080watchlist() {
     //     // You can also check the response content or any other expectations here
     // }
 
-	// @Test
-	// @Description("/addEntry endpoint goes to localhost:8080/watchlist/addEntry")
-	// public void addEntryEndpointIslocalhost8080addEntry(){
-	// 	String url = "http://localhost:" + port + "/watchlist/addEntry";
-	// 	Watchlist watchlist = new Watchlist();
-	// 	HttpHeaders headers = new HttpHeaders();
-	// 	headers.setContentType(MediaType.APPLICATION_JSON);
-	// 	ResponseEntity<Watchlist> responseEntity = restTemplate.exchange(url, HttpMethod.POST, new HttpEntity<>(watchlist, headers), Watchlist.class);
-	// 	assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
-	// }
+
 
 	// @Test
 	// @Description("/deleteEntry/{id} endpoint goes to localhost:8080/watchlist/deleteEntry/{id}")
