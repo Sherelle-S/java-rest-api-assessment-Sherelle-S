@@ -12,7 +12,7 @@ public class Watchlist {
     
     private static final Map<String, Integer> stockNameIncrement = new HashMap<>();
     private final UUID id;
-    private final String stockName;
+    private String stockName;
     private String symbol;
     private boolean owned;
     private String status;
@@ -43,6 +43,10 @@ public class Watchlist {
         this.intradayHigh = intradayHigh;
     }
 
+     public Watchlist() {
+    }
+
+
     // generates a unique ID for each item as DB's usually create their own, we must find a way to make one
     public UUID generateUUID(String stockName){
         int stockNameCount = stockNameIncrement.getOrDefault(stockName, 0);
@@ -56,6 +60,10 @@ public class Watchlist {
     public String getStockName() {
         return stockName;
     }
+    public void setStockName(String stockName) {
+        this.stockName = stockName;
+    }
+
     public String getSymbol() {
         return symbol;
     }
