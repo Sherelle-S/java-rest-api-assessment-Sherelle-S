@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.cbfacademy.apiassessment.exceptions.FailureToIOJsonException;
+import com.cbfacademy.apiassessment.model.CreateWatchlist;
 import com.cbfacademy.apiassessment.model.Watchlist;
 
 public interface WatchlistService {
@@ -16,7 +17,7 @@ public interface WatchlistService {
 
     public ResponseEntity<WriteToJson> create() throws FailureToIOJsonException;
 
-    public ResponseEntity<UpdateList> updateWatchlist(@PathVariable UUID id, @RequestBody Watchlist watchlist);
+    // public ResponseEntity<ReadFromJson> updateWatchlist(@PathVariable UUID id, @RequestBody UserWatchlist userWatchlist);
     
     
 }

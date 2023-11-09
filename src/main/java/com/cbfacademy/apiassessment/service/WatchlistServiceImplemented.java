@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.cbfacademy.apiassessment.exceptions.FailureToIOJsonException;
 import com.cbfacademy.apiassessment.exceptions.ItemNotFoundException;
+import com.cbfacademy.apiassessment.model.CreateWatchlist;
 import com.cbfacademy.apiassessment.model.Watchlist;
 
 @Service
@@ -78,16 +79,16 @@ public class WatchlistServiceImplemented implements WatchlistService {
     //     return oldStudent == null ? null : student;
     // }
     //**PUT
-    public ResponseEntity<ReadFromJson> updateWatchlist() throws ItemNotFoundException{
-        Watchlist currentWatchlist = null; //variable that holds files deserialized .findById(id).orElse(null)
-        if(currentWatchlist = null){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } else {
-             create(Watchlist updateWatchlist);
-        // return new ResponseEntity<>(response, HttpStatus.OK);
-            }
-        return new ResponseEntity<>(updatedWatchlist, HttpStatus.OK);
-        }
+    // public ResponseEntity<ReadFromJson> updateWatchlist() throws ItemNotFoundException{
+    //     CreateWatchlist currentWatchlist = null; //variable that holds files deserialized .findById(id).orElse(null)
+    //     if(currentWatchlist = null){
+    //         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    //     } else {
+    //          create(CreateWatchlist updateWatchlist);
+    //     // return new ResponseEntity<>(response, HttpStatus.OK);
+    //         }
+    //     return new ResponseEntity<>(updatedWatchlist, HttpStatus.OK);
+    //     }
         
     }
 
@@ -131,4 +132,4 @@ public class WatchlistServiceImplemented implements WatchlistService {
 //     }
     
     
-}
+// }

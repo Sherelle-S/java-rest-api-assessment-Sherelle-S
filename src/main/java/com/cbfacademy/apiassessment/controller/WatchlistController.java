@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cbfacademy.apiassessment.exceptions.FailureToIOJsonException;
-// import com.cbfacademy.apiassessment.WatchlistRepository;
+import com.cbfacademy.apiassessment.exceptions.ItemNotFoundException;
 import com.cbfacademy.apiassessment.model.Watchlist;
 import com.cbfacademy.apiassessment.service.UserWatchlist;
 import com.cbfacademy.apiassessment.service.WatchlistService;
@@ -65,17 +65,29 @@ public class WatchlistController {
 
     @PostMapping(value = "/addEntry", produces = MediaType.APPLICATION_JSON_VALUE)
     // @ResponseBody // may need to remove this to put in own personal serialization to deserialization points
-    public ResponseEntity<WriteToJson> postResponseJsonContent(
-        @RequestBody UserWatchlist userWatchlist) throws FailureToIOJsonException {
+    public ResponseEntity<WriteToJson> create(@RequestBody UserWatchlist userWatchlist) throws FailureToIOJsonException {
         
         try {
-            return service.postResponseJsonContent();
+            return service.create();
         } catch (FailureToIOJsonException e) {
-            log.error("Failure to write to jsons at controller");
+            log.error("Failure to write to json at controller during post request", e);
             e.printStackTrace();
             throw new FailureToIOJsonException("Controller failed to pass on userWatchlist to service");
         }
     }
+
+    //  @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    // // public ResponseEntity<UpdateList> updateWatchlist(@PathVariable UUID id, @RequestBody Watchlist watchlist){
+    //     public ResponseEntity<ReadFromJson> updateWatchlist(@PathVariable UUID id, @RequestBody UserWatchlist userWatchlist) throws FailureToIOJsonException{
+
+    //         try {
+    //             return service.updateWatchlist(id, userWatchlist);
+    //         } catch (ItemNotFoundException e) {
+    //             log.error("search for item failed at controller level", e);
+    //             e.printStackTrace();
+    //             throw new FailureToIOJsonException("Exception occurred when processing put request in the controller");
+    //         }
+    // }
 }
     // Watchlist savedWatchlist = watchlistRepository.save(watchlist);
     // 
@@ -98,16 +110,7 @@ public class WatchlistController {
     // // }
 
 
-//     @PutMapping("/{id}")
-//     public ResponseEntity<UpdateList> updateWatchlist(@PathVariable UUID id, @RequestBody Watchlist watchlist){
-//       return service.updateWatchlist(id, watchlist);
-//     //     // return new ResponseEntity<>(updatedWatchlist, HttpStatus.OK);
-//     // // @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-//     // // @ResponseBody // may need to remove this to put in own personal serialization to deserialization points
-//     // // public deserializeToJSON postResponseJsonContent(
-//     // //     @RequestBody UpdateList updateList) {
-//     // //     return new deserializeToJSON("JSON FILES");
-//     }
+   
 
 //     // // @PutMapping("/{id}")
 //     // // public ResponseEntity<Watchlist> update(@RequestBody Watchlist Watchlist, @PathVariable UUID id) {
@@ -125,7 +128,7 @@ public class WatchlistController {
 //     // //     return ResponseEntity.noContent().build();
 //     // // }
 //     // public ResponseEntity<HttpStatus> deleteWatchlist(@PathVariable("id") UUID id){
-//     //     Watchlist watchlist = watchlistRepository.findById(id).orElse(null);
+//     //     CreateWatchlist CreateWatchlist = watchlistRepository.findById(id).orElse(null);
 //     //     if(watchlist == null){
 //     //         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 //     //     }

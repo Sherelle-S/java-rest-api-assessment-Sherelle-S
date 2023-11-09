@@ -32,16 +32,16 @@ public class Controller {
         this.userInteractions = userInteractions;
     }
 
-    // @GetMapping("/")
-    // public List<Watchlist> getAllWatchlist(){ //handles get requests
-    //     return watchlistRepository.findAll();
-    // }
+    @GetMapping("/")
+    public List<Watchlist> getAllWatchlist(){ //handles get requests
+        return watchlistRepository.findAll();
+    }
 
-    @GetMapping("/watchlist")
-    public ResponseEntity<List<Watchlist>> getAllWatchlist() {
-    List<Watchlist> watchlist = watchlistRepository.findAll();
-    return new ResponseEntity<>(watchlist, HttpStatus.OK);
-}
+//     @GetMapping("/watchlist")
+//     public ResponseEntity<List<Watchlist>> getAllWatchlist() {
+//     List<Watchlist> watchlist = watchlistRepository.findAll();
+//     return new ResponseEntity<>(watchlist, HttpStatus.OK);
+// }
 
     @GetMapping("/{id}") //get user by id returns a 404 if not found
     public ResponseEntity<Watchlist> getWatchlistById(@PathVariable String id){

@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Bean;
 
 import com.cbfacademy.apiassessment.exceptions.FailureToIOJsonException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -16,6 +17,7 @@ public class WriteToJson {
 
     private static final Logger log = LoggerFactory.getLogger(WriteToJson.class);
     private UserWatchlist copy;
+
 
     public WriteToJson(UserWatchlist copy) {
         this.copy = copy;
