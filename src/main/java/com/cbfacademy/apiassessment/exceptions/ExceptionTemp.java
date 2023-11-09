@@ -1,4 +1,4 @@
-package com.cbfacademy.apiassessment.Exceptions;
+package com.cbfacademy.apiassessment.exceptions;
 
 public class ExceptionTemp extends IllegalArgumentException{
     public ExceptionTemp(){}

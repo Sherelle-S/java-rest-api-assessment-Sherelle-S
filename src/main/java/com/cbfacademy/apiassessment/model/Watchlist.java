@@ -12,7 +12,7 @@ public class Watchlist {
     
     private static final Map<String, Integer> stockNameIncrement = new HashMap<>();
     private final UUID id;
-    private String stockName;
+    private final String stockName;
     private String symbol;
     private boolean owned;
     private String status;
@@ -25,6 +25,7 @@ public class Watchlist {
     private double close;
     private double intradayHigh;
 
+    // constructor for the initial input 
     public Watchlist(String stockName, String symbol, boolean owned, String status, String currency,
         LocalDate datePurchased, Integer unitsOwned, double profit, double pointsChange, double open, double close,
         double intradayHigh) {
@@ -43,7 +44,10 @@ public class Watchlist {
         this.intradayHigh = intradayHigh;
     }
 
+    // blank constructor is initialized with the values that are final and should not be changed once set
      public Watchlist() {
+        this.stockName = "default";
+        this.id = generateUUID("default");
     }
 
 
@@ -60,10 +64,6 @@ public class Watchlist {
     public String getStockName() {
         return stockName;
     }
-    public void setStockName(String stockName) {
-        this.stockName = stockName;
-    }
-
     public String getSymbol() {
         return symbol;
     }

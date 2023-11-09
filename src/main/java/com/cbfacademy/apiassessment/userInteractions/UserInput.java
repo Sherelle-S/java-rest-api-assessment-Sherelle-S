@@ -17,7 +17,7 @@ public class UserInput {
         Watchlist watchList = new Watchlist();
         
 
-        watchList.setStockName(userInteractions.inputStockName());
+        // watchList.setStockName(userInteractions.inputStockName()); we removed the setter as the property will be initialized on creation an will not be able to be edited after
         watchList.setSymbol(userInteractions.inputSymbol());
         watchList.setOwned(userInteractions.userOwnership());
         watchList.setStatus(userInteractions.inputStatus());

@@ -1,16 +1,18 @@
 package com.cbfacademy.apiassessment.exceptions;
 
-public class UnexpectedInputOutputException extends IllegalArgumentException{
-    public UnexpectedInputOutputException(){}
-    public UnexpectedInputOutputException(String message){
+import java.io.IOException;
+
+public class FailureToIOJsonException extends IOException{
+    public FailureToIOJsonException(){}
+    public FailureToIOJsonException(String message){
         super(message);
     }
 
-public UnexpectedInputOutputException(Throwable cause){
+public FailureToIOJsonException(Throwable cause){
     super(cause);
     }
 
-    public UnexpectedInputOutputException(String message, Throwable cause){
+    public FailureToIOJsonException(String message, Throwable cause){
         super(message, cause);
     }
 }

@@ -1,0 +1,3 @@
+ // @ResponseBody tells java the controller the object returned should be serialized to json
+    // @RequestBody tells java maps to HttpRequestBody automatically allowing deserialization
+    

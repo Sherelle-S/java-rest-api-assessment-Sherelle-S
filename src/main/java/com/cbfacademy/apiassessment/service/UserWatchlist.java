@@ -1,7 +1,7 @@
 package com.cbfacademy.apiassessment.service;
 
 import com.cbfacademy.apiassessment.model.Watchlist;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 public class UserWatchlist {
      public Watchlist create(Watchlist copyOfWatchlist){
@@ -20,7 +20,7 @@ public class UserWatchlist {
         copy.setClose(copyOfWatchlist.getClose());
         copy.setIntradayHigh(copyOfWatchlist.getIntradayHigh());
 
-        ObjectMapper.WriteToJson(copy);
+        return copy;
         
         // return repository.save(copy);
     }
