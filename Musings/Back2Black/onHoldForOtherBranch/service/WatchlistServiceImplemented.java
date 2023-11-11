@@ -20,32 +20,20 @@ import com.cbfacademy.apiassessment.exceptions.FailureToIOJsonException;
 import com.cbfacademy.apiassessment.exceptions.ItemNotFoundException;
 import com.cbfacademy.apiassessment.model.CreateWatchlist;
 import com.cbfacademy.apiassessment.model.Watchlist;
-import com.cbfacademy.apiassessment.serialize.WriteToJson;
 import com.cbfacademy.apiassessment.service.ReadFromJson;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 
-// implements the business logic of how to make the endpoints work
+
 @Service
 public class WatchlistServiceImplemented implements WatchlistService {
 
     private static final Logger log = LoggerFactory.getLogger(WatchlistServiceImplemented.class);
-    private CreateWatchlist createWatchlist;
-    private ObjectMapper mapper;
-    private Watchlist watchlist;
-    private WriteToJson response;
-    
-    // private ReadFromJson readList;
+    private UserWatchlist userWatchlist;
+    private ReadFromJson readList;
 
-    // public WatchlistServiceImplemented(  ReadFromJson readList) {
-        @Autowired
-        public WatchlistServiceImplemented(CreateWatchlist createWatchlist, ObjectMapper mapper, Watchlist watchlist, WriteToJson response) {
-        this.createWatchlist = new CreateWatchlist();
-        this.mapper = mapper;
-        this.response = response;
-        this.watchlist = watchlist;
-
-        // this.readList = readList;
+    public WatchlistServiceImplemented(UserWatchlist userWatchlist, ReadFromJson readList) {
+        this.userWatchlist = userWatchlist;
+        this.readList = readList;
     }
     // @Autowired
     // private WatchlistRepository watchlistRepository;
@@ -64,19 +52,18 @@ public class WatchlistServiceImplemented implements WatchlistService {
     // return list;
     // }
 
-// fetches the data from updated watchlist for use in business logic
-    public CreateWatchlist getWatchlistData(){
-        return createWatchlist;
+// fetches the dater from updated watchlist for use in business logic
+    public UserWatchlist getUserWatchlistData(){
+        return userWatchlist;
     }
 
     
     @Override
     // POST
-    // Gets data from user input, creates a WriteToJson object and writes the response to json returning a http status created if it succeeds.
+    // Gets data from user input, creates a WriteToJsons object and writes the response to json
     public ResponseEntity<WriteToJson> create() throws FailureToIOJsonException{
-        // UUID CreateWatchlist = createWatchlist.getUuid();
-        CreateWatchlist createList = getWatchlistData();
-        response = new WriteToJson(createList, mapper);
+        UserWatchlist userWatchlist = getUserWatchlistData();
+        WriteToJson response = new WriteToJson(userWatchlist);
         try {
             response.writeToJson();
         } catch (FailureToIOJsonException e) {
@@ -86,26 +73,18 @@ public class WatchlistServiceImplemented implements WatchlistService {
         }
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
-
-    // @Override
-    // public ResponseEntity<List<Watchlist>> getAllWatchlist() {
-    //   List<Watchlist> list;
-    //    list = new ArrayList<>();
-    //    list.add(new CreateWatchlist(null, "Gold", "XAU", true, "TestStatus", "GBP", LocalDate.now(), 100, 50.0, 2.0, 60.0, 62.0, 70.0));
-    //     return new ResponseEntity<>(list, HttpStatus.OK);
-    //     }
-        
-    // //GET
-    // public ResponseEntity<List<Watchlist>> getAllWatchlist() {
-    //     List<Watchlist> watchlist;
-    //     try{
-    //         watchlist = readList.readFromJson("JsonWatchlist.json");
-    //     } catch (FailureToIOJsonException e) {
-    //         log.error("Failed to return deserialized watchlist at controller");
-    //         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-    //     }
-    //     return new ResponseEntity<>(watchlist, HttpStatus.OK);
-    // }
+ 
+    //GET
+    public ResponseEntity<List<Watchlist>> getAllWatchlist() {
+        List<Watchlist> watchlist;
+        try{
+            watchlist = readList.readFromJson("JsonWatchlist.json");
+        } catch (FailureToIOJsonException e) {
+            log.error("Failed to return deserialized watchlist at controller");
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(watchlist, HttpStatus.OK);
+    }
     
     // public Student update(Long id, Student student) {
     //     student.setId(id);

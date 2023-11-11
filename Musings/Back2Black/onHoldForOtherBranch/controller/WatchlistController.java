@@ -13,12 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cbfacademy.apiassessment.exceptions.FailureToIOJsonException;
-import com.cbfacademy.apiassessment.model.CreateWatchlist;
 import com.cbfacademy.apiassessment.model.Watchlist;
-import com.cbfacademy.apiassessment.serialize.WriteToJson;
+import com.cbfacademy.apiassessment.service.UserWatchlist;
 import com.cbfacademy.apiassessment.service.WatchlistService;
+import com.cbfacademy.apiassessment.service.WriteToJson;
 
-// handing the routing to different endpoints, but does not contain the methods to implement them, those are found in watchlist service implementation class.
 @RestController
 @RequestMapping("/watchlist")
 public class WatchlistController {
@@ -28,7 +27,6 @@ public class WatchlistController {
     @Autowired
     private WatchlistService service;
 
-    // method for get requests
      @GetMapping("/")
     public ResponseEntity<List<Watchlist>> getAllWatchlist() {
         return service.getAllWatchlist();
@@ -56,20 +54,18 @@ public class WatchlistController {
     // //     }
     // // }
 
-    // maps to endpoint /addEntry
     @PostMapping(value = "/addEntry", produces = MediaType.APPLICATION_JSON_VALUE)
     // @ResponseBody // may need to remove this to put in own personal serialization to deserialization points
-    public ResponseEntity<WriteToJson> create(@RequestBody CreateWatchlist CreateWatchlist) throws FailureToIOJsonException {
+    public ResponseEntity<WriteToJson> create(@RequestBody UserWatchlist userWatchlist) throws FailureToIOJsonException {
         
         try {
             return service.create();
         } catch (FailureToIOJsonException e) {
             log.error("Failure to write to json at controller during post request", e);
             e.printStackTrace();
-            throw new FailureToIOJsonException("Controller failed to pass on CreateWatchlist to service");
+            throw new FailureToIOJsonException("Controller failed to pass on userWatchlist to service");
         }
     }
-    
 
     //  @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     // // public ResponseEntity<UpdateList> updateWatchlist(@PathVariable UUID id, @RequestBody Watchlist watchlist){

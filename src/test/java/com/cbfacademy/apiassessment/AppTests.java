@@ -109,24 +109,24 @@ class AppTests {
 		
 	}
 
-	// @Test
-	// @Description("/showList endpoint returns a list of the current items in the watchlist")
-	// public void showList_ExpectedResponseWithCurrentDocumentAdded(){
-	// 	ResponseEntity<String> response = restTemplate.getForEntity(base.toString() + "", String.class);
+	@Test
+	@Description("/showList endpoint returns a list of the current items in the watchlist")
+	public void showList_ExpectedResponseWithCurrentDocumentAdded(){
+		ResponseEntity<String> response = restTemplate.getForEntity(base.toString() + "", String.class);
 
-	// 	assertEquals(200, response.getStatusCode().value());
-	// 	assertEquals("", response.getBody());
-	// }
+		assertEquals(200, response.getStatusCode().value());
+		assertEquals("", response.getBody());
+	}
 
 
 	@Test
-@Description("/route end point goes to localhost:8080/watchlist")
-public void showListEndpointIslocalhost8080watchlist() {
-    String url = "http://localhost:" + port + "/watchlist/";
-	ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
-    // HttpStatusCode statusCode = restTemplate.ForEntity(url, List.class).getStatusCode();
-    assertEquals(HttpStatus.OK, response.getStatusCode());
-}
+	@Description("/route end point goes to localhost:8080/watchlist")
+	public void showListEndpointIslocalhost8080watchlist() {
+		String url = "http://localhost:" + port + "/watchlist/";
+		ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+		// HttpStatusCode statusCode = restTemplate.ForEntity(url, List.class).getStatusCode();
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+	}
 
 @Test
 @Description("/{id} end point goes to localhost:8080/{id}")
@@ -138,6 +138,18 @@ public void showListEndpointIslocalhost8080id() {
 
     assertEquals(Id5, Id5 );
 }
+
+// @Test
+// @Description("returns boolean true when file is converted to json")
+// public void returnsBooleanTrueWhenFileConvertsToJson(){
+// 	assertTrue(true, true);
+// }
+
+// @Test
+// @Description("returns boolean false when json conversion fails")
+// public void returnsBooleanFalseWhenFileConversionFails(){
+// 	assertFalse(false, false);
+// }
 
 	// @Test
 	// @Description("/addEntry endpoint goes to localhost:8080/watchlist/addEntry")

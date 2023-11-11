@@ -6,15 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 // import com.cbfacademy.apiassessment.WatchlistRepository;
-// annotations tell spring this is the class where everything will run from, its also a controller with the ability to map requests, componentScan let spring know this is a base clase, everything show be vailable from here.
+// annotations tell spring this is the class where everything will run from, its also a controller with the ability to map requests, componentScan let spring know this is a base class, everything should be viable from here.
 @SpringBootApplication
 @RestController
+@EntityScan(basePackages = "com.cbfacademy.apiassessment.model")
 @ComponentScan(basePackages = "com.cbfacademy.apiassessment")
 public class App implements CommandLineRunner{
 
@@ -36,7 +38,6 @@ public class App implements CommandLineRunner{
 
 	@Override
     public void run(String... args) throws Exception {
-		
 
 		// UserInput userInput = new UserInput(new UserInteractions(new Scanner(System.in)));
 

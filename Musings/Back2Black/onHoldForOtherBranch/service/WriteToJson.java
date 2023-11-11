@@ -2,6 +2,7 @@ package com.cbfacademy.apiassessment.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 
 import com.cbfacademy.apiassessment.exceptions.FailureToIOJsonException;
+import com.cbfacademy.apiassessment.model.CreateWatchlist;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -19,8 +21,8 @@ public class WriteToJson {
     private UserWatchlist copy;
 
 
-    public WriteToJson(UserWatchlist copy) {
-        this.copy = copy;
+    public WriteToJson(CreateWatchlist createWatchlist) {
+        this.copy = createWatchlist;
     }
 
     public void writeToJson() throws FailureToIOJsonException {
@@ -35,7 +37,7 @@ public class WriteToJson {
                 currentData.add(copy);
                 objectMapper.writeValue(file, currentData);
             } else {
-                List<UserWatchlist> newData = Collections.singletonList(copy);
+                List<UserWatchlist> newData = new ArrayList<>();
                 newData.add(copy);
                 objectMapper.writeValue(file, newData);
             }

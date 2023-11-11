@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cbfacademy.apiassessment.CRUDWatchlistRepository;
 import com.cbfacademy.apiassessment.UserInteractions;
+import com.cbfacademy.apiassessment.model.CreateWatchlist;
 import com.cbfacademy.apiassessment.model.Watchlist;
 
 @RestController //tells spring this is a rest controller
@@ -33,7 +34,7 @@ public class Controller {
     }
 
     @GetMapping("/")
-    public List<Watchlist> getAllWatchlist(){ //handles get requests
+    public List<CreateWatchlist> getAllWatchlist(){ //handles get requests
         return watchlistRepository.findAll();
     }
 

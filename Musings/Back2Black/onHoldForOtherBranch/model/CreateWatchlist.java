@@ -3,17 +3,8 @@ package com.cbfacademy.apiassessment.model;
 import java.time.LocalDate;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-// inherits from watchlist and creates a new watchlist constructor
-@Component
 public class CreateWatchlist extends Watchlist{
 
-    private UUID uuid;
-    private String stockName;
     private String symbol;
     private boolean owned;
     private String status;
@@ -26,21 +17,14 @@ public class CreateWatchlist extends Watchlist{
     private double close;
     private double intradayHigh;
 
-    public CreateWatchlist() {
-    super();
+        public CreateWatchlist(UUID id, String stockName) {
+        super(id, stockName);
     }
 
-        //  @Autowired
-        public CreateWatchlist(UUID uuid, String stockName, String symbol, boolean owned, String status, String currency,
+        public CreateWatchlist(UUID id, String stockName, String symbol, boolean owned, String status, String currency,
             LocalDate datePurchased, Integer unitsOwned, double profit, double pointsChange, double open, double close,
             double intradayHigh) {
-        super();
-            
-        if(uuid == null){
-            this.uuid = generateUUID("default");
-        }else{
-            this.uuid = uuid;
-        }
+        super(id, stockName);
         this.symbol = symbol;
         this.owned = owned;
         this.status = status;
@@ -52,26 +36,6 @@ public class CreateWatchlist extends Watchlist{
         this.open = open;
         this.close = close;
         this.intradayHigh = intradayHigh;
-    }
-
-    //  public CreateWatchlist() {
-    // }
-
-        public UUID generateUUID(String stockName){
-        int stockNameCount = getStocknameincrement().getOrDefault(stockName, 0);
-        getStocknameincrement().put(stockName, stockNameCount + 1);
-        return UUID.nameUUIDFromBytes((stockName + stockNameCount).getBytes());
-    }
-
-       public UUID getUuid() {
-        return uuid;
-    } 
-
-    public void setStockName(String stockName) {
-        this.stockName = stockName;
-    }
-    public String getStockName() {
-        return stockName;
     }
 
     public String getSymbol() {
@@ -135,7 +99,7 @@ public class CreateWatchlist extends Watchlist{
     }
 
     public void setPointsChange(double pointsChange) {
-        this.pointsChange = getClose() - getOpen();
+        this.pointsChange = pointsChange;
     }
 
     public double getOpen() {
