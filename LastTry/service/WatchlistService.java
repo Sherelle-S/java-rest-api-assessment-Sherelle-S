@@ -15,7 +15,7 @@ import com.cbfacademy.apiassessment.serialize.WriteToJson;
 // interface telling the implementation what it must do, but now how to do it.
 public interface WatchlistService {
 
-    // public ResponseEntity<List<Watchlist>> getAllWatchlist();
+    public ResponseEntity<List<Watchlist>> getAllWatchlist();
 
     public ResponseEntity<WriteToJson> create() throws FailureToIOJsonException;
 

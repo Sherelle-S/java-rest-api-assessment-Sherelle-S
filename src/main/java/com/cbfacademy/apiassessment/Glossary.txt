@@ -1,4 +1,4 @@
-@Autowired
+@Autowired marks constructor field getters or setters as autowired by spring
 
 @Component indicates a class is a spring Component and is detected and registered as a spring bean when component scanning takes place
 @JsonProperty helps control json property names during serialization

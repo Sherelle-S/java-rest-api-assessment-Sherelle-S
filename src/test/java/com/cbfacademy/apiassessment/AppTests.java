@@ -3,6 +3,7 @@ package com.cbfacademy.apiassessment;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -17,8 +18,16 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 
+import com.cbfacademy.apiassessment.exceptions.FailedToIOWatchlistException;
 import com.cbfacademy.apiassessment.model.CreateWatchlist;
 import com.cbfacademy.apiassessment.model.Watchlist;
+import com.cbfacademy.apiassessment.serialize.SerializeWatchlist;
+import com.cbfacademy.apiassessment.serialize.ToJsonFormat;
+import com.cbfacademy.apiassessment.serialize.WriteToJson;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 // import com.cbfacademy.apiassessment.Exceptions.InvalidInputException;
 // import com.cbfacademy.apiassessment.Exceptions.ItemNotFoundException;
@@ -32,6 +41,8 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 @SpringBootTest(classes = App.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class AppTests {
@@ -49,6 +60,39 @@ class AppTests {
 		this.base = new URL("http://localhost:" + port + "/greeting");
 	}
 
+	@Test
+	@Description("Method formatWatchlist to json writes input to json String")
+	public void MethodFormatWatchlistReturnsValidJsonString(){
+		SerializeWatchlist serializeWatchlist = new SerializeWatchlist(null);
+		ObjectMapper mapper = new ObjectMapper();
+		CreateWatchlist sampleWatchlist1 = new CreateWatchlist(null, "Gold", "XAU", true, "TestStatus", "GBP", LocalDate.now(), 100, 50.0, 2.0, 60.0, 62.0, 70.0);
+		
+		try {
+			String checkFormat = serializeWatchlist.formatWatchlist(sampleWatchlist1);
+			JsonNode expectedJson = mapper.valueToTree(sampleWatchlist1);
+			JsonNode actualJson = mapper.readTree(checkFormat);
+			assertEquals(expectedJson, actualJson);
+		} catch (FailedToIOWatchlistException e) {
+			fail("IO Exception triggered in test: " + e.getMessage());
+		} catch (JsonProcessingException e) {
+			fail("JsonProcessing exception occurred", e);
+		}
+
+	}
+
+	// @Test
+	// @Description("When exception is thrown exception triggers")
+	// public void FailedToIOWatchlistException() {
+    // Exception exception = assertThrows(.class, () -> {
+    //     // someting that cannot be IO ;
+    // });
+
+//     String expectedMessage = "Input/Output receieved sucessfully";
+//     String actualMessage = exception.getMessage();
+
+//     assertTrue(actualMessage.contains(expectedMessage));
+// }
+	
 	@Test
 	@Description("/greeting endpoint returns expected response for default name")
 	public void greeting_ExpectedResponseWithDefaultName() {

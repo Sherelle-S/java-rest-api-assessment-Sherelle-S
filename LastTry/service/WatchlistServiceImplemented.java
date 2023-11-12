@@ -87,13 +87,14 @@ public class WatchlistServiceImplemented implements WatchlistService {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    // @Override
-    // public ResponseEntity<List<Watchlist>> getAllWatchlist() {
-    //   List<Watchlist> list;
-    //    list = new ArrayList<>();
-    //    list.add(new CreateWatchlist(null, "Gold", "XAU", true, "TestStatus", "GBP", LocalDate.now(), 100, 50.0, 2.0, 60.0, 62.0, 70.0));
-    //     return new ResponseEntity<>(list, HttpStatus.OK);
-    //     }
+    @Override
+    public ResponseEntity<List<Watchlist>> getAllWatchlist() {
+      List<Watchlist> list;
+    //   need this to read the json file 
+       list = new ArrayList<>();
+       list.add(new CreateWatchlist(null, "Gold", "XAU", true, "TestStatus", "GBP", LocalDate.now(), 100, 50.0, 2.0, 60.0, 62.0, 70.0));
+        return new ResponseEntity<>(list, HttpStatus.OK);
+        }
         
     // //GET
     // public ResponseEntity<List<Watchlist>> getAllWatchlist() {
