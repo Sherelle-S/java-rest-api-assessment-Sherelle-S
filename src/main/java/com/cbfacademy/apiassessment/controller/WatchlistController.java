@@ -3,8 +3,6 @@ package com.cbfacademy.apiassessment.controller;
 import java.io.FileNotFoundException;
 
 import org.json.simple.JSONArray;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,25 +47,9 @@ public class WatchlistController {
     }
 
     @GetMapping("/working")
-    public String responding() throws FileNotFoundException, FailedToIOWatchlistException {
-        // ReadFromJson readFile = new ReadFromJson();
-        // return readFile.readJsonWatchlist();
+    public String responding() throws FileNotFoundException, JsonWatchlistParsingException {
         ReadFromJson readFile = new ReadFromJson();
-        String jsonWatchlistString = readFile.readJsonWatchlist();
-        
-        // Now you can use a JSON library to parse the string into a JSONArray if needed.
-        // For example, using JSON.simple:
-        JSONParser jsonParser = new JSONParser();
-        try {
-            JSONArray jsonArray = (JSONArray) jsonParser.parse(jsonWatchlistString);
-            // Process the JSONArray as needed
-            // ...
-        } catch (ParseException e) {
-            // Handle parsing exception
-        }
-    
-        return jsonWatchlistString;
-
+        return readFile.readJsonWatchlist();
     }
 
 
