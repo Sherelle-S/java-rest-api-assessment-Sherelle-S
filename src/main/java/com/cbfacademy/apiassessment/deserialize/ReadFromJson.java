@@ -15,6 +15,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import com.cbfacademy.apiassessment.exceptions.FailedToIOWatchlistException;
 import com.cbfacademy.apiassessment.exceptions.ItemNotFoundException;
 import com.cbfacademy.apiassessment.exceptions.JsonWatchlistParsingException;
 import com.cbfacademy.apiassessment.model.CreateWatchlist;
@@ -25,32 +26,28 @@ public class ReadFromJson {
     private static final Logger log = LoggerFactory.getLogger(WriteToJson.class);
 
 
-    public String readJsonWatchlist() throws FileNotFoundException{
+    public String readJsonWatchlist() throws FileNotFoundException, FailedToIOWatchlistException{
         String jsonRepo = "JsonWatchlist.json";
-        try (FileReader reader = new FileReader("JsonWatchlist.json")) {
+        try (FileReader reader = new FileReader(jsonRepo)) {
             JSONParser jsonParser = new JSONParser();
             Object obj = jsonParser.parse(reader);
-            
-            JSONArray deserializedList = (JSONArray) obj;
-            return deserializedList.toJSONString();
-            // if (obj instanceof JSONAware) {
-            //     return ((JSONAware) obj).toJSONString();
-            // } else {
-            //     // Handle the case when obj is not an instance of JSONAware
-            //     return obj.toString();
-            // }
-            // return deserializedList;
+    
+            if (obj instanceof JSONArray) {
+                return ((JSONArray) obj).toJSONString();
+            } else {
+                // Handle the case when obj is not an instance of JSONArray
+                throw new FailedToIOWatchlistException("The content of JsonWatchlist.json is not a valid JSON array.");
+            }
         } catch (ParseException e) {
-            log.error("Exception ocurred during json parse to write file.", e);
-            // throw new JsonWatchlistParsingException("Exception ocurred at readJsonWatchlist when trying to parse file.", e);
-        } catch (FileNotFoundException e ){
-            log.error("File that we a re reading cannot be found", e);
+            log.error("Exception occurred during JSON parse to read file.", e);
+            throw new FailedToIOWatchlistException("Exception occurred at readJsonWatchlist when trying to parse file.", e);
+        } catch (FileNotFoundException e) {
+            log.error("File that we are reading cannot be found", e);
             throw new ItemNotFoundException(jsonRepo);
         } catch (IOException e) {
             log.error("Reader closed before resources had finished", e);
+            // Handle the IOException appropriately, or consider logging it.
         }
-        // return readJsonWatchlist();
-        return jsonRepo;
     }
 
     // private static final Logger log = LoggerFactory.getLogger(WriteToJson.class);   
