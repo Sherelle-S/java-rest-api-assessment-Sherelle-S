@@ -3,10 +3,9 @@ package com.cbfacademy.apiassessment.model;
 import java.time.LocalDate;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 // inherits from watchlist and creates a new watchlist constructor
 @Component
@@ -18,6 +17,7 @@ public class CreateWatchlist extends Watchlist{
     private boolean owned;
     private String status;
     private String currency;
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate datePurchased;
     private Integer unitsOwned;
     private double profit;
@@ -37,7 +37,7 @@ public class CreateWatchlist extends Watchlist{
         super();
             
         if(uuid == null){
-            this.uuid = generateUUID("default");
+            this.uuid = generateUUID(stockName);
         }else{
             this.uuid = uuid;
         }

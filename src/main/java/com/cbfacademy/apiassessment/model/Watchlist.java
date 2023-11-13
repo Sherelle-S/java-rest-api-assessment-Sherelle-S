@@ -14,8 +14,8 @@ public class Watchlist {
         return stockNameIncrement;
     }
 
-//     public Watchlist() {
-//     }
+    public Watchlist() {
+    }
 
 //      @Autowired
 //     public Watchlist(UUID uuid) {

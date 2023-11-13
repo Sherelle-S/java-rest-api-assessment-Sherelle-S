@@ -12,34 +12,32 @@ import com.cbfacademy.apiassessment.exceptions.FailedToIOWatchlistException;
 import com.cbfacademy.apiassessment.model.CreateWatchlist;
 import com.cbfacademy.apiassessment.model.Watchlist;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 @Component
 public class SerializeWatchlist {
+
+    private ObjectMapper mapper;
     
-    private static final Logger log = LoggerFactory.getLogger(WriteToJson.class);
-    protected Watchlist watchlist;
-
-    public SerializeWatchlist() {
-    }
-    public SerializeWatchlist(Watchlist watchlist) {
-        this.watchlist = watchlist;
+    public SerializeWatchlist(ObjectMapper mapper) {
+        this.mapper = mapper;
+        // this.mapper.registerModule(new JavaTimeModule());
     }
 
-    public String formatWatchlist(CreateWatchlist createWatchlist) throws FailedToIOWatchlistException {
+    private static final Logger log = LoggerFactory.getLogger(SerializeWatchlist.class);
 
-        ObjectMapper mapper = new ObjectMapper();
+    // public String formatWatchlist(CreateWatchlist createWatchlist) throws FailedToIOWatchlistException {
+        public String formatWatchlist(Watchlist watchlist) throws FailedToIOWatchlistException{
 
-        CreateWatchlist newList = new CreateWatchlist(null, "Vodaphone", "VOD", true, "TestStatus", "GBP", LocalDate.now(), 100, 50.0, 2.0, 60.0, 62.0, 70.0);
-
+            if (mapper == null) {
+                mapper = new ObjectMapper();
+                mapper.registerModule(new JavaTimeModule());
+            }
         try {
-            String jsonResult = mapper.writeValueAsString(watchlist);
-            return jsonResult;
+            return mapper.writeValueAsString(watchlist);
         } catch (IOException e) {
             log.error("watchlist failed to write to json in formatList method.", e);
             throw new FailedToIOWatchlistException("Failed to serialize watchlist to json format", e);
         }
-        
-
-//         List<CreateWatchlist> 
     }
 }
