@@ -1,20 +1,13 @@
 package com.cbfacademy.apiassessment;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.context.annotation.Description;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 
@@ -22,10 +15,7 @@ import com.cbfacademy.apiassessment.exceptions.FailedToIOWatchlistException;
 import com.cbfacademy.apiassessment.model.CreateWatchlist;
 import com.cbfacademy.apiassessment.model.Watchlist;
 import com.cbfacademy.apiassessment.serialize.SerializeWatchlist;
-import com.cbfacademy.apiassessment.serialize.ToJsonFormat;
-import com.cbfacademy.apiassessment.serialize.WriteToJson;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -35,13 +25,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 @SpringBootTest(classes = App.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -68,7 +55,7 @@ class AppTests {
 		CreateWatchlist sampleWatchlist1 = new CreateWatchlist(null, "Gold", "XAU", true, "TestStatus", "GBP", LocalDate.now(), 100, 50.0, 2.0, 60.0, 62.0, 70.0);
 		
 		try {
-			String checkFormat = serializeWatchlist.formatWatchlist(sampleWatchlist1);
+			String checkFormat = serializeWatchlist.serialize(sampleWatchlist1);
 			JsonNode expectedJson = mapper.valueToTree(sampleWatchlist1);
 			JsonNode actualJson = mapper.readTree(checkFormat);
 			assertEquals(expectedJson, actualJson);
@@ -116,6 +103,8 @@ class AppTests {
 	@Description("/watchlist gives items with the same stockName a unique id")
 	public void testUUIDForSameStockName(){
 
+		// change this si that item witht he same stockname throws exception
+
 		CreateWatchlist sampleWatchlist3 = new CreateWatchlist(null, "Gold", "XAU", true, "TestStatus", "GBP", LocalDate.now(), 100, 50.0, 2.0, 60.0, 62.0, 70.0);
 		CreateWatchlist sampleWatchlist4 = new CreateWatchlist(null, "Gold", "GC:CMX", false, "TestStatus", "EUR", LocalDate.now(), 100, 50.0, 2.0, 60.0, 62.0, 70.0);
 	
@@ -131,11 +120,13 @@ class AppTests {
 	public void testUUIDForDifferentStockName(){
 		// String stockName = "Tester";
 
-		CreateWatchlist sampleWatchlist1 = new CreateWatchlist(null, "Vodaphone", "VOD", true, "TestStatus", "GBP", LocalDate.now(), 100, 50.0, 2.0, 60.0, 62.0, 70.0);
-		CreateWatchlist sampleWatchlist2 = new CreateWatchlist(null, "Silver", "XAG", false, "TestStatus", "EUR", LocalDate.now(), 50, 20.0, 1.0, 370.0, 34.0, 20.0);
+		Watchlist sampleList1 = new Watchlist(null, "Vodaphone", "VOD.L");
+		Watchlist sampleList2 = new Watchlist(null, "Silver", "XAG");
+		// CreateWatchlist sampleWatchlist1 = new CreateWatchlist(null, "Vodaphone", "VOD.L", true, "TestStatus", "GBP", LocalDate.now(), 100, 50.0, 2.0, 60.0, 62.0, 70.0);
+		// CreateWatchlist sampleWatchlist2 = new CreateWatchlist(null, "Silver", "XAG", false, "TestStatus", "EUR", LocalDate.now(), 50, 20.0, 1.0, 370.0, 34.0, 20.0);
 
-		UUID Id2 = sampleWatchlist1.getUuid();
-		UUID Id1 = sampleWatchlist2.getUuid();
+		UUID Id2 = sampleList1.getUuid();
+		UUID Id1 = sampleList2.getUuid();
 		assertNotEquals(Id1, Id2);
 	}
 

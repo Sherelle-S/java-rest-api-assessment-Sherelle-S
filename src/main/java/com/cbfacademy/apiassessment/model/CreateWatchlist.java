@@ -1,8 +1,10 @@
 package com.cbfacademy.apiassessment.model;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
+import org.json.simple.JSONObject;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -11,42 +13,27 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @Component
 public class CreateWatchlist extends Watchlist{
 
-    private UUID uuid;
-    private String stockName;
-    private String symbol;
-    private boolean owned;
-    private String status;
     private String currency;
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate datePurchased;
-    private Integer unitsOwned;
+    private Integer wants;
+    private Integer has;
     private double profit;
     private double pointsChange;
     private double open;
     private double close;
     private double intradayHigh;
 
-    public CreateWatchlist() {
-    super();
+    // empty constructor for spring boot
+     public CreateWatchlist(Object object, String string, String string2, boolean b, String string3, String string4, LocalDate localDate, int i, double d, double e, double f, double g, double h) {
     }
-
         //  @Autowired
-        public CreateWatchlist(UUID uuid, String stockName, String symbol, boolean owned, String status, String currency,
-            LocalDate datePurchased, Integer unitsOwned, double profit, double pointsChange, double open, double close,
-            double intradayHigh) {
+        public CreateWatchlist(String currency, LocalDate datePurchased, Integer has, Integer wants, double profit, double pointsChange, double open, double close, double intradayHigh) {
         super();
-            
-        if(uuid == null){
-            this.uuid = generateUUID(stockName);
-        }else{
-            this.uuid = uuid;
-        }
-        this.symbol = symbol;
-        this.owned = owned;
-        this.status = status;
         this.currency = currency;
         this.datePurchased = datePurchased;
-        this.unitsOwned = unitsOwned;
+        this.has = has;
+        this.wants = wants;
         this.profit = profit;
         this.pointsChange = pointsChange;
         this.open = open;
@@ -54,48 +41,24 @@ public class CreateWatchlist extends Watchlist{
         this.intradayHigh = intradayHigh;
     }
 
-    //  public CreateWatchlist() {
-    // }
-
-        public UUID generateUUID(String stockName){
-        int stockNameCount = getStocknameincrement().getOrDefault(stockName, 0);
-        getStocknameincrement().put(stockName, stockNameCount + 1);
-        return UUID.nameUUIDFromBytes((stockName + stockNameCount).getBytes());
+    // constructor with elements inherited from watchlist
+    public CreateWatchlist(UUID ud, String stockName, String symbol, String currency, LocalDate datePurchased, Integer has, Integer wants, double profit, double pointsChange, double open, double close, double intradayHigh) {
+    super();
     }
 
-       public UUID getUuid() {
-        return uuid;
-    } 
-
-    public void setStockName(String stockName) {
-        this.stockName = stockName;
-    }
-    public String getStockName() {
-        return stockName;
-    }
-
-    public String getSymbol() {
-        return symbol;
-    }
-
-    public void setSymbol(String symbol) {
-        this.symbol = symbol;
-    }
-
-    public boolean isOwned() {
-        return owned;
-    }
-
-    public void setOwned(boolean owned) {
-        this.owned = owned;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
+    // constructor for createWatchlist object that takes in JSONObject as a parameter to to facilitate retrieval and conversion of json
+    public CreateWatchlist(JSONObject json){
+        super((UUID) json.get("uuid"), (String) json.get("stockName"), (String) json.get("symbol"));
+        this.currency = (String) json.get("currency");
+        String datePurchasedStr = (String) json.get("datePurchased");
+        this.datePurchased = LocalDate.parse(datePurchasedStr, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        this.has = (Integer) json.get("has");
+        this.wants = (Integer) json.get("wants");
+        this.profit = (double) json.get("profit");
+        this.pointsChange = (double) json.get("pointsChange");
+        this.open = (double) json.get("open");
+        this.close = (double) json.get("close");
+        this.intradayHigh = (double) json.get("intradayHigh");
     }
 
     public String getCurrency() {
@@ -114,12 +77,20 @@ public class CreateWatchlist extends Watchlist{
         this.datePurchased = datePurchased;
     }
 
-    public Integer getUnitsOwned() {
-        return unitsOwned;
+    public Integer getHas() {
+        return has;
     }
 
-    public void setUnitsOwned(Integer unitsOwned) {
-        this.unitsOwned = unitsOwned;
+    public void setHas(Integer has) {
+        this.has = has;
+    }
+
+    public Integer getWants() {
+        return wants;
+    }
+
+    public void setWants(Integer wants) {
+        this.wants = wants;
     }
 
     public double getProfit() {
@@ -164,10 +135,7 @@ public class CreateWatchlist extends Watchlist{
 
         @Override
     public String toString() {
-        return "WatchlistInherited [symbol=" + symbol + ", owned=" + owned + ", status=" + status + ", currency="
-        + currency + ", datePurchased=" + datePurchased + ", unitsOwned=" + unitsOwned + ", profit=" + profit
-        + ", pointsChange=" + pointsChange + ", open=" + open + ", close=" + close + ", intradayHigh="
-        + intradayHigh + "]";
+        return "WatchlistInherited [currency=" + currency + ", datePurchased=" + datePurchased + ", has=" + has + ", wants=" + wants + ", profit=" + profit + ", pointsChange=" + pointsChange + ", open=" + open + ", close=" + close + ", intradayHigh=" + intradayHigh + "]";
     }
 
 }

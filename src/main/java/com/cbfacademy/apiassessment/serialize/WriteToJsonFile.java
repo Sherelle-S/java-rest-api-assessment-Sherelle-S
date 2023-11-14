@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.cbfacademy.apiassessment.exceptions.InvalidInputException;
 import com.cbfacademy.apiassessment.model.Watchlist;
 
+// file is responsible for writing serialized object to json file
 @Service
 public class WriteToJsonFile {
     
@@ -21,8 +22,8 @@ public class WriteToJsonFile {
     public void writeListToJson(Watchlist watchlist) throws InvalidInputException{
         String jsonRepo = "JsonWatchlist.json";
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(jsonRepo, true))) {
-            String jsoString = serializeWatchlist.formatWatchlist(watchlist);
-            writer.write(jsoString);
+            String jsonString = serializeWatchlist.serialize(watchlist);
+            writer.write(jsonString);
             writer.newLine();
         } catch (IOException e) {
                 log.error("Serialized watchlist failed to write to Json file.", e);
