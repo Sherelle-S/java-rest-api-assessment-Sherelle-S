@@ -1,25 +1,25 @@
-package com.cbfacademy.apiassessment.deserialize;
+// package com.cbfacademy.apiassessment.deserialize;
 
-import com.cbfacademy.apiassessment.model.CreateWatchlist;
+// import com.cbfacademy.apiassessment.model.CreateWatchlist;
 
-public class ReturnWatchlist {
+// public class ReturnWatchlist {
     
-    public CreateWatchlist returnJava(CreateWatchlist createWatchlist){
+//     public Watchlist returnJava(Watchlist watchlist){
 
-        createWatchlist.getUuid(set);
-        createWatchlist.getStockName();
-        createWatchlist.getSymbol();
-        createWatchlist.isOwned();
-        createWatchlist.getStatus();
-        createWatchlist.getCurrency();
-        createWatchlist.getDatePurchased();
-        createWatchlist.getUnitsOwned();
-        createWatchlist.getProfit();
-        createWatchlist.getPointsChange();
-        createWatchlist.getOpen();
-        createWatchlist.getClose();
-        createWatchlist.getIntradayHigh();
-        return createWatchlist;
-    }
+//         watchlist.getUuid(set);
+//         watchlist.getStockName();
+//         watchlist.getSymbol();
+//         watchlist.isOwned();
+//         watchlist.getStatus();
+//         watchlist.getCurrency();
+//         watchlist.getDatePurchased();
+//         watchlist.getUnitsOwned();
+//         watchlist.getProfit();
+//         watchlist.getPointsChange();
+//         watchlist.getOpen();
+//         watchlist.getClose();
+//         watchlist.getIntradayHigh();
+//         return watchlist;
+//     }
     
-}
+// }

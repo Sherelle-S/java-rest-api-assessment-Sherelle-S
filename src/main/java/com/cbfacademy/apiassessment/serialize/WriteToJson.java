@@ -18,13 +18,13 @@ import com.cbfacademy.apiassessment.model.Watchlist;
 @Service
 public class WriteToJson {
 
-    private CreateWatchlist createList;
+    private Watchlist createList;
     private static final Logger log = LoggerFactory.getLogger(WriteToJson.class);
 
         // registersTypeAdapter at the same time GsonBuilder is initialized to stop the 'java.time.LocalDate#year' accessible; issue.
 
     // @Autowired
-    // public WriteToJson(CreateWatchlist createList) {
+    // public WriteToJson(Watchlist createList) {
     //     this.createList = createList;
     // }
 

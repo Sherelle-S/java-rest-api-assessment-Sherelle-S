@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.util.List;
 
 import org.json.simple.JSONArray;
+import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +22,14 @@ import com.cbfacademy.apiassessment.deserialize.DeserializeWatchlist;
 import com.cbfacademy.apiassessment.deserialize.ReadJsonObject;
 import com.cbfacademy.apiassessment.exceptions.FailedToIOWatchlistException;
 import com.cbfacademy.apiassessment.exceptions.JsonWatchlistParsingException;
-import com.cbfacademy.apiassessment.model.CreateWatchlist;
+import com.cbfacademy.apiassessment.model.Watchlist;
 import com.cbfacademy.apiassessment.model.Watchlist;
 import com.cbfacademy.apiassessment.serialize.SerializeWatchlist;
 import com.cbfacademy.apiassessment.serialize.WriteToJsonFile;
 import com.cbfacademy.apiassessment.service.WatchlistService;
 import com.cbfacademy.apiassessment.service.WatchlistServiceImpl;
 
+// contains the controllers for CRUD request, maps them to the correct endpoint and gets Http responses.
 @RestController
 @RequestMapping("/watchlist")
 public class WatchlistController {
@@ -39,7 +41,7 @@ public class WatchlistController {
     private WatchlistServiceImpl serviceImpl;
     private WriteToJsonFile writeToJsonFile;
 
-    @Autowired
+    // @Autowired
     public WatchlistController(SerializeWatchlist serializeList, WatchlistService service,
             WatchlistServiceImpl serviceImpl, WriteToJsonFile writeToJsonFile) {
         this.serializeList = serializeList;
@@ -49,21 +51,20 @@ public class WatchlistController {
     }
 
     @GetMapping("/working")
-    public ResponseEntity<List<CreateWatchlist>> readWatchlist() {
+    public ResponseEntity<List<Watchlist>> readWatchlist() throws FailedToIOWatchlistException {
         try {
-            List<CreateWatchlist> watchlist = watchlistService.readWatchlist();
-            return new ResponseEntity<>(watchlist, HttpStatus.OK);
-        } catch (JsonWatchlistParsingException e) {
-            log.error("Unable to parse json file in GET controller", e);
+            return service.readWatchlist();
+        } catch (JsonWatchlistParsingException | ParseException e) {
+            log.error("Error occurred during parsing the watchlist", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        } finally {
+            log.info("Get request executed.");
         }
-        return service.readWatchlist();
-        
     }
-
-
+    
+// mothod for making Post re
     @PostMapping(value = "/addEntry", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity <WriteToJsonFile> create(@RequestBody CreateWatchlist createList) throws FailedToIOWatchlistException{
+    public ResponseEntity <WriteToJsonFile> create(@RequestBody Watchlist createList) throws FailedToIOWatchlistException{
         return service.create(createList);      
         // create some logic that means if client already has stock of item of x name in watchlist, they cannot add another item of that stock they must instead update.
     }

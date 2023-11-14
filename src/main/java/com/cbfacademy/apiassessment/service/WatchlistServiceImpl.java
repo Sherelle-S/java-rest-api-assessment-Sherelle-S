@@ -13,11 +13,9 @@ import org.springframework.stereotype.Service;
 
 import com.cbfacademy.apiassessment.controller.WatchlistController;
 import com.cbfacademy.apiassessment.deserialize.DeserializeWatchlist;
-import com.cbfacademy.apiassessment.deserialize.ReadJsonObject;
 import com.cbfacademy.apiassessment.exceptions.FailedToIOWatchlistException;
 import com.cbfacademy.apiassessment.exceptions.InvalidInputException;
 import com.cbfacademy.apiassessment.exceptions.JsonWatchlistParsingException;
-import com.cbfacademy.apiassessment.model.CreateWatchlist;
 import com.cbfacademy.apiassessment.model.Watchlist;
 import com.cbfacademy.apiassessment.serialize.SerializeWatchlist;
 import com.cbfacademy.apiassessment.serialize.WriteToJsonFile;
@@ -27,15 +25,13 @@ public class WatchlistServiceImpl implements WatchlistService {
 
     private static final Logger log = LoggerFactory.getLogger(WatchlistController.class);
     private DeserializeWatchlist deserializeList;
-    private ReadJsonObject readJsonObject;
     private SerializeWatchlist serializeList;
     private WriteToJsonFile writeFile;
 
 
     @Autowired
-    public WatchlistServiceImpl(DeserializeWatchlist deserializeList, ReadJsonObject readJsonObject, SerializeWatchlist serializeList, WriteToJsonFile writeFile) {
+    public WatchlistServiceImpl(DeserializeWatchlist deserializeList, SerializeWatchlist serializeList, WriteToJsonFile writeFile) {
         this.deserializeList = deserializeList;
-        this.readJsonObject = readJsonObject;
         this.serializeList = serializeList;
         this.writeFile = writeFile;
     }
@@ -43,7 +39,7 @@ public class WatchlistServiceImpl implements WatchlistService {
 
     // Handles the create part of the crud request calls methods responsible for creating a watchlist, serializing and writing it to json.
     @Override
-        public ResponseEntity<WriteToJsonFile> create(CreateWatchlist createList) throws FailedToIOWatchlistException {
+        public ResponseEntity<WriteToJsonFile> create(Watchlist createList) throws FailedToIOWatchlistException {
         try {
             serializeList.serialize(createList);
             try {
@@ -65,27 +61,13 @@ public class WatchlistServiceImpl implements WatchlistService {
     // handles the Read of the crud API, responsible for reading the data from JSON file, deserializing it into a readable format.
     @Override
     // you need to read string first, then deserialize 
-    public ResponseEntity<List<CreateWatchlist>> readWatchlist(){
+    public ResponseEntity<List<Watchlist>> readWatchlist() {
         try {
-            List<CreateWatchlist> watchlist = readJsonObject.readJsonWatchlist();
-            //  deserializeList.convertToJava(createList);
-            return new ResponseEntity(watchlist, HttpStatus.OK);
-        } catch (JsonWatchlistParsingException e) {
-           log.error("Exception ocurred while parsing json object in service implementation", e);
-           return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
-        } catch (ParseException e) {
-            log.error("Operation triggered Parse exception at readWatchlist method in service implementation class." );
+            List<Watchlist> watchlist = deserializeList.deserializeList();
+            return ResponseEntity.ok(watchlist);
+        } catch (FailedToIOWatchlistException e) {
+            log.error("IOException occurred while trying to deserialize jsonWatchlist in watchlistServiceImpl", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-// try {
-//                 readJsonObject.readJsonWatchlist();
-                
-//             } catch (FailedToIOWatchlistException e) {
-//                log.error("Failed to read json object at service implementation", e);
-//                e.printStackTrace();
-//                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//             }
-//         return readJsonObject.readJsonWatchlist();
-        
     }
 }

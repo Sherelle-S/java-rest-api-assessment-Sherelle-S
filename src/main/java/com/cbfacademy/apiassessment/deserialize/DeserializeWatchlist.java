@@ -8,13 +8,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.cbfacademy.apiassessment.exceptions.FailedToIOWatchlistException;
-import com.cbfacademy.apiassessment.model.CreateWatchlist;
+import com.cbfacademy.apiassessment.model.Watchlist;
 import com.cbfacademy.apiassessment.model.Watchlist;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
-// class deserializes watchlist from json into json object
+// class deserializes watchlist from json into java object
 @Component
 public class DeserializeWatchlist {
     
@@ -23,22 +23,18 @@ public class DeserializeWatchlist {
     
         public DeserializeWatchlist(ObjectMapper mapper) {
         this.mapper = mapper;
+        this.mapper.registerModule(new JavaTimeModule());
         }
 
-        public List<CreateWatchlist> convertToJava(String jsonOutput) throws FailedToIOWatchlistException{
+        public List<Watchlist> deserializeList() throws FailedToIOWatchlistException{
         
-            // String jsonOutput = "";
-             if (mapper == null) {
-                mapper = new ObjectMapper();
-                mapper.registerModule(new JavaTimeModule());
-            }
-            try {
-                TypeReference<List<CreateWatchlist>> typeReference = new TypeReference<List<CreateWatchlist>>() {
-                };
-            return mapper.readValue(jsonOutput, typeReference);
+        String jsonRepo = "JsonWatchlist.json";
+        try {
+            TypeReference<List<Watchlist>> typeReference = new TypeReference<List<Watchlist>>() {};
+        return mapper.readValue(jsonRepo, typeReference);
         } catch (IOException e) {
-            log.error("Watchlist object failed to write to java in convertToJava method.", e);
-            throw new FailedToIOWatchlistException("Failed to serialize watchlist object to json format", e);
+            log.error("Watchlist failed to deserialize in deserializeList method.", e);
+            throw new FailedToIOWatchlistException("Failed to deserialize watchlist", e);
         }
     }
 }

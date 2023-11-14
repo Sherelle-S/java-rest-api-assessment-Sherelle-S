@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 
 import com.cbfacademy.apiassessment.exceptions.FailedToIOWatchlistException;
-import com.cbfacademy.apiassessment.model.CreateWatchlist;
+import com.cbfacademy.apiassessment.model.Watchlist;
 import com.cbfacademy.apiassessment.model.Watchlist;
 import com.cbfacademy.apiassessment.serialize.SerializeWatchlist;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -52,7 +52,7 @@ class AppTests {
 	public void MethodFormatWatchlistReturnsValidJsonString(){
 		SerializeWatchlist serializeWatchlist = new SerializeWatchlist(null);
 		ObjectMapper mapper = new ObjectMapper();
-		CreateWatchlist sampleWatchlist1 = new CreateWatchlist(null, "Gold", "XAU", true, "TestStatus", "GBP", LocalDate.now(), 100, 50.0, 2.0, 60.0, 62.0, 70.0);
+		Watchlist sampleWatchlist1 = new Watchlist(null, "Gold", "XAU", true, "TestStatus", "GBP", LocalDate.now(), 100, 50.0, 2.0, 60.0, 62.0, 70.0);
 		
 		try {
 			String checkFormat = serializeWatchlist.serialize(sampleWatchlist1);
@@ -105,8 +105,8 @@ class AppTests {
 
 		// change this si that item witht he same stockname throws exception
 
-		CreateWatchlist sampleWatchlist3 = new CreateWatchlist(null, "Gold", "XAU", true, "TestStatus", "GBP", LocalDate.now(), 100, 50.0, 2.0, 60.0, 62.0, 70.0);
-		CreateWatchlist sampleWatchlist4 = new CreateWatchlist(null, "Gold", "GC:CMX", false, "TestStatus", "EUR", LocalDate.now(), 100, 50.0, 2.0, 60.0, 62.0, 70.0);
+		Watchlist sampleWatchlist3 = new Watchlist(null, "Gold", "XAU", true, "TestStatus", "GBP", LocalDate.now(), 100, 50.0, 2.0, 60.0, 62.0, 70.0);
+		Watchlist sampleWatchlist4 = new Watchlist(null, "Gold", "GC:CMX", false, "TestStatus", "EUR", LocalDate.now(), 100, 50.0, 2.0, 60.0, 62.0, 70.0);
 	
 		UUID Id3 = sampleWatchlist3.getUuid();
 		UUID Id4 = sampleWatchlist4.getUuid();
@@ -122,8 +122,8 @@ class AppTests {
 
 		Watchlist sampleList1 = new Watchlist(null, "Vodaphone", "VOD.L");
 		Watchlist sampleList2 = new Watchlist(null, "Silver", "XAG");
-		// CreateWatchlist sampleWatchlist1 = new CreateWatchlist(null, "Vodaphone", "VOD.L", true, "TestStatus", "GBP", LocalDate.now(), 100, 50.0, 2.0, 60.0, 62.0, 70.0);
-		// CreateWatchlist sampleWatchlist2 = new CreateWatchlist(null, "Silver", "XAG", false, "TestStatus", "EUR", LocalDate.now(), 50, 20.0, 1.0, 370.0, 34.0, 20.0);
+		// Watchlist sampleWatchlist1 = new Watchlist(null, "Vodaphone", "VOD.L", true, "TestStatus", "GBP", LocalDate.now(), 100, 50.0, 2.0, 60.0, 62.0, 70.0);
+		// Watchlist sampleWatchlist2 = new Watchlist(null, "Silver", "XAG", false, "TestStatus", "EUR", LocalDate.now(), 50, 20.0, 1.0, 370.0, 34.0, 20.0);
 
 		UUID Id2 = sampleList1.getUuid();
 		UUID Id1 = sampleList2.getUuid();
@@ -166,7 +166,7 @@ class AppTests {
 @Test
 @Description("/{id} end point goes to localhost:8080/{id}")
 public void showListEndpointIslocalhost8080id() {
-	CreateWatchlist sampleWatchlist5 = new CreateWatchlist(null, "Silver", "XAG", false, "TestStatus", "EUR", LocalDate.now(), 50, 20.0, 1.0, 370.0, 34.0, 20.0);
+	Watchlist sampleWatchlist5 = new Watchlist(null, "Silver", "XAG", false, "TestStatus", "EUR", LocalDate.now(), 50, 20.0, 1.0, 370.0, 34.0, 20.0);
    UUID Id5 = sampleWatchlist5.getUuid();
 	// String SampleId = sampleWatchlist5;
 	String url = "http://localhost:" + port + "/{id}";
@@ -190,7 +190,7 @@ public void showListEndpointIslocalhost8080id() {
 	// @Description("/addEntry endpoint goes to localhost:8080/watchlist/addEntry")
 	// public void addEntryEndpointIslocalhost8080addEntry(){
 	// 	String url = "http://localhost:" + port + "/watchlist/addEntry";
-	// 	CreateWatchlist addListItems = new CreateWatchlist(null, "Silver", "XAG", false, "TestStatus", "EUR", LocalDate.now(), 50, 20.0, 1.0, 370.0, 34.0, 20.0);
+	// 	Watchlist addListItems = new Watchlist(null, "Silver", "XAG", false, "TestStatus", "EUR", LocalDate.now(), 50, 20.0, 1.0, 370.0, 34.0, 20.0);
 	// 	HttpHeaders headers = new HttpHeaders();
 	// 	headers.setContentType(MediaType.APPLICATION_JSON);
 	// 	ResponseEntity<addListItems> responseEntity = restTemplate.exchange(url, HttpMethod.POST, new HttpEntity<>(addListItems, headers), addListItems.class);
