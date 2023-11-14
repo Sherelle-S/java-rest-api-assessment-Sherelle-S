@@ -1,5 +1,1 @@
-[{},{},{}]
-{"uuid":null,"stockName":"Vodaphone","symbol":"VOD","owned":true,"status":"TestStatus","currency":"GBP","datePurchased":"07/11/2020","unitsOwned":null,"profit":50.0,"pointsChange":0.0,"open":60.0,"close":62.0,"intradayHigh":0.0}
-{"uuid":null,"stockName":"Vodaphone","symbol":"VOD","owned":true,"status":"TestStatus","currency":"GBP","datePurchased":"07/11/2020","unitsOwned":null,"profit":50.0,"pointsChange":0.0,"open":60.0,"close":62.0,"intradayHigh":0.0}{"uuid":null,"stockName":"Vodaphone","symbol":"VOD","owned":true,"status":"TestStatus","currency":"GBP","datePurchased":"07/11/2020","unitsOwned":null,"profit":50.0,"pointsChange":0.0,"open":60.0,"close":62.0,"intradayHigh":0.0}
-{"uuid":null,"stockName":"Vodaphone","symbol":"VOD","owned":true,"status":"TestStatus","currency":"GBP","datePurchased":"07/11/2020","unitsOwned":null,"profit":50.0,"pointsChange":0.0,"open":60.0,"close":62.0,"intradayHigh":0.0}
-{"uuid":null,"stockName":"Gold","symbol":"XAU","currency":"GBP","datePurchased":"07/11/2020","wants":null,"has":null,"profit":50.0,"pointsChange":0.0,"open":60.0,"close":62.0,"intradayHigh":0.0}
+[{"uuid":null,"stockName":"Gold","symbol":"XAU","currency":"GBP","datePurchased":"07/11/2020","wants":null,"has":null,"profit":50.0,"pointsChange":2.0,"open":60.0,"close":62.0,"intradayHigh":70.0}]

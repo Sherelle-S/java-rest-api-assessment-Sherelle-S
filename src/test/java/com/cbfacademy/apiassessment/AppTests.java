@@ -30,6 +30,8 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 @SpringBootTest(classes = App.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class AppTests {
@@ -174,6 +176,19 @@ public void showListEndpointIslocalhost8080id() {
     assertEquals(Id5, Id5 );
 }
 
+@Test
+@Description("/")
+public void mockingWatchlistToSeeIfItReturnsJson (){
+	SerializeWatchlist serializeWatchlistMock = mock(SerializeWatchlist.class);
+
+	Watchlist watchlist = new Watchlist();
+	String expectedJson = "";
+
+	when(serializeWatchlistMock.serialize(watchlist)).thenReturn(expectedJson);
+	String actualJson = serializeWatchlistMock.serialize(watchlist);
+	assertEquals(expectedJson, actualJson);
+	verify(serializeWatchlistMock).serialize(watchlist);
+}
 // @Test
 // @Description("returns boolean true when file is converted to json")
 // public void returnsBooleanTrueWhenFileConvertsToJson(){

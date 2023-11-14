@@ -64,7 +64,7 @@ public class WatchlistController {
     
 // mothod for making Post re
     @PostMapping(value = "/addEntry", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity <WriteToJsonFile> create(@RequestBody Watchlist createList) throws FailedToIOWatchlistException{
+    public ResponseEntity <WriteToJsonFile> create(@RequestBody List<Watchlist> createList) throws FailedToIOWatchlistException{
         return service.create(createList);      
         // create some logic that means if client already has stock of item of x name in watchlist, they cannot add another item of that stock they must instead update.
     }

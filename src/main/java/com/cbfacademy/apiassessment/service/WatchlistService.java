@@ -17,7 +17,7 @@ import com.cbfacademy.apiassessment.serialize.WriteToJsonFile;
 
 public interface WatchlistService {
 
-    ResponseEntity<WriteToJsonFile> create(Watchlist createList) throws FailedToIOWatchlistException;
+    ResponseEntity<WriteToJsonFile> create(List<Watchlist> createList) throws FailedToIOWatchlistException;
 
     ResponseEntity<List<Watchlist>> readWatchlist() throws JsonWatchlistParsingException, ParseException;
 

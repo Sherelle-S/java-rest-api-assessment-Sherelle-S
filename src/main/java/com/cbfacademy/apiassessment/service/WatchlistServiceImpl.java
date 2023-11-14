@@ -39,7 +39,7 @@ public class WatchlistServiceImpl implements WatchlistService {
 
     // Handles the create part of the crud request calls methods responsible for creating a watchlist, serializing and writing it to json.
     @Override
-        public ResponseEntity<WriteToJsonFile> create(Watchlist createList) throws FailedToIOWatchlistException {
+        public ResponseEntity<WriteToJsonFile> create(List<Watchlist> createList) throws FailedToIOWatchlistException {
         try {
             serializeList.serialize(createList);
             try {

@@ -1,6 +1,8 @@
 package com.cbfacademy.apiassessment.deserialize;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -28,10 +30,11 @@ public class DeserializeWatchlist {
 
         public List<Watchlist> deserializeList() throws FailedToIOWatchlistException{
         
-        String jsonRepo = "JsonWatchlist.json";
+        String jsonRepo = "src/main/resources/JsonWatchlist.json";
         try {
             TypeReference<List<Watchlist>> typeReference = new TypeReference<List<Watchlist>>() {};
-        return mapper.readValue(jsonRepo, typeReference);
+            File file = new File(jsonRepo);
+            return mapper.readValue(file, typeReference);
         } catch (IOException e) {
             log.error("Watchlist failed to deserialize in deserializeList method.", e);
             throw new FailedToIOWatchlistException("Failed to deserialize watchlist", e);

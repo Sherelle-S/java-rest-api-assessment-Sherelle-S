@@ -3,6 +3,8 @@ package com.cbfacademy.apiassessment.serialize;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +21,8 @@ public class WriteToJsonFile {
     @Autowired
     private SerializeWatchlist serializeWatchlist;
     
-    public void writeListToJson(Watchlist watchlist) throws InvalidInputException{
-        String jsonRepo = "JsonWatchlist.json";
+    public void writeListToJson(List<Watchlist> watchlist) throws InvalidInputException{
+        String jsonRepo = "src/main/resources/JsonWatchlist.json";
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(jsonRepo, true))) {
             String jsonString = serializeWatchlist.serialize(watchlist);
             writer.write(jsonString);

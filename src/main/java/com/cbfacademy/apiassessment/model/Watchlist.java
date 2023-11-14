@@ -31,11 +31,7 @@ public class Watchlist {
     }
 
     public Watchlist(UUID uuid, String stockName, String symbol, String currency, LocalDate datePurchased, Integer has, Integer wants, double profit, double pointsChange, double open, double close, double intradayHigh) {
-        if(uuid == null){
         this.uuid = UUID.randomUUID();
-        }else{
-            this.uuid = uuid;
-        }
         this.stockName = stockName;
         this.symbol = symbol;
         this.currency = currency;
@@ -83,7 +79,16 @@ public class Watchlist {
 
     public void setUuid(UUID uuid) {
         this.uuid = uuid;
+        // generateUUID();
     }
+
+    // public void generateUUID(){
+    //     if (uuid == null){
+    //         this.uuid 
+    //     } else{
+    //         this.uuid = uuid;
+    //     }
+    // }
 
     public String getStockName() {
         return stockName;
@@ -155,6 +160,7 @@ public class Watchlist {
 
     public void setOpen(double open) {
         this.open = open;
+        calculatePointsChange();
     }
 
     public double getClose() {
@@ -163,6 +169,11 @@ public class Watchlist {
 
     public void setClose(double close) {
         this.close = close;
+        calculatePointsChange();
+    }
+
+    private void calculatePointsChange() {
+        this.pointsChange = this.close - this.open; 
     }
 
     public double getIntradayHigh() {
