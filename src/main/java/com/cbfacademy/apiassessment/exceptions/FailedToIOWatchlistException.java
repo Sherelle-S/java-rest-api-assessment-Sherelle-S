@@ -9,6 +9,10 @@ public class FailedToIOWatchlistException extends IOException{
         super(message);
     }
 
+    public FailedToIOWatchlistException(String message, String exception){
+        super(message);
+    }
+
     public FailedToIOWatchlistException(Throwable cause){
     super(cause);
     }

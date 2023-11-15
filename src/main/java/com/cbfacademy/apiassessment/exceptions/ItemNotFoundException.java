@@ -11,4 +11,8 @@ public class ItemNotFoundException extends RuntimeException {
         super("Could not find watchList item " + id);
     }
 
+    public ItemNotFoundException(String message, String cause){
+        super(message);
+    }
+
 }

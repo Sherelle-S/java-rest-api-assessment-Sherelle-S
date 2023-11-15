@@ -23,4 +23,8 @@ public class JsonWatchlistParsingException extends JsonProcessingException{
         super(msg);
     }
 
+    public JsonWatchlistParsingException(String msg, String message) {
+        super(msg);
+    }
+
 }

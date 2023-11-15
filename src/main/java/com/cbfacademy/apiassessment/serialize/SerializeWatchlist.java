@@ -22,6 +22,7 @@ public class SerializeWatchlist {
     
     public SerializeWatchlist(ObjectMapper mapper) {
         this.mapper = mapper;
+        this.mapper = mapper.registerModule(new JavaTimeModule());
     }
 
     private static final Logger log = LoggerFactory.getLogger(SerializeWatchlist.class);
@@ -29,10 +30,10 @@ public class SerializeWatchlist {
 // `this.mapper.registerModule(new JavaTimeModule());`  is necessary to avoid `Java 8 date/time type `java.time.LocalDate` not supported by default` issue.
         // public ResponseEntity<String> serialize(Watchlist watchlist) throws FailedToIOWatchlistException {
     public String serialize(List<Watchlist> watchlist) throws FailedToIOWatchlistException{
-        if (mapper == null) {
-            mapper = new ObjectMapper();
-            mapper.registerModule(new JavaTimeModule());
-        }
+        // if (mapper == null) {
+        //     mapper = new ObjectMapper();
+        //     mapper.registerModule(new JavaTimeModule());
+        // }
             try {
                 return mapper.writeValueAsString(watchlist);
                 // String jsonString = mapper.writeValueAsString(watchlist);

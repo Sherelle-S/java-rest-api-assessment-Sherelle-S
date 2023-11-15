@@ -19,10 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cbfacademy.apiassessment.deserialize.DeserializeWatchlist;
-import com.cbfacademy.apiassessment.deserialize.ReadJsonObject;
 import com.cbfacademy.apiassessment.exceptions.FailedToIOWatchlistException;
 import com.cbfacademy.apiassessment.exceptions.JsonWatchlistParsingException;
-import com.cbfacademy.apiassessment.model.Watchlist;
 import com.cbfacademy.apiassessment.model.Watchlist;
 import com.cbfacademy.apiassessment.serialize.SerializeWatchlist;
 import com.cbfacademy.apiassessment.serialize.WriteToJsonFile;
@@ -61,10 +59,12 @@ public class WatchlistController {
             log.info("Get request executed.");
         }
     }
+
+    // @GetMapping("/working")This one will return sorted entries
     
 // mothod for making Post re
     @PostMapping(value = "/addEntry", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity <WriteToJsonFile> create(@RequestBody List<Watchlist> createList) throws FailedToIOWatchlistException{
+    public ResponseEntity <Void> create(@RequestBody List<Watchlist> createList) throws FailedToIOWatchlistException{
         return service.create(createList);      
         // create some logic that means if client already has stock of item of x name in watchlist, they cannot add another item of that stock they must instead update.
     }

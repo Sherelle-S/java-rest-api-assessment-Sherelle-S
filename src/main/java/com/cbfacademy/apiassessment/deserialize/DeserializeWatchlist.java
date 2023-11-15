@@ -28,9 +28,8 @@ public class DeserializeWatchlist {
         this.mapper.registerModule(new JavaTimeModule());
         }
 
-        public List<Watchlist> deserializeList() throws FailedToIOWatchlistException{
+        public List<Watchlist> deserializeList(String jsonRepo) throws FailedToIOWatchlistException{
         
-        String jsonRepo = "src/main/resources/JsonWatchlist.json";
         try {
             TypeReference<List<Watchlist>> typeReference = new TypeReference<List<Watchlist>>() {};
             File file = new File(jsonRepo);
