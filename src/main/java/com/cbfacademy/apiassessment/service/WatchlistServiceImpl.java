@@ -1,5 +1,8 @@
 package com.cbfacademy.apiassessment.service;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 import org.json.simple.parser.ParseException;
@@ -74,23 +77,36 @@ public class WatchlistServiceImpl implements WatchlistService {
     public ResponseEntity<String> addWatchlistEntry(List<Watchlist> existingWatchlist){
             try {
                 appendingListItem.appendWatchlist(existingWatchlist, jsonRepo);
-                return new ResponseEntity<>("Watchlist entry successfully added", HttpStatus.CREATED);
+                return new ResponseEntity<>(HttpStatus.CREATED);
             } catch (Exception e) {
                 log.error("Failed to append new watchlist entry to Json in watchlist service implementation", e.getMessage());
-                return new ResponseEntity<>("Failed to add new entry to watchlist", HttpStatus.INTERNAL_SERVER_ERROR);
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
 
     }
 
        @Override
-        public ResponseEntity<Void> create(List<Watchlist> createList) throws FailedToIOWatchlistException {
-            if(jsonRepo.isEmpty()){
+       public ResponseEntity<Void> create(List<Watchlist> createList) throws FailedToIOWatchlistException {
+        try {
+            File file = new File(jsonRepo);
+            if (!file.exists() || file.length() == 0) {
                 createNewList(createList);
-        } else{
-            List<Watchlist> existingWatchlist = getExistingWatchlist();
-             addWatchlistEntry(existingWatchlist);
-        }
-            return new ResponseEntity<>(HttpStatus.PROCESSING);
+                return new ResponseEntity<>(HttpStatus.CREATED);
+            } else {
+                List<Watchlist> existingWatchlist = getExistingWatchlist();
+                log.error("existing has been retrieved");
+                ResponseEntity<String> addEntryResponse = addWatchlistEntry(existingWatchlist);
+            
+                if (addEntryResponse.getStatusCode() == HttpStatus.CREATED) {
+                    return new ResponseEntity<>(HttpStatus.CREATED);
+                } else {
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
+        } catch (IOException e) {
+           log.error("IOException ocurred while trying to create watchlist", e.getMessage());
+           throw new FailedToIOWatchlistException();
+        } 
     }
 
     // handles the Read of the crud API, responsible for reading the data from JSON file, deserializing it into a readable format.

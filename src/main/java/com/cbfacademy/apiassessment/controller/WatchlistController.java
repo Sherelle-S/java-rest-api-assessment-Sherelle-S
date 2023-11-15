@@ -1,15 +1,11 @@
 package com.cbfacademy.apiassessment.controller;
 
-import java.io.FileNotFoundException;
 import java.util.List;
 
-import org.json.simple.JSONArray;
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cbfacademy.apiassessment.deserialize.DeserializeWatchlist;
 import com.cbfacademy.apiassessment.exceptions.FailedToIOWatchlistException;
 import com.cbfacademy.apiassessment.exceptions.JsonWatchlistParsingException;
 import com.cbfacademy.apiassessment.model.Watchlist;
@@ -62,7 +57,7 @@ public class WatchlistController {
 
     // @GetMapping("/working")This one will return sorted entries
     
-// mothod for making Post re
+// method for making Post re
     @PostMapping(value = "/addEntry", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity <Void> create(@RequestBody List<Watchlist> createList) throws FailedToIOWatchlistException{
         return service.create(createList);      

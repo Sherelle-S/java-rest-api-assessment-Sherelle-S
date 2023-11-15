@@ -36,7 +36,11 @@ public class AppendingWatchlist {
 
         try {
             List<Watchlist> existingWatchlist = readList.readExistingWatchlist(jsonRepo, mapper);
-            appendEntry.appendNewWatchlist(watchlist, existingWatchlist);
+            for(Watchlist entry : watchlist){
+                existingWatchlist.add(entry);
+            }
+            
+            // appendEntry.appendNewWatchlist(watchlist, existingWatchlist);
             updateAndWrite.writeUpdatedWatchlist(jsonRepo, mapper, existingWatchlist);
         } catch (JacksonException e) {
             log.error("Exception while trying to process json request with jackson", e.getMessage());

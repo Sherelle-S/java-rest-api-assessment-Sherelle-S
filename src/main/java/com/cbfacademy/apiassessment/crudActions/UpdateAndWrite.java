@@ -22,6 +22,7 @@ public class UpdateAndWrite {
 
     public void writeUpdatedWatchlist(String jsonRepo, ObjectMapper mapper, List<Watchlist> existingWatchlist) throws StreamWriteException, IOException {
         try {
+            log.info("existingWatchlist at updateAndWrite: {}", existingWatchlist);
             mapper.registerModule(new JavaTimeModule());
         mapper.writeValue(new File(jsonRepo), existingWatchlist);
         log.info("watchlist object has been update and written back to jsonRepo.");
