@@ -13,36 +13,40 @@ import com.cbfacademy.apiassessment.exceptions.JsonWatchlistParsingException;
 import com.cbfacademy.apiassessment.model.Watchlist;
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
-// Responsible to controlling the components that append a new entry to the json file
+// Responsible to controlling the components that append a new entry to the json file it reads old watchlist from json, converts it into a new watchlist object, appends an new entry and returns it back to the json file with new entry added.
 @Component 
-public class AppendNewEntry {
+public class RunAppendingActions {
 
-    private static final Logger log = LoggerFactory.getLogger(AppendNewEntry.class);
+    private static final Logger log = LoggerFactory.getLogger(RunAppendingActions.class);
 
-    private AddWatchlistItem appendEntry;
+    private AddWatchlistItem addEntry;
     private ObjectMapper mapper;
     private ReadExistingWatchlist readList;
     private UpdateAndWrite updateAndWrite;
 
     @Autowired
-       public AppendNewEntry(AddWatchlistItem appendEntry, ObjectMapper mapper, ReadExistingWatchlist readList,
+       public RunAppendingActions(AddWatchlistItem addEntry, ObjectMapper mapper, ReadExistingWatchlist readList,
             UpdateAndWrite updateAndWrite) {
-        this.appendEntry = appendEntry;
+        this.addEntry = addEntry;
         this.mapper = mapper;
-        this.readList = readList;
+        this.mapper.registerModule(new JavaTimeModule());        this.readList = readList;
         this.updateAndWrite = updateAndWrite;
     }
 
-    public void appendWatchlist(List<Watchlist> watchlist, String jsonRepo) throws IOException{
+    public void runAppendingActions(List<Watchlist> watchlist, String jsonRepo) throws IOException{
 
         try {
             List<Watchlist> existingWatchlist = readList.readExistingWatchlist(jsonRepo, mapper);
             for(Watchlist entry : watchlist){
+                if(!addEntry.containsEntry(existingWatchlist, entry.getUuid()))
+                log.isDebugEnabled();
                 existingWatchlist.add(entry);
+                log.info("uuid in run appending actions is " + entry.getUuid());
             }
             log.info("ExistingWatchlist in AppendWatchlist: {}", existingWatchlist);
-            // appendEntry.appendNewWatchlist(watchlist, existingWatchlist);
+            // addEntry.appendNewWatchlist(watchlist, existingWatchlist);
             updateAndWrite.writeUpdatedWatchlist(jsonRepo, mapper, existingWatchlist);
         } catch (JacksonException e) {
             log.error("Exception while trying to process json request with jackson", e.getMessage());
@@ -53,4 +57,3 @@ public class AppendNewEntry {
         }
     }
 }
-

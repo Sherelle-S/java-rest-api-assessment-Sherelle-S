@@ -41,5 +41,4 @@ public class WriteToJsonFile {
                 throw new InvalidInputException("IOException occurred while attempting to write new data to JSON.", e);
         }
     }
-
 }

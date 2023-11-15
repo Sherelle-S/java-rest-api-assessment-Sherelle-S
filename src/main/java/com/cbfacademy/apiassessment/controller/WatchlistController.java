@@ -10,11 +10,13 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cbfacademy.apiassessment.exceptions.FailedToIOWatchlistException;
+import com.cbfacademy.apiassessment.exceptions.ItemNotFoundException;
 import com.cbfacademy.apiassessment.exceptions.JsonWatchlistParsingException;
 import com.cbfacademy.apiassessment.model.Watchlist;
 import com.cbfacademy.apiassessment.serializingActions.SerializeWatchlist;
@@ -63,4 +65,15 @@ public class WatchlistController {
         return service.create(createList);      
         // create some logic that means if client already has stock of item of x name in watchlist, they cannot add another item of that stock they must instead update.
     }
+
+    // @PutMapping(value = "/Update{stockName}", produces = MediaType.APPLICATION_JSON_VALUE)
+    // public ResponseEntity <Void> updateListByName(@RequestBody List<Watchlist> updateList) throws ItemNotFoundException{
+    //     return service.updateName(updateList);
+    // }
+
+    // @PutMapping(value = "/update{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    // public ResponseEntity <Void> updateListById(@RequestBody List<Watchlist> updateList) throws ItemNotFoundException{
+    //     return service.updateId(updateList);
+    // }
 }
+    

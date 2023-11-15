@@ -24,14 +24,13 @@ public class UpdateAndWrite {
         try {
             log.info("existingWatchlist at updateAndWrite: {}", existingWatchlist);
             mapper.registerModule(new JavaTimeModule());
-        mapper.writeValue(new File(jsonRepo), existingWatchlist);
-        log.info("watchlist object has been update and written back to jsonRepo.");
+            mapper.writeValue(new File(jsonRepo), existingWatchlist);
+            log.info("watchlist object has been update and written back to jsonRepo.");
         } catch (StreamWriteException e) {
             log.error("Stream writer has thrown and exceptions while updating and writing new entry", e.getMessage());
         } catch (IOException e) {
             log.error("IOException triggered while updating and writing new watchlist.", e.getMessage());
             throw new FailedToIOWatchlistException("Failed to IO watchlist in write updatedWatchlist method.", e.getMessage());
         }
-        
     }
 }

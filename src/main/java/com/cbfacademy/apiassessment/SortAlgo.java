@@ -1,11 +1,14 @@
-// package com.cbfacademy.apiassessment;
+package com.cbfacademy.apiassessment;
 
-// public class SortAlgo {
-//     public void sortAlgo(){
+import com.cbfacademy.apiassessment.model.Watchlist;
+
+public class SortAlgo {
+
+//     public void sortAlgo(List<Watchlist> existingWatchlist){
 //         // this needs to be ammended so stockName is an array that is populated with all stockNames from all of the json inputs
-//     String[]stockName = new String[watchlist.size()];//number of items in the arrayList
-//     for(int i = 0; i < watchlist.length; i++){
-//         stockName[i] = watchlist[i];
+//     String[]stockName = new String[existingWatchlist.size()];//number of items in the arrayList
+//     for(int i = 0; i < existingWatchlist.length; i++){
+//         stockName[i] = existingWatchlist[i];
 //         // populate the array with a list of stockNames mapped from the json Objects.
 //     }
 //     // int[] array = {8, 2, 5, 3, 9, 4, 7, 6, 1};
@@ -13,9 +16,7 @@
 //         for(int i : stockName){
 //             System.out.println(i  + " ");
 //         }
-    
-    
-//     private static void quickSort(int[] stockName, int start, int end){
+//     private static void quickSort(String[] stockName, int start, int end){
 //         if(end <= start) return; //base case
 //         int pivot = partition(stockName, start, end);
 
@@ -25,7 +26,6 @@
 //      private static int partition(int[] stockName, int start, int end){
 //         int pivot = stockName[end];
 //         int i = start -1;
-
 //         for(int j = start; j <= end - 1; j++){
 //             if(stockName[j] < pivot) {
 //                 i++;
@@ -41,4 +41,4 @@
 //      return i;
 // }
 // }
-// }
+}

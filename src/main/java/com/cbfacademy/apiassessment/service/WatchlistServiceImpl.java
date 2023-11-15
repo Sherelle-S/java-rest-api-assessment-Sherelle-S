@@ -1,6 +1,7 @@
 package com.cbfacademy.apiassessment.service;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
@@ -11,34 +12,46 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.cbfacademy.apiassessment.appendingActions.AppendNewEntry;
+import com.cbfacademy.apiassessment.appendingActions.RunAppendingActions;
 import com.cbfacademy.apiassessment.controller.WatchlistController;
 import com.cbfacademy.apiassessment.deserializingActions.DeserializeWatchlist;
 import com.cbfacademy.apiassessment.exceptions.FailedToIOWatchlistException;
 import com.cbfacademy.apiassessment.exceptions.InvalidInputException;
+import com.cbfacademy.apiassessment.exceptions.ItemNotFoundException;
 import com.cbfacademy.apiassessment.model.Watchlist;
 import com.cbfacademy.apiassessment.serializingActions.SerializeWatchlist;
 import com.cbfacademy.apiassessment.serializingActions.WriteToJsonFile;
+import com.cbfacademy.apiassessment.updateItem.RunUpdatingActivities;
+import com.cbfacademy.apiassessment.updateItem.UpdateByName;
+import com.cbfacademy.apiassessment.updateItem.UuidViaName;
 
 @Service
 public class WatchlistServiceImpl implements WatchlistService {
 
     private static final Logger log = LoggerFactory.getLogger(WatchlistController.class);
-    private AppendNewEntry appendingListItem;
+    private RunAppendingActions runAppend;
     private DeserializeWatchlist deserializeList;
+    // private RunUpdatingActivities runUpdate;
     private SerializeWatchlist serializeList;
     private WriteToJsonFile writeFile;
+    // private UuidViaName uuidViaName;
 
-    @Autowired
-    public WatchlistServiceImpl(AppendNewEntry appendingListItem, DeserializeWatchlist deserializeList, SerializeWatchlist serializeList, WriteToJsonFile writeFile) {
-        this.appendingListItem = appendingListItem;
+    // @Autowired
+    // public WatchlistServiceImpl(RunAppendingActions runAppend, DeserializeWatchlist deserializeList, RunUpdatingActivities runUpdate, SerializeWatchlist serializeList, WriteToJsonFile writeFile, UuidViaName uuidViaName) {
+        @Autowired
+    public WatchlistServiceImpl(RunAppendingActions runAppend, DeserializeWatchlist deserializeList,  SerializeWatchlist serializeList, WriteToJsonFile writeFile) {
+        
+        this.runAppend = runAppend;
         this.deserializeList = deserializeList;
+        // this.runUpdate = runUpdate;
         this.serializeList = serializeList;
         this.writeFile = writeFile;
+        // this.uuidViaName = uuidViaName;
     }
 
     String jsonRepo = "src/main/resources/JsonWatchlist.json";
  
+    // gets an object of existing watchlsts
     private List<Watchlist> getExistingWatchlist() throws FailedToIOWatchlistException {
         try {
             return deserializeList.deserializeList(jsonRepo);
@@ -48,10 +61,9 @@ public class WatchlistServiceImpl implements WatchlistService {
         }
     }
 
-
     // Handles the create part of the crud request calls methods responsible for creating a watchlist, serializing and writing it to json.
-        public ResponseEntity<WriteToJsonFile> createNewList(List<Watchlist> createList) throws FailedToIOWatchlistException {
-           try {
+    public ResponseEntity<WriteToJsonFile> createNewList(List<Watchlist> createList) throws FailedToIOWatchlistException {
+        try {
         serializeList.serialize(createList);
             try {
                 writeFile.writeListToJson(createList, jsonRepo);
@@ -70,16 +82,17 @@ public class WatchlistServiceImpl implements WatchlistService {
     }
 
     public ResponseEntity<String> addWatchlistEntry(List<Watchlist> existingWatchlist){
-            try {
-                appendingListItem.appendWatchlist(existingWatchlist, jsonRepo);
-                return new ResponseEntity<>(HttpStatus.CREATED);
-            } catch (Exception e) {
-                log.error("Failed to append new watchlist entry to Json in watchlist service implementation", e.getMessage());
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+        try {
+            runAppend.runAppendingActions(existingWatchlist, jsonRepo);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } catch (Exception e) {
+            log.error("Failed to append new watchlist entry to Json in watchlist service implementation", e.getMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 
     }
 
+    // handles the create part of the CRUD request
        @Override
        public ResponseEntity<Void> create(List<Watchlist> createList) throws FailedToIOWatchlistException {
         try {
@@ -89,7 +102,7 @@ public class WatchlistServiceImpl implements WatchlistService {
                 return new ResponseEntity<>(HttpStatus.CREATED);
             } else {
                 List<Watchlist> existingWatchlist = getExistingWatchlist();
-                log.error("existing has been retrieved");
+                log.info("existing has been retrieved");
                 ResponseEntity<String> addEntryResponse = addWatchlistEntry(existingWatchlist);
             
                 if (addEntryResponse.getStatusCode() == HttpStatus.CREATED) {
@@ -116,4 +129,30 @@ public class WatchlistServiceImpl implements WatchlistService {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    
+
+
+    // @Override
+    // public ResponseEntity<Void> updateListByName() throws ItemNotFoundException {
+    //    try {
+    //     if(updateByName()){
+    //     uuidViaName.findUUID(getExistingWatchlist(), stockName);
+    //    }
+    //    try {
+    //     runUpdate.runUpdatingActivities(existingWatchlist, stockName, jsonRepo, null);
+    //     return new ResponseEntity<>(HttpStatus.CREATED);       } catch (Exception e) {
+    //     // TODO: handle exception
+    //    }
+    //    } catch (FileNotFoundException e) {
+    //     log.error("Could not find " + stockName + " in the existing watchlist.", e.getMessage());
+    //     throw new ItemNotFoundException(stockName + "is not currently registered in database.", e.getMessage());
+    //     return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    //    } catch (IOException e){
+    //     log.error("IOException triggered while attempting to pair stockname with UUID", e.getMessage());
+    //     throw new IOException(e.getMessage());
+    //     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    //    }
+        
+    // }
 }

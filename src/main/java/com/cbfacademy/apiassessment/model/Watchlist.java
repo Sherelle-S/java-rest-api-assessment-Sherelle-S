@@ -45,7 +45,12 @@ public class Watchlist {
     }
 
         public Watchlist(JSONObject json){
-        this.uuid = (UUID) json.get("uuid");
+            Object uuidObj = json.get("uuid");
+            if (uuidObj instanceof String) {
+                this.uuid = UUID.fromString((String) uuidObj);
+            } else {
+                this.uuid = UUID.randomUUID();
+            }
         this.stockName = (String) json.get("stockName");
         this.symbol = (String) json.get("symbol");
         this.currency = (String) json.get("currency");
@@ -83,10 +88,6 @@ public class Watchlist {
             this.uuid = uuid;
         }
     }
-
-    // public void generateUUID(){
-        
-    // }
 
     public String getStockName() {
         return stockName;
@@ -185,5 +186,8 @@ public class Watchlist {
     @Override
     public String toString() {
         return "Watchlist [uuid=" + uuid + ", stockName=" + stockName + ", symbol=" + symbol + "currency=" + currency + ", datePurchased=" + datePurchased + ", has=" + has + ", wants=" + wants + ", profit=" + profit + ", pointsChange=" + pointsChange + ", open=" + open + ", close=" + close + ", intradayHigh=" + intradayHigh + "]";
+    }
+
+    public void setOwned() {
     }
 }

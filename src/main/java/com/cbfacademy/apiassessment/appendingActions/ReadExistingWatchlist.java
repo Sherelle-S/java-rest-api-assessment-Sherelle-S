@@ -17,7 +17,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
-//  reads jsonRepo and reads the the data into a watchlist
+//  reads jsonRepo and reads the the data into a temporary existingWatchlist
 @Component
 public class ReadExistingWatchlist {
 
@@ -41,19 +41,3 @@ public class ReadExistingWatchlist {
         }
     }
 }
-
-
-//  try {
-//             mapper.registerModule(new JavaTimeModule());
-//             log.info("jsonRepo has been read");
-//             return mapper.readValue(new File(jsonRepo), new TypeReference<List<Watchlist>>() {});
-//         } catch (JsonProcessingException e) {
-//             log.error("Failed to read json file.", e.getMessage());
-//             throw new FailedToIOWatchlistException("Processing json request failed.", e.getMessage());
-//         } catch (FileNotFoundException e) {
-//             log.error("json File could not be found.", e.getMessage());
-//             throw new ItemNotFoundException("jsonRepo could not be located.", e.getMessage());
-//         }   catch (IOException e) {
-//             log.error("IOException ocurred while trying to read jsonRepo.", e.getMessage());
-//         }
-//         return null;

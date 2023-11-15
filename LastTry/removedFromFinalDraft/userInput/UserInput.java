@@ -14,24 +14,24 @@ public class UserInput {
     // protected Watchlist useDetails() throws InvalidInputException{
     //     CreateWatchlist newList = new CreateWatchlist();
         
-    //     newList.setStockName(null);
-    //     newList.setSymbol(null);
-    //     // newList.setStockName(createList.setStockName(null));
-    //     newList.setStockName();
-    //     newList.setSymbol();
-    //     newList.setOwned();
-    //     newList.setStatus();
-    //     newList.setCurrency();
-    //     LocalDate date = aseDate();
-    //     newList.setDatePurchased(date);
-    //     newList.setUnitsOwned();
-    //     newList.setProfit();
-    //     double pointsChange = newList.getClose() - newList.getOpen();
-    //     newList.setPointsChange();
-    //     newList.setOpen();
-    //     newList.setClose();
-    //     newList.setIntradayHigh();
-    //     userInteractions.closeScanner();
+        // newList.setStockName(null);
+        // newList.setSymbol(null);
+        // // newList.setStockName(createList.setStockName(null));
+        // newList.setStockName();
+        // newList.setSymbol();
+        // newList.setOwned();
+        // newList.setStatus();
+        // newList.setCurrency();
+        // LocalDate date = aseDate();
+        // newList.setDatePurchased(date);
+        // newList.setUnitsOwned();
+        // newList.setProfit();
+        // double pointsChange = newList.getClose() - newList.getOpen();
+        // newList.setPointsChange();
+        // newList.setOpen();
+        // newList.setClose();
+        // newList.setIntradayHigh();
+        // userInteractions.closeScanner();
 
     //     return newList;
     // }
