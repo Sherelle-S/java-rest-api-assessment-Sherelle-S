@@ -17,6 +17,7 @@ public class Configuration {
         public Jackson2ObjectMapperBuilder objectMapperBuilder() {
         Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();
         builder.modulesToInstall(new JavaTimeModule());
+        log.info("objectMapper builder has been triggered");
         return builder;
     }
 }

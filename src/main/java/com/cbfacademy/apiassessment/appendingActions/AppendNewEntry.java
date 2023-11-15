@@ -1,10 +1,11 @@
-package com.cbfacademy.apiassessment.crudActions;
+package com.cbfacademy.apiassessment.appendingActions;
 
 import java.io.IOException;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.cbfacademy.apiassessment.exceptions.FailedToIOWatchlistException;
@@ -15,16 +16,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 // Responsible to controlling the components that append a new entry to the json file
 @Component 
-public class AppendingWatchlist {
+public class AppendNewEntry {
 
-    private static final Logger log = LoggerFactory.getLogger(AppendingWatchlist.class);
+    private static final Logger log = LoggerFactory.getLogger(AppendNewEntry.class);
 
-    private AppendEntry appendEntry;
+    private AddWatchlistItem appendEntry;
     private ObjectMapper mapper;
     private ReadExistingWatchlist readList;
     private UpdateAndWrite updateAndWrite;
 
-       public AppendingWatchlist(AppendEntry appendEntry, ObjectMapper mapper, ReadExistingWatchlist readList,
+    @Autowired
+       public AppendNewEntry(AddWatchlistItem appendEntry, ObjectMapper mapper, ReadExistingWatchlist readList,
             UpdateAndWrite updateAndWrite) {
         this.appendEntry = appendEntry;
         this.mapper = mapper;
@@ -39,7 +41,7 @@ public class AppendingWatchlist {
             for(Watchlist entry : watchlist){
                 existingWatchlist.add(entry);
             }
-            
+            log.info("ExistingWatchlist in AppendWatchlist: {}", existingWatchlist);
             // appendEntry.appendNewWatchlist(watchlist, existingWatchlist);
             updateAndWrite.writeUpdatedWatchlist(jsonRepo, mapper, existingWatchlist);
         } catch (JacksonException e) {

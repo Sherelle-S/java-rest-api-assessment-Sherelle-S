@@ -13,8 +13,8 @@ import org.springframework.test.annotation.DirtiesContext;
 
 import com.cbfacademy.apiassessment.exceptions.FailedToIOWatchlistException;
 import com.cbfacademy.apiassessment.model.Watchlist;
+import com.cbfacademy.apiassessment.serializingActions.SerializeWatchlist;
 import com.cbfacademy.apiassessment.model.Watchlist;
-import com.cbfacademy.apiassessment.serialize.SerializeWatchlist;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -73,10 +73,10 @@ class AppTests {
 	// @Description("When exception is thrown exception triggers")
 	// public void FailedToIOWatchlistException() {
     // Exception exception = assertThrows(.class, () -> {
-    //     // someting that cannot be IO ;
+    //     // something that cannot be IO ;
     // });
 
-//     String expectedMessage = "Input/Output receieved sucessfully";
+//     String expectedMessage = "Input/Output received successfully";
 //     String actualMessage = exception.getMessage();
 
 //     assertTrue(actualMessage.contains(expectedMessage));
@@ -105,7 +105,7 @@ class AppTests {
 	@Description("/watchlist gives items with the same stockName a unique id")
 	public void testUUIDForSameStockName(){
 
-		// change this si that item witht he same stockname throws exception
+		// change this si that item with he same stockName throws exception
 
 		Watchlist sampleWatchlist3 = new Watchlist(null, "Gold", "XAU", true, "TestStatus", "GBP", LocalDate.now(), 100, 50.0, 2.0, 60.0, 62.0, 70.0);
 		Watchlist sampleWatchlist4 = new Watchlist(null, "Gold", "GC:CMX", false, "TestStatus", "EUR", LocalDate.now(), 100, 50.0, 2.0, 60.0, 62.0, 70.0);

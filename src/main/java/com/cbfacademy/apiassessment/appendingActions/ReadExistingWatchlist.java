@@ -1,4 +1,4 @@
-package com.cbfacademy.apiassessment.crudActions;
+package com.cbfacademy.apiassessment.appendingActions;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -29,13 +29,31 @@ public class ReadExistingWatchlist {
             mapper.registerModule(new JavaTimeModule());
             log.info("jsonRepo has been read");
             return mapper.readValue(new File(jsonRepo), new TypeReference<List<Watchlist>>() {});
-        } catch (FileNotFoundException e) {
-            log.error("json File could not be found.", e.getMessage());
-            throw new ItemNotFoundException("jsonRepo could not be located.", e.getMessage());
         } catch (JsonProcessingException e) {
             log.error("Failed to read json file.", e.getMessage());
             throw new FailedToIOWatchlistException("Processing json request failed.", e.getMessage());
+        } catch (FileNotFoundException e) {
+            log.error("json File could not be found.", e.getMessage());
+            throw new ItemNotFoundException("jsonRepo could not be located.", e.getMessage());
+        }   catch (IOException e) {
+            log.error("IOException ocurred while trying to read jsonRepo.", e.getMessage());
+            throw new IOException("Json repo could not be.");
         }
-       
     }
 }
+
+
+//  try {
+//             mapper.registerModule(new JavaTimeModule());
+//             log.info("jsonRepo has been read");
+//             return mapper.readValue(new File(jsonRepo), new TypeReference<List<Watchlist>>() {});
+//         } catch (JsonProcessingException e) {
+//             log.error("Failed to read json file.", e.getMessage());
+//             throw new FailedToIOWatchlistException("Processing json request failed.", e.getMessage());
+//         } catch (FileNotFoundException e) {
+//             log.error("json File could not be found.", e.getMessage());
+//             throw new ItemNotFoundException("jsonRepo could not be located.", e.getMessage());
+//         }   catch (IOException e) {
+//             log.error("IOException ocurred while trying to read jsonRepo.", e.getMessage());
+//         }
+//         return null;

@@ -1,41 +1,36 @@
 package com.cbfacademy.apiassessment.service;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
-import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.cbfacademy.apiassessment.appendingActions.AppendNewEntry;
 import com.cbfacademy.apiassessment.controller.WatchlistController;
-import com.cbfacademy.apiassessment.crudActions.AppendToWatchlist;
-import com.cbfacademy.apiassessment.crudActions.AppendingWatchlist;
-import com.cbfacademy.apiassessment.deserialize.DeserializeWatchlist;
+import com.cbfacademy.apiassessment.deserializingActions.DeserializeWatchlist;
 import com.cbfacademy.apiassessment.exceptions.FailedToIOWatchlistException;
 import com.cbfacademy.apiassessment.exceptions.InvalidInputException;
-import com.cbfacademy.apiassessment.exceptions.JsonWatchlistParsingException;
 import com.cbfacademy.apiassessment.model.Watchlist;
-import com.cbfacademy.apiassessment.serialize.SerializeWatchlist;
-import com.cbfacademy.apiassessment.serialize.WriteToJsonFile;
+import com.cbfacademy.apiassessment.serializingActions.SerializeWatchlist;
+import com.cbfacademy.apiassessment.serializingActions.WriteToJsonFile;
 
 @Service
 public class WatchlistServiceImpl implements WatchlistService {
 
     private static final Logger log = LoggerFactory.getLogger(WatchlistController.class);
-    private AppendingWatchlist appendingListItem;
+    private AppendNewEntry appendingListItem;
     private DeserializeWatchlist deserializeList;
     private SerializeWatchlist serializeList;
     private WriteToJsonFile writeFile;
 
     @Autowired
-    public WatchlistServiceImpl(AppendingWatchlist appendingListItem, DeserializeWatchlist deserializeList, SerializeWatchlist serializeList, WriteToJsonFile writeFile) {
+    public WatchlistServiceImpl(AppendNewEntry appendingListItem, DeserializeWatchlist deserializeList, SerializeWatchlist serializeList, WriteToJsonFile writeFile) {
         this.appendingListItem = appendingListItem;
         this.deserializeList = deserializeList;
         this.serializeList = serializeList;

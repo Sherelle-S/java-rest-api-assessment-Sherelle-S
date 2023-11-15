@@ -5,7 +5,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 import org.json.simple.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -31,7 +30,7 @@ public class Watchlist {
     }
 
     public Watchlist(UUID uuid, String stockName, String symbol, String currency, LocalDate datePurchased, Integer has, Integer wants, double profit, double pointsChange, double open, double close, double intradayHigh) {
-        this.uuid = UUID.randomUUID();
+        this.uuid = uuid == null ? UUID.randomUUID() : uuid;
         this.stockName = stockName;
         this.symbol = symbol;
         this.currency = currency;
@@ -78,16 +77,15 @@ public class Watchlist {
     }
 
     public void setUuid(UUID uuid) {
-        this.uuid = uuid;
-        // generateUUID();
+       if (uuid == null){
+            this.uuid = UUID.randomUUID();
+        } else{
+            this.uuid = uuid;
+        }
     }
 
     // public void generateUUID(){
-    //     if (uuid == null){
-    //         this.uuid 
-    //     } else{
-    //         this.uuid = uuid;
-    //     }
+        
     // }
 
     public String getStockName() {

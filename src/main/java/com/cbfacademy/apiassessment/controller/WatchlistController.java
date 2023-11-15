@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cbfacademy.apiassessment.exceptions.FailedToIOWatchlistException;
 import com.cbfacademy.apiassessment.exceptions.JsonWatchlistParsingException;
 import com.cbfacademy.apiassessment.model.Watchlist;
-import com.cbfacademy.apiassessment.serialize.SerializeWatchlist;
-import com.cbfacademy.apiassessment.serialize.WriteToJsonFile;
+import com.cbfacademy.apiassessment.serializingActions.SerializeWatchlist;
+import com.cbfacademy.apiassessment.serializingActions.WriteToJsonFile;
 import com.cbfacademy.apiassessment.service.WatchlistService;
 import com.cbfacademy.apiassessment.service.WatchlistServiceImpl;
 
