@@ -30,6 +30,8 @@ public class AddWatchlistItem {
             }
 
             if(!entryExists){
+                UUID entryUUID = UUID.randomUUID();
+                newEntry.setUUID(entryUUID);
                 existingWatchlist.add(newEntry);
             }
         }

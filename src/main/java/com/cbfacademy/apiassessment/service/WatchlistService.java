@@ -17,6 +17,10 @@ public interface WatchlistService {
 
     ResponseEntity<List<Watchlist>> readWatchlist() throws JsonWatchlistParsingException, ParseException;
 
-    // ResponseEntity <Void> updateListByName() throws ItemNotFoundException;
+    ResponseEntity <Void> updateListByName() throws ItemNotFoundException;
+
+    ResponseEntity <Void> updateListByID() throws ItemNotFoundException;
+
+    ResponseEntity <Void> DeleteListById(List<Watchlist> newList) throws ItemNotFoundException;
 
 } 
