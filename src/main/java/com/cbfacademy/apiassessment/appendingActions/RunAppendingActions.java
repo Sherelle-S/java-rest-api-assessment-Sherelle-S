@@ -31,22 +31,15 @@ public class RunAppendingActions {
             UpdateAndWrite updateAndWrite) {
         this.addEntry = addEntry;
         this.mapper = mapper;
-        this.mapper.registerModule(new JavaTimeModule());        this.readList = readList;
+        this.mapper = mapper.registerModule(new JavaTimeModule());
+        this.readList = readList;
         this.updateAndWrite = updateAndWrite;
     }
 
     public void runAppendingActions(List<Watchlist> watchlist, String jsonRepo) throws IOException{
-
         try {
             List<Watchlist> existingWatchlist = readList.readExistingWatchlist(jsonRepo, mapper);
-            for(Watchlist entry : watchlist){
-                if(!addEntry.containsEntry(existingWatchlist, entry.getUuid()))
-                log.isDebugEnabled();
-                existingWatchlist.add(entry);
-                log.info("uuid in run appending actions is " + entry.getUuid());
-            }
-            log.info("ExistingWatchlist in AppendWatchlist: {}", existingWatchlist);
-            // addEntry.appendNewWatchlist(watchlist, existingWatchlist);
+            addEntry.appendToWatchlist(watchlist, existingWatchlist);
             updateAndWrite.writeUpdatedWatchlist(jsonRepo, mapper, existingWatchlist);
         } catch (JacksonException e) {
             log.error("Exception while trying to process json request with jackson", e.getMessage());
@@ -57,3 +50,25 @@ public class RunAppendingActions {
         }
     }
 }
+//    public void runAppendingActions(List<Watchlist> watchlist, String jsonRepo) throws IOException{
+
+    //     try {
+    //         List<Watchlist> existingWatchlist = readList.readExistingWatchlist(jsonRepo, mapper);
+    //         for(Watchlist entry : watchlist){
+    //             if(!addEntry.containsEntry(existingWatchlist, entry.getUuid()))
+    //             log.isDebugEnabled();
+    //             existingWatchlist.add(entry);
+    //             log.info("uuid in run appending actions is " + entry.getUuid());
+    //         }
+    //         log.info("ExistingWatchlist in AppendWatchlist: {}", existingWatchlist);
+    //         // addEntry.appendNewWatchlist(watchlist, existingWatchlist);
+    //         addEntry.appendToWatchlist(watchlist, existingWatchlist);
+    //         updateAndWrite.writeUpdatedWatchlist(jsonRepo, mapper, existingWatchlist);
+    //     } catch (JacksonException e) {
+    //         log.error("Exception while trying to process json request with jackson", e.getMessage());
+    //         throw new JsonWatchlistParsingException("Exception ocurred while trying to parse json file.", e.getMessage());
+    //     } catch (IOException e) {
+    //         log.error("Exception occurred while running Appending components to watchlist");
+    //         throw new FailedToIOWatchlistException("IOException ocurred while running appendWatchlist method.", e.getMessage());
+    //     }
+    // }

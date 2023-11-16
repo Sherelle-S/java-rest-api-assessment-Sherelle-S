@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @Component
 public class Watchlist {
 
+    // private GenerateUUID generateUUID;
     private UUID uuid;
     private String stockName;
     private String symbol;
@@ -30,7 +31,13 @@ public class Watchlist {
     }
 
     public Watchlist(UUID uuid, String stockName, String symbol, String currency, LocalDate datePurchased, Integer has, Integer wants, double profit, double pointsChange, double open, double close, double intradayHigh) {
-        this.uuid = uuid == null ? UUID.randomUUID() : uuid;
+        this.uuid = UUID.randomUUID(); //uuid == null ? UUID.randomUUID() : uuid;
+            
+        // if(uuid == null){
+        //     this.uuid = generateUUID("default");
+        // }else{
+        //     this.uuid = uuid;
+        // }
         this.stockName = stockName;
         this.symbol = symbol;
         this.currency = currency;
@@ -77,17 +84,27 @@ public class Watchlist {
         this.intradayHigh = intradayHigh;
     }
 
+    // public UUID generateUUID(String stockName){
+    //     int stockNameCount = generateUUID.getStockNameIncrement().getOrDefault(stockName, 0);
+    //     generateUUID.getStockNameIncrement().put(stockName, stockNameCount + 1);
+    //     return UUID.nameUUIDFromBytes((stockName + stockNameCount).getBytes());
+    // }
+
     public UUID getUuid() {
         return uuid;
     }
 
-    public void setUuid(UUID uuid) {
-       if (uuid == null){
-            this.uuid = UUID.randomUUID();
-        } else{
-            this.uuid = uuid;
-        }
+    public void setUUID(UUID uuid){
+        this.uuid = UUID.randomUUID();
     }
+
+    // public void setUuid(UUID uuid) {
+    //    if (uuid == null){
+    //         this.uuid = UUID.randomUUID();
+    //     } else{
+    //         this.uuid = uuid;
+    //     }
+    // }
 
     public String getStockName() {
         return stockName;
