@@ -1,4 +1,4 @@
-package com.cbfacademy.apiassessment.crudActions;
+package com.cbfacademy.apiassessment.crudActions.appendingActions.createEntry;
 
 import java.io.IOException;
 import java.util.List;
@@ -7,15 +7,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-
-import com.cbfacademy.apiassessment.crudActions.appendingActions.AddWatchlistItem;
-import com.cbfacademy.apiassessment.crudActions.appendingActions.ReadExistingWatchlist;
-import com.cbfacademy.apiassessment.crudActions.appendingActions.UpdateAndWrite;
-import com.cbfacademy.apiassessment.exceptions.FailedToIOWatchlistException;
-import com.cbfacademy.apiassessment.exceptions.JsonWatchlistParsingException;
+import com.cbfacademy.apiassessment.crudActions.appendingActions.read.ReadExistingWatchlist;
+import com.cbfacademy.apiassessment.crudActions.appendingActions.sharedCrudMethods.WriteToJsonFile;
 import com.cbfacademy.apiassessment.model.Watchlist;
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,26 +22,27 @@ public class RunCreatingActions {
 
     private static final Logger log = LoggerFactory.getLogger(RunCreatingActions.class);
 
+    @Autowired
     private AddWatchlistItem addEntry;
     private ObjectMapper mapper;
     private ReadExistingWatchlist readList;
-    private UpdateAndWrite updateAndWrite;
+    private WriteToJsonFile writeToJson;
 
-    @Autowired
+    
        public RunCreatingActions(AddWatchlistItem addEntry, ObjectMapper mapper, ReadExistingWatchlist readList,
-            UpdateAndWrite updateAndWrite) {
+            WriteToJsonFile writeToJson) {
         this.addEntry = addEntry;
         this.mapper = mapper;
         this.mapper = mapper.registerModule(new JavaTimeModule());
         this.readList = readList;
-        this.updateAndWrite = updateAndWrite;
+        this.writeToJson = writeToJson;
     }
 
-    public ResponseEntity<?> appendNewItems(@RequestBody List<Watchlist> watchlist, String jsonRepo) throws IOException{
+    public ResponseEntity<?> appendNewItems(List<Watchlist> watchlist, String jsonRepo) throws IOException{
         try {
             List<Watchlist> existingWatchlist = readList.readExistingWatchlist(jsonRepo, mapper);
             List<Watchlist> updatedWatchlist = addEntry.appendToWatchlist(watchlist, existingWatchlist);
-            updateAndWrite.writeUpdatedWatchlist(jsonRepo, mapper, updatedWatchlist);
+            writeToJson.writeToJson(jsonRepo, mapper, updatedWatchlist);
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (JacksonException e) {
             log.error("Exception while trying to process json request with jackson", e.getMessage());
@@ -71,7 +67,7 @@ public class RunCreatingActions {
     //         log.info("ExistingWatchlist in AppendWatchlist: {}", existingWatchlist);
     //         // addEntry.appendNewWatchlist(watchlist, existingWatchlist);
     //         addEntry.appendToWatchlist(watchlist, existingWatchlist);
-    //         updateAndWrite.writeUpdatedWatchlist(jsonRepo, mapper, existingWatchlist);
+    //         writeToJson.writeUpdatedWatchlist(jsonRepo, mapper, existingWatchlist);
     //     } catch (JacksonException e) {
     //         log.error("Exception while trying to process json request with jackson", e.getMessage());
     //         throw new JsonWatchlistParsingException("Exception ocurred while trying to parse json file.", e.getMessage());

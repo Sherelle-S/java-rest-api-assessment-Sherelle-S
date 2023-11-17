@@ -1,9 +1,8 @@
-package com.cbfacademy.apiassessment.crudActions.appendingActions;
+package com.cbfacademy.apiassessment.crudActions.appendingActions.read;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -31,7 +30,7 @@ public class ReadExistingWatchlist {
             log.info("jsonRepo has been read");
             
             var thing = mapper.readValue(new File(jsonRepo), new TypeReference<List<Watchlist>>() {});
-            log.info("Thing returned from read Existing list at updateAndWrite: {}", thing);
+            log.info("Thing returned from read Existing list at WriteToJson: {}", thing);
             return thing;
         } catch (JsonProcessingException e) {
             log.error("Failed to read json file.", e.getMessage());

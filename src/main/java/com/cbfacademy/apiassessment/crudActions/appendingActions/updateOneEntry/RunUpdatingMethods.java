@@ -1,0 +1,63 @@
+package com.cbfacademy.apiassessment.crudActions.appendingActions.updateOneEntry;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.UUID;
+
+import org.json.simple.parser.ParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
+
+import com.cbfacademy.apiassessment.crudActions.appendingActions.createEntry.AddWatchlistItem;
+import com.cbfacademy.apiassessment.crudActions.appendingActions.createEntry.RunCreatingActions;
+import com.cbfacademy.apiassessment.crudActions.appendingActions.read.ReadExistingWatchlist;
+import com.cbfacademy.apiassessment.crudActions.appendingActions.sharedCrudMethods.WriteToJsonFile;
+import com.cbfacademy.apiassessment.exceptions.ItemNotFoundException;
+import com.cbfacademy.apiassessment.model.Watchlist;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
+@Component
+public class RunUpdatingMethods {
+    
+    private static final Logger log = LoggerFactory.getLogger(RunCreatingActions.class);
+
+    @Autowired
+    private AddWatchlistItem addEntry;
+    private ObjectMapper mapper;
+    private ReadExistingWatchlist readList;
+    private WriteToJsonFile writeToJson;
+    private UpdateOneEntry updateOneEntry;
+
+    public RunUpdatingMethods(AddWatchlistItem addEntry, ObjectMapper mapper, ReadExistingWatchlist readList,
+            WriteToJsonFile writeToJson, UpdateOneEntry updateOneEntry) {
+        this.addEntry = addEntry;
+        this.mapper = mapper;
+        this.mapper = mapper.registerModule(new JavaTimeModule());
+        this.readList = readList;
+        this.writeToJson = writeToJson;
+        this.updateOneEntry = updateOneEntry;
+    }
+
+    public ResponseEntity<Void> runUpdatingMethods(List<Watchlist> watchlist, String jsonRepo, Watchlist newEntry, UUID uuid) throws ParseException{
+
+            try {
+                readList.readExistingWatchlist(jsonRepo, mapper);
+                updateOneEntry.updateOneViaUuid(watchlist, uuid, newEntry);
+                writeToJson.writeToJson(jsonRepo, mapper, watchlist);
+                log.info("Watchlist entry has successfully been updated.");
+                return new ResponseEntity<>(HttpStatus.CREATED);
+            } catch (ItemNotFoundException e) {
+                log.error("The item that you are looking for could not be located", e);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            } catch (IOException e ) {
+                log.error("An error has ocurred while trying to update watchlist with your request.", e);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        }
+
+}

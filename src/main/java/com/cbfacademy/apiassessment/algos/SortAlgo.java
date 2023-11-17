@@ -1,14 +1,14 @@
-// package com.cbfacademy.apiassessment;
+// // package com.cbfacademy.apiassessment;
 
-// import java.util.List;
+// // import java.util.List;
 
-// import org.springframework.stereotype.Component;
+// // import org.springframework.stereotype.Component;
 
-// import com.cbfacademy.apiassessment.model.Watchlist;
+// // import com.cbfacademy.apiassessment.model.Watchlist;
 
-// // we use this sorting algorythm to sort our retunred json data by name.
-// @Component
-// public class SortAlgo {
+// // // we use this sorting algorythm to sort our retunred json data by name.
+// // @Component
+// // public class SortAlgo {
 
 //         public List<Watchlist> sortAlgo(@RequestBody List<Watchlist> existingWatchlist){
 //             // this needs to be ammended so stockName is an array that is populated with all stockNames from all of the json inputs
