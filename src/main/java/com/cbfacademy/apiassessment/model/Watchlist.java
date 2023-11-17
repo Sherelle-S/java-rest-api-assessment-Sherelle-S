@@ -31,7 +31,7 @@ public class Watchlist {
     }
 
     public Watchlist(UUID uuid, String stockName, String symbol, String currency, LocalDate datePurchased, Integer has, Integer wants, double profit, double pointsChange, double open, double close, double intradayHigh) {
-        this.uuid = UUID.randomUUID(); //uuid == null ? UUID.randomUUID() : uuid;
+        this.uuid = uuid == null ? UUID.randomUUID() : uuid;//UUID.randomUUID();
             
         // if(uuid == null){
         //     this.uuid = generateUUID("default");

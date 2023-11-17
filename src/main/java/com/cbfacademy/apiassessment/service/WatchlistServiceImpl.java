@@ -98,6 +98,9 @@ public class WatchlistServiceImpl implements WatchlistService {
         try {
             File file = new File(jsonRepo);
             if (!file.exists() || file.length() == 0) {
+                if (!file.exists()) {
+                    file.createNewFile(); 
+                }
                 createNewList(createList);
                 return new ResponseEntity<>(HttpStatus.CREATED);
             } else {

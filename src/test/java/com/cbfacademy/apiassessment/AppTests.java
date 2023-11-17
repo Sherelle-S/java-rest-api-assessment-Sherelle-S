@@ -19,6 +19,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.File;
+import java.io.IOException;
+
 // import com.cbfacademy.apiassessment.Exceptions.InvalidInputException;
 // import com.cbfacademy.apiassessment.Exceptions.ItemNotFoundException;
 // import com.cbfacademy.apiassessment.model.Watchlist;
@@ -32,6 +35,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest(classes = App.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class AppTests {
@@ -40,6 +44,7 @@ class AppTests {
 	private int port;
 
 	private URL base;
+	private String jsonRepoPath = "src/main/resources/JsonWatchlist.json";
 
 	@Autowired
 	private TestRestTemplate restTemplate;
@@ -48,6 +53,30 @@ class AppTests {
 	public void setUp() throws Exception {
 		this.base = new URL("http://localhost:" + port + "/greeting");
 	}
+
+	@BeforeEach
+	public void setUpJson() {
+		File jsonFile = new File(jsonRepoPath);
+		if(jsonFile.exists()){
+			jsonFile.delete();
+		}
+	}
+
+	@Test
+	@Description("/create a jsonRepo file if one does not already exist")
+	public void createJsonRepoFileIfOneDoesNotAlreadyExist() throws IOException{
+		File file = new File(jsonRepoPath);
+            if (!file.exists()){
+				file.createNewFile();
+			}
+	}
+
+	@Test
+	@Description("/create a new entry in an empty json file")
+	public void createANewEntryInEmptyJsonRepo(){
+
+	}
+
 
 	@Test
 	@Description("Method formatWatchlist to json writes input to json String")
@@ -68,6 +97,9 @@ class AppTests {
 		}
 
 	}
+
+
+	
 
 	// @Test
 	// @Description("When exception is thrown exception triggers")

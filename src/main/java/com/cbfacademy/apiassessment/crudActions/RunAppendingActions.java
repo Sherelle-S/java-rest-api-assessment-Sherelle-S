@@ -39,8 +39,9 @@ public class RunAppendingActions {
     public void runAppendingActions(List<Watchlist> watchlist, String jsonRepo) throws IOException{
         try {
             List<Watchlist> existingWatchlist = readList.readExistingWatchlist(jsonRepo, mapper);
-            addEntry.appendToWatchlist(watchlist, existingWatchlist);
-            updateAndWrite.writeUpdatedWatchlist(jsonRepo, mapper, existingWatchlist);
+            List<Watchlist> updatedWatchlist = addEntry.appendToWatchlist(watchlist, existingWatchlist);
+            
+            updateAndWrite.writeUpdatedWatchlist(jsonRepo, mapper, updatedWatchlist);
         } catch (JacksonException e) {
             log.error("Exception while trying to process json request with jackson", e.getMessage());
             throw new JsonWatchlistParsingException("Exception ocurred while trying to parse json file.", e.getMessage());
