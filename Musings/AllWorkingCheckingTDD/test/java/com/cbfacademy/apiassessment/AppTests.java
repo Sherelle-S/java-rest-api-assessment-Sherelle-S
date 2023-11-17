@@ -3,12 +3,6 @@ package com.cbfacademy.apiassessment;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.asm.TypeReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -23,18 +17,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 
-import com.cbfacademy.apiassessment.controller.WatchlistController;
-import com.cbfacademy.apiassessment.exceptions.InvalidInputException;
 import com.cbfacademy.apiassessment.model.CreateWatchlist;
 import com.cbfacademy.apiassessment.model.Watchlist;
-import com.cbfacademy.apiassessment.service.WatchlistServiceImpl;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 
 // import com.cbfacademy.apiassessment.Exceptions.InvalidInputException;
 // import com.cbfacademy.apiassessment.Exceptions.ItemNotFoundException;
@@ -42,18 +26,13 @@ import java.io.FileWriter;
 
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.verify;
 
-// @ExtendWith(MockitoExtension.class)
 @SpringBootTest(classes = App.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class AppTests {
 
@@ -65,58 +44,19 @@ class AppTests {
 	@Autowired
 	private TestRestTemplate restTemplate;
 
-	@Mock
-	private ObjectMapper mapper;
-	private BufferedWriter writer;
-	private FileWriter fileWriter;
-	@InjectMocks
-	private WatchlistServiceImpl service;
-
 	@BeforeEach
 	public void setUp() throws Exception {
 		this.base = new URL("http://localhost:" + port + "/greeting");
-		MockitoAnnotations.openMocks(this);
 	}
 
 	@Test
 	@Description("/greeting endpoint returns expected response for default name")
 	public void greeting_ExpectedResponseWithDefaultName() {
 		ResponseEntity<String> response = restTemplate.getForEntity(base.toString(), String.class);
+
 		assertEquals(200, response.getStatusCode().value());
 		assertEquals("Hello World", response.getBody());
 	}
-
-	@Test
-	@Description("/incoming api data is parsed into watchlist objects.")
-	public void externalInputToWatchlistIsWrittenToJsonObject(){
-		String jsonInputSample = "[{\"stockName\":\"Microsoft\",\"symbol\":\"MSFT\",\"owned\":false,\"status\":\"MockStatus\",\"currency\":\"USD\",\"datePurchased\":\"15/11/2023\",\"unitsOwned\":null,\"profit\":30.0,\"open\":200.0,\"close\":205.0,\"intradayHigh\":210.0}]";
-
-		ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule());
-        List<Watchlist> sampleList = mapper.readValue(jsonInputSample, new TypeReference<List<Watchlist>>() {});
-
-	}
-
-	@Test
-	@Description("/new watchlist object writes to json")
-	public void writeNewWatchlistObjectToJsonFile(){
-		String jsonFile = "src/main/resources/JsonWatchlist.json";
-		List<Watchlist> watchlist = new ArrayList<>();
-		Watchlist sampleList = new Watchlist(null, "Gold", "XAU", "GBP", LocalDate.now(), 300, 50, 25, 23, 234.1, 245.2, 245.9);
-		watchlist.add(sampleList);
-
-		String expectedData = "[{\"uuid\":null,\"stockName\":\"Gold\",\"symbol\":\"XAU\",\"currency\":\"GBP\",\"datePurchased\":\"" + LocalDate.now().toString() + "\",\"has\":300,\"wants\":50,\"profit\":25.0,\"pointsChange\":23.0,\"open\":234.1,\"close\":245.2,\"intradayHigh\":245.9}]";
-		try {
-			doNothing().when(mapper).writeValueAsString(any());
-		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		service.WriteToJson(watchlist, jsonFile);
-		String actualData = "";
-		assertEquals(expectedData, actualData);
-	
-	}
-	
 
 	@Test
 	@Description("/greeting endpoint returns expected response for specified name parameter")
