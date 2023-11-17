@@ -1,0 +1,290 @@
+Here are a list of things that i will need to do
+
+
+fix test issues, fix ui. 
+refactor code again again.
+make sure controller and app class are working again.
+
+make new classes and seperate out concerns
+- database
+- user input
+- http requests
+- data entry
+
+revert to how it was using mongo in service layer get post to JSON put to JSON get to JSON delete to JSON. then fo the same writing the json files to mongoDB
+
+choose topic
+decide on the architecture.
+    Java base, Im thinking Spring Boot with a mongodb database. though it would be advantageous to use postgres to be able to say I have experience.
+choose database to connect to
+I will be connecting to mongoDB it is lightweight, easy to connect to and i have prior knowledge of it. from previous works
+create readme.md
+
+HTTP Method  URL Path              Status Code     Description
+GET          /ShowWatchList        200(OK)         Get all items on watchlist
+GET          /ShowWatchList{id}    200(OK)         Get single on watchlist
+POST         /ShowWatchList        201(CREATED)    Create a new item on watchlist
+PUT          /ShowWatchList{id}    200(OK)         Update existing item
+DELETE       /ShowWatchList{id}    200(OK)         Delete employee by ID
+
+HTTP NOT_FOUND exception to 404
+
+
+Tobyn 17/10/2023
+https://www.investopedia.com/ask/answers/difference-between-options-and-futures/
+
+[14:12] Young, Tobyn
+
+Options are a form of derivative financial instrument in which two parties contractually agree to transact an asset at a specified price before a future date. An option gives its owner the right to either buy or sell an asset at the exercise price but the owner is not obligated to exercise (buy or sell) the option.
+
+[14:13] Young, Tobyn
+
+Phase 1) Watchlist
+
+2) Options Pricing
+
+3) Basket Creation
+
+[14:18] Young, Tobyn
+
+https://algotrading101.com/learn/yahoo-finance-api-guide/
+
+[14:21] Young, Tobyn
+
+VOD.L, 98, 100
+
+BP.L, 98, 100
+
+ 
+
+[14:21] Young, Tobyn
+
+VOD, BP, III
+
+[14:21] Young, Tobyn
+
+each one starts at 100
+
+[14:22] Young, Tobyn
+
+Each ones starts at 98-102
+
+ 
+
+[14:22] Young, Tobyn
+
+every 20 seconds
+
+vod b = x (+/m Random) 1
+
+vod a = b = 4
+
+
+Config 
+
+VOD 98 
+
+BP 200 
+
+III 53
+
+ABC 123
+
+XYZ 65
+
+
+
+
+[14:05] Young, Tobyn
+
+https://www.investopedia.com/terms/e/etf.asp
+
+[14:06] Young, Tobyn
+
+https://www.ssga.com/us/en/intermediary/etfs/funds/spdr-sp-500-etf-trust-spy
+
+[14:11] Young, Tobyn
+
+https://www.investopedia.com/ask/answers/difference-between-options-and-futures/
+
+[14:12] Young, Tobyn
+
+Options are a form of derivative financial instrument in which two parties contractually agree to transact an asset at a specified price before a future date. An option gives its owner the right to either buy or sell an asset at the exercise price but the owner is not obligated to exercise (buy or sell) the option.
+
+[14:13] Young, Tobyn
+
+Phase 1) Watchlist
+
+2) Options Pricing
+
+3) Basket Creation
+
+[14:18] Young, Tobyn
+
+https://algotrading101.com/learn/yahoo-finance-api-guide/
+
+[14:21] Young, Tobyn
+
+VOD.L, 98, 100
+
+BP.L, 98, 100
+
+ 
+
+[14:21] Young, Tobyn
+
+VOD, BP, III
+
+[14:21] Young, Tobyn
+
+each one starts at 100
+
+[14:22] Young, Tobyn
+
+Each ones starts at 98-102
+
+ 
+
+[14:22] Young, Tobyn
+
+every 20 seconds
+
+vod b = x (+/m Random) 1
+
+vod a = b = 4
+
+[14:24] Young, Tobyn
+
+Config 
+
+VOD 98 
+
+BP 200 
+
+III 53
+
+ABC 123
+
+XYZ 65
+
+[14:25] Young, Tobyn
+
+https://datahub.io/core/s-and-p-500-companies
+
+[14:27] Young, Tobyn
+
+A, B, C, D, E, F
+
+[14:27] Young, Tobyn
+
+A = 20%
+
+[14:27] Young, Tobyn
+
+B= 10%
+
+C= 10% 
+
+D=25%
+
+[14:27] Young, Tobyn
+
+E = 20%
+
+F = 15%
+
+
+
+
+[14:12] Young, Tobyn
+
+Options are a form of derivative financial instrument in which two parties contractually agree to transact an asset at a specified price before a future date. An option gives its owner the right to either buy or sell an asset at the exercise price but the owner is not obligated to exercise (buy or sell) the option.
+
+[14:13] Young, Tobyn
+
+Phase 1) Watchlist
+
+2) Options Pricing
+
+3) Basket Creation
+
+[14:18] Young, Tobyn
+
+https://algotrading101.com/learn/yahoo-finance-api-guide/
+
+[14:21] Young, Tobyn
+
+VOD.L, 98, 100
+
+BP.L, 98, 100
+
+ 
+
+[14:21] Young, Tobyn
+
+VOD, BP, III
+
+[14:21] Young, Tobyn
+
+each one starts at 100
+
+[14:22] Young, Tobyn
+
+Each ones starts at 98-102
+
+ 
+
+[14:22] Young, Tobyn
+
+every 20 seconds
+
+vod b = x (+/m Random) 1
+
+vod a = b = 4
+
+[14:24] Young, Tobyn
+
+Config 
+
+VOD 98 
+
+BP 200 
+
+III 53
+
+ABC 123
+
+XYZ 65
+
+[14:25] Young, Tobyn
+
+https://datahub.io/core/s-and-p-500-companies
+
+[14:27] Young, Tobyn
+
+A, B, C, D, E, F
+
+[14:27] Young, Tobyn
+
+A = 20%
+
+[14:27] Young, Tobyn
+
+B= 10%
+
+C= 10% 
+
+D=25%
+
+[14:27] Young, Tobyn
+
+E = 20%
+
+F = 15%
+
+
+create your api
+make a file for api
+put everything api related in there
+create constructor
+what can be inherited?

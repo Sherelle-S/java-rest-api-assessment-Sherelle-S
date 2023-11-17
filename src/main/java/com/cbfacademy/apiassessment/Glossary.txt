@@ -1,0 +1,11 @@
+@Autowired marks constructor field getters or setters as autowired by spring
+
+@Component indicates a class is a spring Component and is detected and registered as a spring bean when component scanning takes place
+@JsonProperty helps control json property names during serialization
+@PathVariable like a template literal in js, it takes the variable it is attached to and sends it to its representation in the curly braces i.e when GetMapping ("/{id}/{name}/") public methodName(@PathVariable Long id, String name)
+
+@ResponseBody tells java the controller the object returned should be serialized to json
+@RequestBody tells java maps to HttpRequestBody automatically allowing deserialization
+
+ObjectMapper.activateDefaultTyping(PolymorphicTypeValidator ptv, ObjectMapper.DefaultTyping applicability): allows the caller to specify the validator and applicability, while using WRAPPER_ARRAY as the default value for includeAs
+ObjectMapper.activateDefaultTyping(PolymorphicTypeValidator ptv): allows the caller to specify the validator while using OBJECT_AND_NON_CONCRETE as the default value for applicability and WRAPPER_ARRAY as the default value for includeAs

@@ -1,5 +1,8 @@
 package com.cbfacademy.apiassessment;
 
+import java.util.Scanner;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,19 +11,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-// import com.cbfacademy.apiassessment.WatchlistRepository;
-// annotations tell spring this is the class where everything will run from, its also a controller with the ability to map requests, componentScan let spring know this is a base class, everything should be viable from here.
+import com.cbfacademy.apiassessment.Mongo.MongoWatchlistRepository;
+import com.cbfacademy.apiassessment.model.Watchlist;
+
 @SpringBootApplication
 @RestController
 @ComponentScan(basePackages = "com.cbfacademy.apiassessment")
 public class App implements CommandLineRunner{
 
-	// private WatchlistRepository watchlistRepository;
+	 private MongoWatchlistRepository repository;
 
-	//  @Autowired
-	//  public App (WatchlistRepository watchlistRepository){
-	// 	this.watchlistRepository = watchlistRepository;
-	//  }
+	 @Autowired
+	 public App (MongoWatchlistRepository repository){
+		this.repository = repository;
+	 }
 	public static void main(String[] args) {
 		SpringApplication.run(App.class, args);
 	}
@@ -33,18 +37,17 @@ public class App implements CommandLineRunner{
 
 	@Override
     public void run(String... args) throws Exception {
+
+		UserInput userInput = new UserInput(new UserInteractions(new Scanner(System.in)));
+
+		Watchlist watchlist = userInput.useDetails();
+
+		System.out.println("User input collected: " + watchlist);
+
+		// so do you want to save your answers WatchlistRepository.save(watchlist);
+		// ?may be a good time to serialize your data
 		
-
-		// UserInput userInput = new UserInput(new UserInteractions(new Scanner(System.in)));
-
-		// Watchlist watchlist = userInput.useDetails();
-
-		// System.out.println("User input collected: " + watchlist);
-
-		// // so do you want to save your answers WatchlistRepository.save(watchlist);
-		// // ?may be a good time to serialize your data
-		
-		// repository.deleteAll();
+		repository.deleteAll();
 
 		
 

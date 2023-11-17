@@ -60,3 +60,7 @@ build/
 
 ### macOS ###
 .DS_Store
+
+config.properties
+application.yml
+application.properties
