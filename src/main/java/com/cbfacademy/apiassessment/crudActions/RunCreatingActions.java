@@ -42,7 +42,7 @@ public class RunCreatingActions {
         this.updateAndWrite = updateAndWrite;
     }
 
-    public ResponseEntity<?> appendNewItems(List<Watchlist> watchlist, String jsonRepo) throws IOException{
+    public ResponseEntity<?> appendNewItems(@RequestBody List<Watchlist> watchlist, String jsonRepo) throws IOException{
         try {
             List<Watchlist> existingWatchlist = readList.readExistingWatchlist(jsonRepo, mapper);
             List<Watchlist> updatedWatchlist = addEntry.appendToWatchlist(watchlist, existingWatchlist);

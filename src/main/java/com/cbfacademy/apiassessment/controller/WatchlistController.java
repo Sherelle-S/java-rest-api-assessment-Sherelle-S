@@ -1,6 +1,7 @@
 package com.cbfacademy.apiassessment.controller;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -51,6 +53,12 @@ public class WatchlistController {
     public ResponseEntity <Void> create(@RequestBody List<Watchlist> watchlist) throws FailedToIOWatchlistException{
         return service.create(watchlist);      
         // create some logic that means if client already has stock of item of x name in watchlist, they cannot add another item of that stock they must instead update.
+    }
+
+    @DeleteMapping(value = "/deleteEntry/{uuid}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Watchlist>> deleteWatchlistEntry(@PathVariableList<Watchlist> watchlist,@PathVariable UUID uuid){
+        return service.deleteWatchlistEntry(watchlist, uuid);
+
     }
 
 }

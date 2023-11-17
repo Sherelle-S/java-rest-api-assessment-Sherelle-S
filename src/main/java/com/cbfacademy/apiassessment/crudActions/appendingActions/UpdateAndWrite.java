@@ -34,7 +34,7 @@ public class UpdateAndWrite {
             return new ResponseEntity<>("StreamWriting exception caused while writing to json file.", HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (IOException e) {
             log.error("IOException triggered while updating and writing new watchlist.", e.getMessage());
-            return new ResponseEntity<>("IOExeption caused while writing to json file.", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("IOException caused while writing to json file.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

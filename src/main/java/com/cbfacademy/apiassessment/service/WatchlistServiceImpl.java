@@ -7,19 +7,23 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.cbfacademy.apiassessment.controller.WatchlistController;
 import com.cbfacademy.apiassessment.crudActions.CreateFirstItem;
 import com.cbfacademy.apiassessment.crudActions.RunCreatingActions;
+import com.cbfacademy.apiassessment.crudActions.RunDeleteEntry;
 import com.cbfacademy.apiassessment.crudActions.RunGetWatchlist;
 import com.cbfacademy.apiassessment.crudActions.appendingActions.ReadExistingWatchlist;
 import com.cbfacademy.apiassessment.exceptions.FailedToIOWatchlistException;
@@ -41,6 +45,7 @@ public class WatchlistServiceImpl implements WatchlistService {
     String jsonRepo = "JsonWatchlist.json";
     @Autowired
     private CreateFirstItem createFirstItem;
+    private RunDeleteEntry deleteEntry;
     private ObjectMapper mapper;
     private ReadExistingWatchlist readJsonWatchlist;
     private RunCreatingActions runCreateItem;
@@ -48,12 +53,13 @@ public class WatchlistServiceImpl implements WatchlistService {
 
 
     public WatchlistServiceImpl(CreateFirstItem createFirstItem, ObjectMapper mapper,
-            ReadExistingWatchlist readJsonWatchlist, RunCreatingActions runCreateItem, RunGetWatchlist getWatchlist) {
+            ReadExistingWatchlist readJsonWatchlist, RunCreatingActions runCreateItem, RunDeleteEntry deleteEntry, RunGetWatchlist getWatchlist) {
         this.createFirstItem = createFirstItem;
         this.mapper = mapper;
         this.mapper = mapper.registerModule(new JavaTimeModule());
         this.readJsonWatchlist = readJsonWatchlist;
         this.runCreateItem = runCreateItem;
+        this.deleteEntry = deleteEntry;
         this.getWatchlist = getWatchlist;
     }
 
@@ -63,7 +69,7 @@ public class WatchlistServiceImpl implements WatchlistService {
  
 
     @Override
-    public ResponseEntity<Void> create(List<Watchlist> watchlist) throws FailedToIOWatchlistException {
+    public ResponseEntity<Void> create(List<Watchlist> createList) throws FailedToIOWatchlistException {
         List<Watchlist> existingWatchlist = new ArrayList<>();
         try {
             File file = new File(jsonRepo);
@@ -100,6 +106,25 @@ public class WatchlistServiceImpl implements WatchlistService {
             return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
         }
     }
+
+
+
+    @Override
+    public ResponseEntity<List<Watchlist>> deleteWatchlistEntry(@RequestBody List<Watchlist> watchlist, UUID uuid) {
+        try {
+            
+            deleteEntry.runDeleteItem(watchlist, jsonRepo, mapper, uuid);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (ItemNotFoundException e) {
+            log.error("Unable to locate requested item", e.getMessage());
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (IOException e) {
+            log.error("IOException has taken place in watchlist Service implementation while attempting to run method deleteEntry", e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        
+    }
+
 }
 
 

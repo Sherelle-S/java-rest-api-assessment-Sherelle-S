@@ -15,7 +15,7 @@ public class AddWatchlistItem {
 
     private static final Logger log = LoggerFactory.getLogger(AddWatchlistItem.class);
 // we iterate through each item of our watchlist checking if we do not already have that uuid we add it to existingWatchlist
-    public List<Watchlist> appendToWatchlist(List<Watchlist> watchlist, List<Watchlist> existingWatchlist) {
+    public List<Watchlist> appendToWatchlist(@RequestBody List<Watchlist> watchlist, List<Watchlist> existingWatchlist) {
         log.info("watchlist when append to watchlist begins existing uuid: {}", watchlist);
         for(Watchlist newEntry : watchlist) {
             UUID newEntryUuid = newEntry.getUuid();

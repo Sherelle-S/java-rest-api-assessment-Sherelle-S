@@ -34,7 +34,7 @@ public class CreateFirstItem {
         this.updateAndWrite = updateAndWrite;
     }
 
-    public void CreateFirstEntry(List<Watchlist> watchlist, String jsonRepo) throws IOException{
+    public void CreateFirstEntry(@RequestBody List<Watchlist> watchlist, String jsonRepo) throws IOException{
         try {
             List<Watchlist> newWatchlistEntry = new ArrayList<>();
             newWatchlistEntry = addWatchlistItem.appendToWatchlist(watchlist, newWatchlistEntry);
