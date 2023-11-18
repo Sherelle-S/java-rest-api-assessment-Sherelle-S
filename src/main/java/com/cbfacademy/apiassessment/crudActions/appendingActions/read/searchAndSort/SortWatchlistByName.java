@@ -1,4 +1,4 @@
-package com.cbfacademy.apiassessment.crudActions.appendingActions.read.sortWatchlistByName;
+package com.cbfacademy.apiassessment.crudActions.appendingActions.read.searchAndSort;
 
 import java.io.IOException;
 import java.util.List;

@@ -20,7 +20,8 @@ import com.cbfacademy.apiassessment.crudActions.appendingActions.createEntry.Run
 import com.cbfacademy.apiassessment.crudActions.appendingActions.deleteEntries.RunDeleteEntry;
 import com.cbfacademy.apiassessment.crudActions.appendingActions.read.ReadExistingWatchlist;
 import com.cbfacademy.apiassessment.crudActions.appendingActions.read.RunGetWatchlist;
-import com.cbfacademy.apiassessment.crudActions.appendingActions.read.sortWatchlistByName.SortWatchlistByName;
+import com.cbfacademy.apiassessment.crudActions.appendingActions.read.searchAndSort.BinarySearch;
+import com.cbfacademy.apiassessment.crudActions.appendingActions.read.searchAndSort.SortWatchlistByName;
 import com.cbfacademy.apiassessment.crudActions.appendingActions.updateOneEntry.RunUpdatingMethods;
 import com.cbfacademy.apiassessment.crudActions.appendingActions.updateOneEntry.UpdatePutEntry;
 import com.cbfacademy.apiassessment.exceptions.WatchlistDataAccessException;
@@ -38,16 +39,19 @@ public class WatchlistServiceImpl implements WatchlistService {
     String jsonRepo = "JsonWatchlist.json";
 
     @Autowired
+    private BinarySearch binarySearch;
     private CreateFirstItem createFirstItem;
-    private RunDeleteEntry deleteEntry;
     private ObjectMapper mapper;
-    private ReadExistingWatchlist readList;
     private RunCreatingActions runCreateItem;
+    private RunDeleteEntry deleteEntry;
+    private ReadExistingWatchlist readList;
     private RunUpdatingMethods runUpdatingMethods;
     private SortWatchlistByName sortByName;
+    
     // private UpdatePutEntry updateOneEntry;
 
-    public WatchlistServiceImpl(CreateFirstItem createFirstItem, RunDeleteEntry deleteEntry, ObjectMapper mapper, RunCreatingActions runCreateItem, RunUpdatingMethods runUpdatingMethods, SortWatchlistByName sortByName, ReadExistingWatchlist readList) {
+    public WatchlistServiceImpl(BinarySearch binarySearch, CreateFirstItem createFirstItem, RunDeleteEntry deleteEntry, ObjectMapper mapper, RunCreatingActions runCreateItem, RunUpdatingMethods runUpdatingMethods, SortWatchlistByName sortByName, ReadExistingWatchlist readList) {
+        this.binarySearch = binarySearch;
         this.createFirstItem = createFirstItem;
         this.deleteEntry = deleteEntry;
         this.mapper = mapper.registerModule(new JavaTimeModule());
@@ -67,7 +71,7 @@ public class WatchlistServiceImpl implements WatchlistService {
             List<Watchlist> currentWatchlist = readList.readExistingWatchlist(jsonRepo, mapper);
             return currentWatchlist;
         // } catch (WatchlistDataAccessException e) {
-        //     log.error("Watchlist data cannot be accessed, prroblem in watchlist service implementations", e);
+        //     log.error("Watchlist data cannot be accessed, prroblem in watchlist service implementations", e.getMessage());
         //     throw new IOException(e.getMessage());
             
         // }
@@ -111,6 +115,37 @@ public class WatchlistServiceImpl implements WatchlistService {
         }
     }
 
+    // logic for returning sorted watchlist
+    @Override
+    public ResponseEntity<List<Watchlist>> sortedWatchlist() throws WatchlistDataAccessException {
+            
+            try {
+                List<Watchlist> quickSortWatchlist = sortByName.sortedWatchlist(getCurrentWatchlist(), jsonRepo, mapper);
+                return ResponseEntity.ok(quickSortWatchlist);
+            } catch (IOException e) {
+                log.error("IOException while attempting to sort watchlist by name.", e.getMessage());
+                return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);            
+        }
+    }
+
+    @Override
+    public ResponseEntity<Watchlist> searchByName(String name) throws InvalidInputException{
+        try {
+            log.info("service impl name is" + name );
+            Watchlist searchResult = binarySearch.binarySearchWatchlist(getCurrentWatchlist(), name);
+            return  ResponseEntity.ok(searchResult);
+        } catch (ItemNotFoundException e) {
+            log.error(name + "Not found in existing watchlist", e.getMessage());
+            return ResponseEntity.notFound().build();
+        } catch (InvalidInputException e) {
+            log.error(name + "Is an invalid input", e.getMessage());
+            return ResponseEntity.noContent().build();
+        } catch (IOException e) {
+            log.error("Exception ocurred while accessing json data", e.getMessage());
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
     // returns logic for updating entries
     @Override
     public ResponseEntity<Void> updateEntry(UUID uuid, Watchlist newEntry) {
@@ -125,10 +160,10 @@ public class WatchlistServiceImpl implements WatchlistService {
             }
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (ItemNotFoundException e) {
-            log.error("Could not find item in watchlist with corresponding uuid in updateEntry method watchlist service implementation.", e);
+            log.error("Could not find item in watchlist with corresponding uuid in updateEntry method watchlist service implementation.", e.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (IOException e) {
-            log.error("IOException has been triggered while updating entry in watchlist service implementation.", e);
+            log.error("IOException has been triggered while updating entry in watchlist service implementation.", e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -140,7 +175,6 @@ public class WatchlistServiceImpl implements WatchlistService {
         log.info("delete watchlist has been called.");
         log.info("watchlist at deleteEntry in service {}", existingWatchlist);
         try {
-            
             deleteEntry.runDeleteItem(existingWatchlist, jsonRepo, mapper, uuid);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (InvalidInputException e) {
@@ -150,21 +184,8 @@ public class WatchlistServiceImpl implements WatchlistService {
             log.error("Unable to locate requested item", e.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (IOException e) {
-            log.error("IOException has taken place in watchlist Service implementation while attempting to run method deleteEntry", e);
+            log.error("IOException has taken place in watchlist Service implementation while attempting to run method deleteEntry", e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    // logic for returning sorted watchlist
-    @Override
-    public ResponseEntity<List<Watchlist>> sortedWatchlist() throws WatchlistDataAccessException {
-            
-            try {
-                List<Watchlist> quickSortWatchlist = sortByName.sortedWatchlist(getCurrentWatchlist(), jsonRepo, mapper);
-                return ResponseEntity.ok(quickSortWatchlist);
-            } catch (IOException e) {
-                log.error("IOException while attempting to sort watchlist by name.", e.getMessage());
-                return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);            
         }
     }
 }

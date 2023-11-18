@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cbfacademy.apiassessment.exceptions.InvalidInputException;
 import com.cbfacademy.apiassessment.exceptions.WatchlistDataAccessException;
 import com.cbfacademy.apiassessment.model.Watchlist;
 import com.cbfacademy.apiassessment.service.WatchlistService;
@@ -39,15 +40,23 @@ public class WatchlistController {
     }
 
     // shows all watchlist data 
-    @GetMapping("/showWatchlist")
+    @GetMapping(value = "/showWatchlist")
     public ResponseEntity<List<Watchlist>> readWatchlist() throws WatchlistDataAccessException, ParseException {
         return service.readWatchlist();
     }
 
     // returns watchlist data sorted by name
-    @GetMapping("/sortedWatchlist")
+    @GetMapping(value = "/sortedWatchlist")
     public ResponseEntity<List<Watchlist>> sortedWatchlist() throws WatchlistDataAccessException, ParseException {
         return service.sortedWatchlist();
+    }
+
+    //search watchlist by stockName
+    @GetMapping(value = "/searchName/{name}")
+    public ResponseEntity<Watchlist> searchByName(@PathVariable String name) throws InvalidInputException{
+        log.info("controller name is" + name );
+        return service.searchByName(name);
+
     }
 
     // Creates new watchlist item on route 

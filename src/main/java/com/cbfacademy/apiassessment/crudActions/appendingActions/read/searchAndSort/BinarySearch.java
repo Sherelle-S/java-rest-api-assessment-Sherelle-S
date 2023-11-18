@@ -1,6 +1,5 @@
-package com.cbfacademy.apiassessment.crudActions.appendingActions.read.SearchByName;
+package com.cbfacademy.apiassessment.crudActions.appendingActions.read.searchAndSort;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -10,11 +9,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
-import com.cbfacademy.apiassessment.crudActions.appendingActions.read.ReadExistingWatchlist;
-import com.cbfacademy.apiassessment.crudActions.appendingActions.read.sortWatchlistByName.QuicksortWatchlist;
-import com.cbfacademy.apiassessment.crudActions.appendingActions.read.sortWatchlistByName.SortWatchlistByName;
+import com.cbfacademy.apiassessment.exceptions.ItemNotFoundException;
 import com.cbfacademy.apiassessment.model.Watchlist;
 
+// uses binary search to find watchlist object by name.
 @Component
 public class BinarySearch {
 
@@ -27,47 +25,41 @@ public class BinarySearch {
             this.quicksortWatchlist = quicksortWatchlist;
         }
 
-    public ResponseEntity<String> binarySearchWatchlist(List<Watchlist> existingWatchlist, String stockName){
+    public Watchlist binarySearchWatchlist(List<Watchlist> existingWatchlist, String name){
         List<Watchlist> sortedWatchlist = quicksortWatchlist.sortAlgo(existingWatchlist);
 
-        // String stockName = stockName;
-        
-        // for (int i = 0; i < sortedWatchlist.size(); i++){
-        //     sortedWatchlist.get(i) = i;
-        // }
-
-        int index = binarySearch(sortedWatchlist, stockName);
+        int index = binarySearch(sortedWatchlist, name);
+        log.info("pre search name is" + name );
 
         if(index == -1){
-            log.info(stockName + " cannot be found it our watchlist.");
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            log.info(name + " cannot be found it our watchlist.");
+            throw new ItemNotFoundException(name + "Cannot be found in Watchlist");
         } else {
-            log.info(stockName + " found at " + index);
-            return new ResponseEntity<>("Stock found at index "+ index, HttpStatus.OK);
+            log.info(name + " found at " + index);
+            // return new ResponseEntity<>(sortedWatchlist.get(index), HttpStatus.OK);
+            return existingWatchlist.get(index);
         }
-
     }
 
-    private int binarySearch(List<Watchlist> sortedWatchlist, String stockName) {
+    private int binarySearch(List<Watchlist> sortedWatchlist, String name) {
+        log.info("Binary search operation is taking place");
         int start = 0;
         int end = sortedWatchlist.size() - 1;
+        String searchName = name.toLowerCase();
 
         while(start <= end) {
             int middle = start + (end - start) / 2;
-            int value = sortedWatchlist.get(middle);
-
-            if(value < stockName) {
+            String value = sortedWatchlist.get(middle).getStockName().toLowerCase();
+            int checkResult = value.compareTo(searchName);
+            if(checkResult < 0) {
                 start = middle + 1;
-            } else if(value > stockName){
+            } else if(checkResult > 0){
                 end = middle - 1;
             } else {
                 return middle;
             }
-
-    return -1;
         }
-
         return -1;
     }
-    
+
 }

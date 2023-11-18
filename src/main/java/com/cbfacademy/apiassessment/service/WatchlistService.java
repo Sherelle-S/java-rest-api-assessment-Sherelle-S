@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
+
+import com.cbfacademy.apiassessment.exceptions.InvalidInputException;
 import com.cbfacademy.apiassessment.exceptions.WatchlistDataAccessException;
 import com.cbfacademy.apiassessment.model.Watchlist;
 
@@ -16,6 +18,8 @@ public interface WatchlistService {
     ResponseEntity<List<Watchlist>> readWatchlist() throws WatchlistDataAccessException;
 
     ResponseEntity<List<Watchlist>> sortedWatchlist() throws WatchlistDataAccessException;
+
+    public ResponseEntity<Watchlist> searchByName(String name) throws InvalidInputException;
 
     ResponseEntity<Void> updateEntry(UUID uuid, Watchlist newEntry);
 
