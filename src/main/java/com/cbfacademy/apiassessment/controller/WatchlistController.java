@@ -30,6 +30,7 @@ public class WatchlistController {
     
     
     private static final Logger log = LoggerFactory.getLogger(WatchlistController.class);
+    
     @Autowired
     private WatchlistService service;
 

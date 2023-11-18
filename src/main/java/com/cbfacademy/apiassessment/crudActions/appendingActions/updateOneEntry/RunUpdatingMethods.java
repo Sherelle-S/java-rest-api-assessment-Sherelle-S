@@ -27,15 +27,14 @@ public class RunUpdatingMethods {
     private static final Logger log = LoggerFactory.getLogger(RunCreatingActions.class);
 
     @Autowired
-    private AddWatchlistItem addEntry;
+    // private AddWatchlistItem addEntry;
     private ObjectMapper mapper;
     private ReadExistingWatchlist readList;
     private WriteToJsonFile writeToJson;
-    private UpdateOneEntry updateOneEntry;
+    private UpdatePutEntry updateOneEntry;
 
-    public RunUpdatingMethods(AddWatchlistItem addEntry, ObjectMapper mapper, ReadExistingWatchlist readList,
-            WriteToJsonFile writeToJson, UpdateOneEntry updateOneEntry) {
-        this.addEntry = addEntry;
+    public RunUpdatingMethods( ObjectMapper mapper, ReadExistingWatchlist readList,
+            WriteToJsonFile writeToJson, UpdatePutEntry updateOneEntry) {
         this.mapper = mapper;
         this.mapper = mapper.registerModule(new JavaTimeModule());
         this.readList = readList;
@@ -43,21 +42,20 @@ public class RunUpdatingMethods {
         this.updateOneEntry = updateOneEntry;
     }
 
+    // runs all the components for updating one entry of watchlist 
     public ResponseEntity<Void> runUpdatingMethods(List<Watchlist> watchlist, String jsonRepo, Watchlist newEntry, UUID uuid) throws ParseException{
-
-            try {
-                readList.readExistingWatchlist(jsonRepo, mapper);
-                updateOneEntry.updateOneViaUuid(watchlist, uuid, newEntry);
-                writeToJson.writeToJson(jsonRepo, mapper, watchlist);
-                log.info("Watchlist entry has successfully been updated.");
-                return new ResponseEntity<>(HttpStatus.CREATED);
-            } catch (ItemNotFoundException e) {
-                log.error("The item that you are looking for could not be located", e);
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            } catch (IOException e ) {
-                log.error("An error has ocurred while trying to update watchlist with your request.", e);
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
+        try {
+            readList.readExistingWatchlist(jsonRepo, mapper);
+            updateOneEntry.updateEntryViaUuid(watchlist, uuid, newEntry);
+            writeToJson.writeToJson(jsonRepo, mapper, watchlist);
+            log.info("Watchlist entry has successfully been updated.");
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } catch (ItemNotFoundException e) {
+            log.error("The item that you are looking for could not be located", e);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (IOException e ) {
+            log.error("An error has ocurred while trying to update watchlist with your request.", e);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
+    }
 }

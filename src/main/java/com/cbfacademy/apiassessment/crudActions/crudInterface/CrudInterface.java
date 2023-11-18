@@ -13,8 +13,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public interface CrudInterface {
     
     public void CreateFirstEntry(List<Watchlist> watchlist, String jsonRepo);
+
     public void RunCreatingActions(AddWatchlistItem addEntry, ObjectMapper mapper, ReadExistingWatchlist readList,
             WriteToJsonFile writeToJson);
-    public void runUpdatingMethods(List<Watchlist> watchlist, String jsonRepo, Watchlist newEntry, UUID uuid) 
+
+    public void runUpdatingMethods(List<Watchlist> watchlist, String jsonRepo, Watchlist newEntry, UUID uuid);
+     
     public void RunDeleteEntry(DeleteEntry deleteEntry, ReadExistingWatchlist readList)
 ;}

@@ -26,14 +26,13 @@ public class CreateFirstItem {
     private ObjectMapper mapper;
     private WriteToJsonFile writeToJson;
 
-    
     public CreateFirstItem(AddWatchlistItem addWatchlistItem, ObjectMapper mapper, WriteToJsonFile writeToJson) {
         this.addWatchlistItem = addWatchlistItem;
         this.mapper = mapper;
         this.mapper = mapper.registerModule(new JavaTimeModule());
         this.writeToJson = writeToJson;
     }
-
+// logic for creating entry to json file when watchlist is empty
     public void CreateFirstEntry(List<Watchlist> watchlist, String jsonRepo) throws IOException{
         try {
             List<Watchlist> newWatchlistEntry = new ArrayList<>();

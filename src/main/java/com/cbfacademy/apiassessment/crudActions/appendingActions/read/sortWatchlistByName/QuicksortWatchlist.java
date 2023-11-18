@@ -1,4 +1,4 @@
-package com.cbfacademy.apiassessment;
+package com.cbfacademy.apiassessment.crudActions.appendingActions.read.sortWatchlistByName;
 
 import java.util.List;
 
@@ -6,9 +6,9 @@ import org.springframework.stereotype.Component;
 
 import com.cbfacademy.apiassessment.model.Watchlist;
 
-// we use this sorting algorythm to sort our retunred json data by name.
+// we use this sorting algorithm to sort our returned json data by name.
 @Component
-public class SortAlgo {
+public class QuicksortWatchlist {
 
         public List<Watchlist> sortAlgo(List<Watchlist> existingWatchlist){
         quickSort(existingWatchlist, 0, existingWatchlist.size() - 1);

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import com.cbfacademy.apiassessment.model.Watchlist;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+// houses any items necessary to get watchlist data ana return it
 @Component
 public class RunGetWatchlist {
 

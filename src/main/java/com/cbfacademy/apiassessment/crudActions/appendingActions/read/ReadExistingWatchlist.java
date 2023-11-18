@@ -17,7 +17,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
-//  reads jsonRepo and reads the the data into a temporary existingWatchlist
+//  reads jsonRepo and adds the the data into a temporary existingWatchlist
 @Component
 public class ReadExistingWatchlist {
 

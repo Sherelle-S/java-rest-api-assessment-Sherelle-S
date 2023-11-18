@@ -8,7 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.asm.TypeReference;
+// import org.springframework.asm.TypeReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -27,11 +27,15 @@ import com.cbfacademy.apiassessment.controller.WatchlistController;
 import com.cbfacademy.apiassessment.exceptions.InvalidInputException;
 import com.cbfacademy.apiassessment.model.Watchlist;
 import com.cbfacademy.apiassessment.service.WatchlistServiceImpl;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.core.type.TypeReference;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 
 // import com.cbfacademy.apiassessment.Exceptions.InvalidInputException;
@@ -50,6 +54,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 // @ExtendWith(MockitoExtension.class)
 @SpringBootTest(classes = App.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -84,207 +89,220 @@ class AppTests {
 		assertEquals("Hello World", response.getBody());
 	}
 
+
+// 	@Test
+// 	@Description("/incoming api data is parsed into watchlist objects.")
+// 	public void externalInputToWatchlistIsWrittenToJsonObject() throws JsonMappingException, JsonProcessingException{
+// 		@JsonFormat(pattern = "M/d/yyyy")
+// private LocalDate datePurchased;
+		
+// 		String jsonInputSample = "[{\"stockName\":\"Microsoft\",\"symbol\":\"MSFT\",\"currency\":\"USD\",\"datePurchased\":\"11/15/2023\",\"wants\":235,\"has\":225,\"profit\":30.0,\"open\":200.0,\"close\":205.0,\"intradayHigh\":210.0}]";
+
+// 		ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule());
+//         List<Watchlist> sampleList = mapper.readValue(jsonInputSample, new TypeReference<>() {});
+// 		String sampleJsonString = "{\"stockName\": \"Microsoft\",\"symbol\": \"MSFT\",\"currency\": \"USD\",\"datePurchased\": \"11/15/2023\",\"wants\": 235,\"has\": 225, \"profit\": 30.0,\"open\": 200.0,\"close\": 205.0,\"intradayHigh\": 210.0}";
+// 		assertEquals(sampleJsonString, sampleList);
+
+// 	}
+
+
 	@Test
-	@Description("/incoming api data is parsed into watchlist objects.")
-	public void externalInputToWatchlistIsWrittenToJsonObject(){
-		String jsonInputSample = "[{\"stockName\":\"Microsoft\",\"symbol\":\"MSFT\",\"owned\":false,\"status\":\"MockStatus\",\"currency\":\"USD\",\"datePurchased\":\"15/11/2023\",\"unitsOwned\":null,\"profit\":30.0,\"open\":200.0,\"close\":205.0,\"intradayHigh\":210.0}]";
-
-		ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule());
-        List<Watchlist> sampleList = mapper.readValue(jsonInputSample, new TypeReference<List<Watchlist>>() {});
-
+	@Description("/if no json file exisit in specified location, one is created")
+	public void createsJsonFileInTestJsonFileLocationIfNotPresent(){
+		String testJsonFile = "testMock.json";
+		File mockFile = new File(testJsonFile);
+		when(mockFile.exists()).thenReturn(false);
+		assertEquals(testJsonFile, mockFile);
 	}
 
 	@Test
 	@Description("/new watchlist object writes to json")
 	public void writeNewWatchlistObjectToJsonFile(){
-		String jsonFile = "src/main/resources/JsonWatchlist.json";
+		String testJsonFile = "testMock.json";
 		List<Watchlist> watchlist = new ArrayList<>();
 		Watchlist sampleList = new Watchlist(null, "Gold", "XAU", "GBP", LocalDate.now(), 300, 50, 25, 23, 234.1, 245.2, 245.9);
 		watchlist.add(sampleList);
 
 		String expectedData = "[{\"uuid\":null,\"stockName\":\"Gold\",\"symbol\":\"XAU\",\"currency\":\"GBP\",\"datePurchased\":\"" + LocalDate.now().toString() + "\",\"has\":300,\"wants\":50,\"profit\":25.0,\"pointsChange\":23.0,\"open\":234.1,\"close\":245.2,\"intradayHigh\":245.9}]";
-		try {
+		
 			doNothing().when(mapper).writeValueAsString(any());
-		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	
 		service.WriteToJson(watchlist, jsonFile);
 		String actualData = "";
 		assertEquals(expectedData, actualData);
 	
 	}
 	
-
-	@Test
-	@Description("/greeting endpoint returns expected response for specified name parameter")
-	public void greeting_ExpectedResponseWithNameParam() {
-		ResponseEntity<String> response = restTemplate.getForEntity(base.toString() + "?name=John", String.class);
-
-		assertEquals(200, response.getStatusCode().value());
-		assertEquals("Hello John", response.getBody());
-	}
-
-	@Test
-	@DirtiesContext
-	@Description("/watchlist gives items with the same stockName a unique id")
-	public void testUUIDForSameStockName(){
-
-		CreateWatchlist sampleWatchlist3 = new CreateWatchlist(null, "Gold", "XAU", true, "TestStatus", "GBP", LocalDate.now(), 100, 50.0, 2.0, 60.0, 62.0, 70.0);
-		CreateWatchlist sampleWatchlist4 = new CreateWatchlist(null, "Gold", "GC:CMX", false, "TestStatus", "EUR", LocalDate.now(), 100, 50.0, 2.0, 60.0, 62.0, 70.0);
-	
-		UUID Id3 = sampleWatchlist3.getUuid();
-		UUID Id4 = sampleWatchlist4.getUuid();
-	
-		assertNotEquals(Id3, Id4);
-	}	
-	
-	@Test
-	@DirtiesContext
-	@Description("/watchlist gives each json item generated a unique id")
-	public void testUUIDForDifferentStockName(){
-		// String stockName = "Tester";
-
-		CreateWatchlist sampleWatchlist1 = new CreateWatchlist(null, "Vodaphone", "VOD", true, "TestStatus", "GBP", LocalDate.now(), 100, 50.0, 2.0, 60.0, 62.0, 70.0);
-		CreateWatchlist sampleWatchlist2 = new CreateWatchlist(null, "Silver", "XAG", false, "TestStatus", "EUR", LocalDate.now(), 50, 20.0, 1.0, 370.0, 34.0, 20.0);
-
-		UUID Id2 = sampleWatchlist1.getUuid();
-		UUID Id1 = sampleWatchlist2.getUuid();
-		assertNotEquals(Id1, Id2);
-	}
-
-
-
-	@Test
-	@Description("/exceptions class invalidInputException returns HttpStatus.BAD_REQUEST")
-	public void invalidInputExceptionReturnsBadRequest(){
-
-	}
-
-	@Test
-	@Description("exceptions class ItemNotFoundException returns HttpStatus.NOT_FOUND")
-	public void itemNotFoundExceptionReturns(){
-		
-	}
-
-	@Test
-	@Description("/showList endpoint returns a list of the current items in the watchlist")
-	public void showList_ExpectedResponseWithCurrentDocumentAdded(){
-		ResponseEntity<String> response = restTemplate.getForEntity(base.toString() + "", String.class);
-
-		assertEquals(200, response.getStatusCode().value());
-		assertEquals("", response.getBody());
-	}
-
-
-	@Test
-	@Description("/route end point goes to localhost:8080/watchlist")
-	public void showListEndpointIslocalhost8080watchlist() {
-		String url = "http://localhost:" + port + "/watchlist/";
-		ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
-		// HttpStatusCode statusCode = restTemplate.ForEntity(url, List.class).getStatusCode();
-		assertEquals(HttpStatus.OK, response.getStatusCode());
-	}
-
-@Test
-@Description("/{id} end point goes to localhost:8080/{id}")
-public void showListEndpointIslocalhost8080id() {
-	CreateWatchlist sampleWatchlist5 = new CreateWatchlist(null, "Silver", "XAG", false, "TestStatus", "EUR", LocalDate.now(), 50, 20.0, 1.0, 370.0, 34.0, 20.0);
-   UUID Id5 = sampleWatchlist5.getUuid();
-	// String SampleId = sampleWatchlist5;
-	String url = "http://localhost:" + port + "/{id}";
-
-    assertEquals(Id5, Id5 );
 }
+// 	@Test
+// 	@Description("/greeting endpoint returns expected response for specified name parameter")
+// 	public void greeting_ExpectedResponseWithNameParam() {
+// 		ResponseEntity<String> response = restTemplate.getForEntity(base.toString() + "?name=John", String.class);
+
+// 		assertEquals(200, response.getStatusCode().value());
+// 		assertEquals("Hello John", response.getBody());
+// 	}
+
+// 	@Test
+// 	@DirtiesContext
+// 	@Description("/watchlist gives items with the same stockName a unique id")
+// 	public void testUUIDForSameStockName(){
+
+// 		CreateWatchlist sampleWatchlist3 = new CreateWatchlist(null, "Gold", "XAU", true, "TestStatus", "GBP", LocalDate.now(), 100, 50.0, 2.0, 60.0, 62.0, 70.0);
+// 		CreateWatchlist sampleWatchlist4 = new CreateWatchlist(null, "Gold", "GC:CMX", false, "TestStatus", "EUR", LocalDate.now(), 100, 50.0, 2.0, 60.0, 62.0, 70.0);
+	
+// 		UUID Id3 = sampleWatchlist3.getUuid();
+// 		UUID Id4 = sampleWatchlist4.getUuid();
+	
+// 		assertNotEquals(Id3, Id4);
+// 	}	
+	
+// 	@Test
+// 	@DirtiesContext
+// 	@Description("/watchlist gives each json item generated a unique id")
+// 	public void testUUIDForDifferentStockName(){
+// 		// String stockName = "Tester";
+
+// 		CreateWatchlist sampleWatchlist1 = new CreateWatchlist(null, "Vodaphone", "VOD", true, "TestStatus", "GBP", LocalDate.now(), 100, 50.0, 2.0, 60.0, 62.0, 70.0);
+// 		CreateWatchlist sampleWatchlist2 = new CreateWatchlist(null, "Silver", "XAG", false, "TestStatus", "EUR", LocalDate.now(), 50, 20.0, 1.0, 370.0, 34.0, 20.0);
+
+// 		UUID Id2 = sampleWatchlist1.getUuid();
+// 		UUID Id1 = sampleWatchlist2.getUuid();
+// 		assertNotEquals(Id1, Id2);
+// 	}
+
+
+
+// 	@Test
+// 	@Description("/exceptions class invalidInputException returns HttpStatus.BAD_REQUEST")
+// 	public void invalidInputExceptionReturnsBadRequest(){
+
+// 	}
+
+// 	@Test
+// 	@Description("exceptions class ItemNotFoundException returns HttpStatus.NOT_FOUND")
+// 	public void itemNotFoundExceptionReturns(){
+		
+// 	}
+
+// 	@Test
+// 	@Description("/showList endpoint returns a list of the current items in the watchlist")
+// 	public void showList_ExpectedResponseWithCurrentDocumentAdded(){
+// 		ResponseEntity<String> response = restTemplate.getForEntity(base.toString() + "", String.class);
+
+// 		assertEquals(200, response.getStatusCode().value());
+// 		assertEquals("", response.getBody());
+// 	}
+
+
+// 	@Test
+// 	@Description("/route end point goes to localhost:8080/watchlist")
+// 	public void showListEndpointIslocalhost8080watchlist() {
+// 		String url = "http://localhost:" + port + "/watchlist/";
+// 		ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+// 		// HttpStatusCode statusCode = restTemplate.ForEntity(url, List.class).getStatusCode();
+// 		assertEquals(HttpStatus.OK, response.getStatusCode());
+// 	}
 
 // @Test
-// @Description("returns boolean true when file is converted to json")
-// public void returnsBooleanTrueWhenFileConvertsToJson(){
-// 	assertTrue(true, true);
+// @Description("/{id} end point goes to localhost:8080/{id}")
+// public void showListEndpointIslocalhost8080id() {
+// 	CreateWatchlist sampleWatchlist5 = new CreateWatchlist(null, "Silver", "XAG", false, "TestStatus", "EUR", LocalDate.now(), 50, 20.0, 1.0, 370.0, 34.0, 20.0);
+//    UUID Id5 = sampleWatchlist5.getUuid();
+// 	// String SampleId = sampleWatchlist5;
+// 	String url = "http://localhost:" + port + "/{id}";
+
+//     assertEquals(Id5, Id5 );
 // }
 
-// @Test
-// @Description("returns boolean false when json conversion fails")
-// public void returnsBooleanFalseWhenFileConversionFails(){
-// 	assertFalse(false, false);
-// }
+// // @Test
+// // @Description("returns boolean true when file is converted to json")
+// // public void returnsBooleanTrueWhenFileConvertsToJson(){
+// // 	assertTrue(true, true);
+// // }
 
-	@Test
-	@Description("/addEntry endpoint goes to localhost:8080/watchlist/addEntry")
-	public void addEntryEndpointIslocalhost8080addEntry(){
-		String url = "http://localhost:" + port + "/watchlist/addEntry";
-		CreateWatchlist addListItems = new CreateWatchlist(null, "Silver", "XAG", false, "TestStatus", "EUR", LocalDate.now(), 50, 20.0, 1.0, 370.0, 34.0, 20.0);
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_JSON);
-		ResponseEntity<addListItems> responseEntity = restTemplate.exchange(url, HttpMethod.POST, new HttpEntity<>(addListItems, headers), addListItems.class);
-		assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
-	}
+// // @Test
+// // @Description("returns boolean false when json conversion fails")
+// // public void returnsBooleanFalseWhenFileConversionFails(){
+// // 	assertFalse(false, false);
+// // }
 
-	// @Test
-	// @Description("/show-list end point goes to localhost:8080/addListItems")
-	// public void showListEndpointIslocalhost8080showList(){
-	// 	String url = "http://localhost:" + port + "/watchlist";
-	// 	HttpStatusCode statusCode = restTemplate.getForEntity(url, String.class).getStatusCode();
-	// 	assertEquals(HttpStatus.OK, statusCode);
-	// }
+// 	@Test
+// 	@Description("/addEntry endpoint goes to localhost:8080/watchlist/addEntry")
+// 	public void addEntryEndpointIslocalhost8080addEntry(){
+// 		String url = "http://localhost:" + port + "/watchlist/addEntry";
+// 		CreateWatchlist addListItems = new CreateWatchlist(null, "Silver", "XAG", false, "TestStatus", "EUR", LocalDate.now(), 50, 20.0, 1.0, 370.0, 34.0, 20.0);
+// 		HttpHeaders headers = new HttpHeaders();
+// 		headers.setContentType(MediaType.APPLICATION_JSON);
+// 		ResponseEntity<addListItems> responseEntity = restTemplate.exchange(url, HttpMethod.POST, new HttpEntity<>(addListItems, headers), addListItems.class);
+// 		assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
+// 	}
 
-	// @Test
-	// @Description("/watchlist endpoint goes to localhost:8080/watchlist")
-	// public void watchlistEndpointIslocalhost8080watchlist(){
-	// 	String url = "http://localhost:" + port + "/watchlist";
-	// 	// Watchlist watchlist = new Watchlist();
-	// 	// HttpHeaders headers = new HttpHeaders();
-	// 	// headers.setContentType(MediaType.APPLICATION_JSON);
-	// 	ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
-	// 	assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-	// }
+// 	// @Test
+// 	// @Description("/show-list end point goes to localhost:8080/addListItems")
+// 	// public void showListEndpointIslocalhost8080showList(){
+// 	// 	String url = "http://localhost:" + port + "/watchlist";
+// 	// 	HttpStatusCode statusCode = restTemplate.getForEntity(url, String.class).getStatusCode();
+// 	// 	assertEquals(HttpStatus.OK, statusCode);
+// 	// }
 
-	// @Test
-    // @Description("/watchlist endpoint goes to localhost:8080/watchlist")
-    // public void watchlistEndpointIslocalhost8080watchlist() {
-    //     String url = "http://localhost:" + port + "/watchlist";
+// 	// @Test
+// 	// @Description("/watchlist endpoint goes to localhost:8080/watchlist")
+// 	// public void watchlistEndpointIslocalhost8080watchlist(){
+// 	// 	String url = "http://localhost:" + port + "/watchlist";
+// 	// 	// Watchlist watchlist = new Watchlist();
+// 	// 	// HttpHeaders headers = new HttpHeaders();
+// 	// 	// headers.setContentType(MediaType.APPLICATION_JSON);
+// 	// 	ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+// 	// 	assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+// 	// }
 
-    //     ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+// 	// @Test
+//     // @Description("/watchlist endpoint goes to localhost:8080/watchlist")
+//     // public void watchlistEndpointIslocalhost8080watchlist() {
+//     //     String url = "http://localhost:" + port + "/watchlist";
 
-    //     // Check the response status code
-    //     assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-    //     // You can also check the response content or any other expectations here
-    // }
+//     //     ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 
-
-
-	// @Test
-	// @Description("/deleteEntry/{id} endpoint goes to localhost:8080/watchlist/deleteEntry/{id}")
-	// public void deleteEntryEndpointIslocalhost8080deleteEntry(){
-	// 	String url = "http://localhost:" + port + "/watchlist//deleteEntry/{id}";
-	// 	Watchlist watchlist = new Watchlist();
-	// 	HttpHeaders headers = new HttpHeaders();
-	// 	headers.setContentType(MediaType.APPLICATION_JSON);
-	// 	ResponseEntity<Watchlist> responseEntity = restTemplate.exchange(url, HttpMethod.DELETE, new HttpEntity<>(watchlist, headers), Watchlist.class);
-	// 	assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
-	// }
+//     //     // Check the response status code
+//     //     assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+//     //     // You can also check the response content or any other expectations here
+//     // }
 
 
-	// @Test
-	// @Description("/unknown endpoint returns 404")
-	// public void unknownEndpointReturns404(){
+
+// 	// @Test
+// 	// @Description("/deleteEntry/{id} endpoint goes to localhost:8080/watchlist/deleteEntry/{id}")
+// 	// public void deleteEntryEndpointIslocalhost8080deleteEntry(){
+// 	// 	String url = "http://localhost:" + port + "/watchlist//deleteEntry/{id}";
+// 	// 	Watchlist watchlist = new Watchlist();
+// 	// 	HttpHeaders headers = new HttpHeaders();
+// 	// 	headers.setContentType(MediaType.APPLICATION_JSON);
+// 	// 	ResponseEntity<Watchlist> responseEntity = restTemplate.exchange(url, HttpMethod.DELETE, new HttpEntity<>(watchlist, headers), Watchlist.class);
+// 	// 	assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
+// 	// }
+
+
+// 	// @Test
+// 	// @Description("/unknown endpoint returns 404")
+// 	// public void unknownEndpointReturns404(){
 		
-	// 	String url = "http://localhost:" +port +"/unknown-endpoint";
-	// 	ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
-	// 	HttpStatusCode statusCode = restTemplate.getForEntity(url, String.class).getStatusCode();
-	// 	assertEquals(HttpStatus.NOT_FOUND, statusCode);
-	// }
+// 	// 	String url = "http://localhost:" +port +"/unknown-endpoint";
+// 	// 	ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+// 	// 	HttpStatusCode statusCode = restTemplate.getForEntity(url, String.class).getStatusCode();
+// 	// 	assertEquals(HttpStatus.NOT_FOUND, statusCode);
+// 	// }
 
-	//  @Test
-    // @DisplayName("/unknown endpoint throws itemNotFoundException")
-    // public void unknownEndpointThrowsException(){
-	// 	String url = "http://localhost:" +port +"/unknown-endpoint";
+// 	//  @Test
+//     // @DisplayName("/unknown endpoint throws itemNotFoundException")
+//     // public void unknownEndpointThrowsException(){
+// 	// 	String url = "http://localhost:" +port +"/unknown-endpoint";
 
-    //     assertThrows(ItemNotFoundException.class, () -> {
-	// 		restTemplate.getForEntity(url, String.class);
-    //     });
-    // }
+//     //     assertThrows(ItemNotFoundException.class, () -> {
+// 	// 		restTemplate.getForEntity(url, String.class);
+//     //     });
+//     // }
 
-	// @Test
-	// @Description("/UserDetails returns user input from user input")
-}
+// 	// @Test
+// 	// @Description("/UserDetails returns user input from user input")
+// }

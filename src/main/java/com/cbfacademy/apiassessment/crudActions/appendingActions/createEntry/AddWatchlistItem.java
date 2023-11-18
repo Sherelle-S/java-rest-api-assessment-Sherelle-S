@@ -7,9 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestBody;
-
-import com.cbfacademy.apiassessment.crudActions.appendingActions.sharedCrudMethods.UpdateExistingEntry;
+import com.cbfacademy.apiassessment.crudActions.appendingActions.sharedCrudMethods.ExistingWatchlistConstructor;
 import com.cbfacademy.apiassessment.model.Watchlist;
 
 // File appends data to existing temporary watchlist object
@@ -17,9 +15,9 @@ import com.cbfacademy.apiassessment.model.Watchlist;
 public class AddWatchlistItem {
 
     @Autowired
-    private UpdateExistingEntry updateExistingEntry;
+    private ExistingWatchlistConstructor updateExistingEntry;
 
-    public AddWatchlistItem(UpdateExistingEntry updateExistingEntry) {
+    public AddWatchlistItem(ExistingWatchlistConstructor updateExistingEntry) {
         this.updateExistingEntry = updateExistingEntry;
     }
     private static final Logger log = LoggerFactory.getLogger(AddWatchlistItem.class);

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+// model that shows the structure for the watchlist
 @Component
 public class Watchlist {
 
@@ -18,8 +19,10 @@ public class Watchlist {
      private String currency;
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate datePurchased;
-    private Integer wants;
-    private Integer has;
+    private double wantsVolStock;
+    private double ownsVolStock;
+    private double purchasePrice;
+    private double currentPrice;
     private double profit;
     private double pointsChange;
     private double open;
@@ -29,14 +32,17 @@ public class Watchlist {
     public Watchlist() {
     }
 
-    public Watchlist(UUID uuid, String stockName, String symbol, String currency, LocalDate datePurchased, Integer has, Integer wants, double profit, double pointsChange, double open, double close, double intradayHigh) {
+    // generating uuid with this constructor and implementing the logic so that it is generated if uuid is null
+    public Watchlist(UUID uuid, String stockName, String symbol, String currency, LocalDate datePurchased, double owns, double wants, double purchasePrice, double currentPrice, double profit, double pointsChange, double open, double close, double intradayHigh) {
         this.uuid = uuid == null ? UUID.randomUUID() : uuid;
         this.stockName = stockName;
         this.symbol = symbol;
         this.currency = currency;
         this.datePurchased = datePurchased;
-        this.has = has;
-        this.wants = wants;
+        this.ownsVolStock = owns;
+        this.wantsVolStock = wants;
+        this.purchasePrice = purchasePrice;
+        this.currentPrice = currentPrice;
         this.profit = profit;
         this.pointsChange = pointsChange;
         this.open = open;
@@ -56,8 +62,8 @@ public class Watchlist {
         this.currency = (String) json.get("currency");
         String datePurchasedStr = (String) json.get("datePurchased");
         this.datePurchased = LocalDate.parse(datePurchasedStr, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        this.has = (Integer) json.get("has");
-        this.wants = (Integer) json.get("wants");
+        this.ownsVolStock = (double) json.get("has");
+        this.wantsVolStock = (double) json.get("wants");
         this.profit = (double) json.get("profit");
         this.pointsChange = (double) json.get("pointsChange");
         this.open = (double) json.get("open");
@@ -65,11 +71,13 @@ public class Watchlist {
         this.intradayHigh = (double) json.get("intradayHigh");
     }
 
-        public Watchlist(String currency, LocalDate datePurchased, Integer has, Integer wants, double profit, double pointsChange, double open, double close, double intradayHigh) {
+        public Watchlist(String currency, LocalDate datePurchased, Integer has, Integer wants, double purchasePrice, double currentPrice, double profit, double pointsChange, double open, double close, double intradayHigh) {
         this.currency = currency;
         this.datePurchased = datePurchased;
-        this.has = has;
-        this.wants = wants;
+        this.ownsVolStock = has;
+        this.wantsVolStock = wants;
+        this.purchasePrice = purchasePrice;
+        this.currentPrice = currentPrice;
         this.profit = profit;
         this.pointsChange = pointsChange;
         this.open = open;
@@ -82,11 +90,7 @@ public class Watchlist {
     }
 
     public void setUuid(UUID uuid) {
-    //    if (uuid == null){
-    //         this.uuid = UUID.randomUUID();
-    //     } else{
-            this.uuid = uuid;
-        // }
+        this.uuid = uuid;
     }
 
     public String getStockName() {
@@ -121,20 +125,36 @@ public class Watchlist {
         this.datePurchased = datePurchased;
     }
 
-    public Integer getHas() {
-        return has;
+    public Integer getOwnsVolStock() {
+        return ownsVolStock;
     }
 
-    public void setHas(Integer has) {
-        this.has = has;
+    public void setOwnsVolStock(Integer has) {
+        this.ownsVolStock = has;
+        calculateProfit();
     }
 
-    public Integer getWants() {
-        return wants;
+    public Integer getWantsVolStock() {
+        return wantsVolStock;
     }
 
-    public void setWants(Integer wants) {
-        this.wants = wants;
+    public void setWantsVolStock(Integer wants) {
+        this.wantsVolStock = wants;
+    }
+
+    public double getPurchasePrice() {
+        return purchasePrice;
+    }
+    public void setPurchasePrice(double purchasePrice) {
+        this.purchasePrice = purchasePrice;
+        calculateProfit();
+    }
+    public double getCurrentPrice() {
+        return currentPrice;
+    }
+    public void setCurrentPrice(double currentPrice) {
+        this.currentPrice = currentPrice;
+        calculateProfit();
     }
 
     public double getProfit() {
@@ -142,13 +162,18 @@ public class Watchlist {
     }
 
     public void setProfit(double profit) {
-        this.profit = profit;
+        this.profit = (getOwnsVolStock() * getCurrentPrice()) - (getOwnsVolStock() * getPurchasePrice());
+    }
+
+    private void calculateProfit() {
+        this.pointsChange = this.ownsVolStock * this.currentPrice - this.ownsVolStock * this.purchasePrice; 
     }
 
     public double getPointsChange() {
         return pointsChange;
     }
 
+    // logic for setting points change automatically based on user input
     public void setPointsChange(double pointsChange) {
         this.pointsChange = getClose() - getOpen();
     }
@@ -185,7 +210,7 @@ public class Watchlist {
 
     @Override
     public String toString() {
-        return "Watchlist [uuid=" + uuid + ", stockName=" + stockName + ", symbol=" + symbol + "currency=" + currency + ", datePurchased=" + datePurchased + ", has=" + has + ", wants=" + wants + ", profit=" + profit + ", pointsChange=" + pointsChange + ", open=" + open + ", close=" + close + ", intradayHigh=" + intradayHigh + "]";
+        return "Watchlist [uuid=" + uuid + ", stockName=" + stockName + ", symbol=" + symbol + "currency=" + currency + ", datePurchased=" + datePurchased + ", has=" + ownsVolStock + ", wants=" + wantsVolStock + ", profit=" + profit + ", pointsChange=" + pointsChange + ", open=" + open + ", close=" + close + ", intradayHigh=" + intradayHigh + "]";
     }
 
     public void setOwned() {

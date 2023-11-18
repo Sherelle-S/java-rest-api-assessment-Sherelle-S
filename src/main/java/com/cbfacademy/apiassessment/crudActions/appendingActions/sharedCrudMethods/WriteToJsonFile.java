@@ -16,7 +16,7 @@ import com.fasterxml.jackson.core.exc.StreamWriteException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
-    // handles the updating object returned from json and writing it back to the jsonRepo file. 
+    // handles serializing java objects and writing them to the jsonRepo file. 
 @Component
 public class WriteToJsonFile {
 

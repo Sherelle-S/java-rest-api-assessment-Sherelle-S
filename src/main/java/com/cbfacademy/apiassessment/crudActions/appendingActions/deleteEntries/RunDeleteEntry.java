@@ -9,27 +9,24 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.cbfacademy.apiassessment.crudActions.appendingActions.read.ReadExistingWatchlist;
 import com.cbfacademy.apiassessment.model.Watchlist;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+// runs combined components necessary to delete an entry to watchlist
 @Service
 public class RunDeleteEntry {
     
     private static final Logger log = LoggerFactory.getLogger(RunDeleteEntry.class);
 
     private DeleteEntry deleteEntry;
-    private ReadExistingWatchlist readList;
 
     @Autowired
-    public RunDeleteEntry(DeleteEntry deleteEntry, ReadExistingWatchlist readList) {
+    public RunDeleteEntry(DeleteEntry deleteEntry) {
         this.deleteEntry = deleteEntry;
-        this.readList = readList;
     }
 
     public List<Watchlist> runDeleteItem(List<Watchlist> existingWatchlist, String jsonRepo, ObjectMapper mapper, UUID uuid) throws IOException{
         try {
-            // List<Watchlist> existingWatchlist = readList.readExistingWatchlist(jsonRepo, mapper);
             log.info("Existing list has been read");
             deleteEntry.deleteEntry(existingWatchlist, jsonRepo, mapper, uuid);
             log.info("Item by uuid " + uuid + " has been located");
