@@ -14,8 +14,8 @@ import org.springframework.stereotype.Component;
 
 import com.cbfacademy.apiassessment.crudActions.appendingActions.createEntry.AddWatchlistItem;
 import com.cbfacademy.apiassessment.crudActions.appendingActions.createEntry.RunCreatingActions;
+import com.cbfacademy.apiassessment.crudActions.appendingActions.createEntry.WriteToJsonFile;
 import com.cbfacademy.apiassessment.crudActions.appendingActions.read.ReadExistingWatchlist;
-import com.cbfacademy.apiassessment.crudActions.appendingActions.sharedCrudMethods.WriteToJsonFile;
 import com.cbfacademy.apiassessment.exceptions.ItemNotFoundException;
 import com.cbfacademy.apiassessment.model.Watchlist;
 import com.fasterxml.jackson.databind.ObjectMapper;

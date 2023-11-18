@@ -9,8 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.cbfacademy.apiassessment.crudActions.appendingActions.createEntry.WriteToJsonFile;
 import com.cbfacademy.apiassessment.crudActions.appendingActions.read.ReadExistingWatchlist;
-import com.cbfacademy.apiassessment.crudActions.appendingActions.sharedCrudMethods.WriteToJsonFile;
 import com.cbfacademy.apiassessment.exceptions.ItemNotFoundException;
 import com.cbfacademy.apiassessment.model.Watchlist;
 import com.fasterxml.jackson.databind.ObjectMapper;

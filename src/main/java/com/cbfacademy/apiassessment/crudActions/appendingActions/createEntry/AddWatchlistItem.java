@@ -23,7 +23,7 @@ public class AddWatchlistItem {
     private static final Logger log = LoggerFactory.getLogger(AddWatchlistItem.class);
     // we iterate through each item of our watchlist checking if we do not already have that uuid we add it to existingWatchlist
     public List<Watchlist> appendToWatchlist(List<Watchlist> watchlist, List<Watchlist> existingWatchlist) {
-        log.info("watchlist when append to watchlist begins existing uuid: {}", watchlist);
+        log.info("watchlist when append to watchlist starts: {}", watchlist);
         for(Watchlist newEntry : watchlist) {
             UUID newEntryUuid = newEntry.getUuid();
             boolean entryExists = false;
@@ -33,8 +33,10 @@ public class AddWatchlistItem {
                 if(existingUuid != null && existingUuid.equals(newEntryUuid)){
                     entryExists = true;
                     updateExistingEntry.updateExistingEntry(existingEntry, newEntry);
-                    log.info("existingWatchlist at if existing uuid addWatchlist: {}", existingWatchlist);
-                    log.info("watchlist at existing uuid: {}", watchlist);
+                    log.info("EXISTING ENTRY", existingEntry);
+                    log.info("NEW ENTRY", newEntry);
+                    // log.info("existingWatchlist at if existing uuid addWatchlist: {}", existingWatchlist);
+                    // log.info("watchlist at existing uuid: {}", watchlist);
                     break;
                 }
             }
@@ -49,6 +51,6 @@ public class AddWatchlistItem {
         log.info("Append new entry to watchlist object.");
         return existingWatchlist;
     }
-
+// I thingk the problem here has something to do with moving existing Watchlist and newWatchlist 
     
 }

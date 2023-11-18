@@ -20,7 +20,6 @@ import com.cbfacademy.apiassessment.crudActions.appendingActions.createEntry.Run
 import com.cbfacademy.apiassessment.crudActions.appendingActions.deleteEntries.RunDeleteEntry;
 import com.cbfacademy.apiassessment.crudActions.appendingActions.read.ReadExistingWatchlist;
 import com.cbfacademy.apiassessment.crudActions.appendingActions.read.RunGetWatchlist;
-import com.cbfacademy.apiassessment.crudActions.appendingActions.read.sortWatchlistByName.quicksortWatchlist;
 import com.cbfacademy.apiassessment.crudActions.appendingActions.read.sortWatchlistByName.SortWatchlistByName;
 import com.cbfacademy.apiassessment.crudActions.appendingActions.updateOneEntry.RunUpdatingMethods;
 import com.cbfacademy.apiassessment.crudActions.appendingActions.updateOneEntry.UpdatePutEntry;
@@ -48,13 +47,14 @@ public class WatchlistServiceImpl implements WatchlistService {
     private SortWatchlistByName sortByName;
     // private UpdatePutEntry updateOneEntry;
 
-    public WatchlistServiceImpl(CreateFirstItem createFirstItem, RunDeleteEntry deleteEntry, ObjectMapper mapper, RunCreatingActions runCreateItem, RunUpdatingMethods runUpdatingMethods, SortWatchlistByName sortByName, quicksortWatchlist quicksortWatchlist, ReadExistingWatchlist readList) {
+    public WatchlistServiceImpl(CreateFirstItem createFirstItem, RunDeleteEntry deleteEntry, ObjectMapper mapper, RunCreatingActions runCreateItem, RunUpdatingMethods runUpdatingMethods, SortWatchlistByName sortByName, ReadExistingWatchlist readList) {
         this.createFirstItem = createFirstItem;
         this.deleteEntry = deleteEntry;
         this.mapper = mapper.registerModule(new JavaTimeModule());
         this.mapper = mapper;
         this.runCreateItem = runCreateItem;
         this.runUpdatingMethods = runUpdatingMethods;
+        this.readList = readList;
         this.sortByName = sortByName;
     }
 
@@ -63,14 +63,14 @@ public class WatchlistServiceImpl implements WatchlistService {
     // return response entity for creating watchlist
 
     public List<Watchlist> getCurrentWatchlist() throws IOException{
-        try {
+        // try {
             List<Watchlist> currentWatchlist = readList.readExistingWatchlist(jsonRepo, mapper);
             return currentWatchlist;
-        } catch (WatchlistDataAccessException e) {
-            log.error("Watchlist data cannot be accessed, prroblem in watchlist service implementations", e);
-            throw new IOException(e.getMessage());
+        // } catch (WatchlistDataAccessException e) {
+        //     log.error("Watchlist data cannot be accessed, prroblem in watchlist service implementations", e);
+        //     throw new IOException(e.getMessage());
             
-        }
+        // }
         
     }
     @Override
@@ -85,7 +85,8 @@ public class WatchlistServiceImpl implements WatchlistService {
                 createFirstItem.CreateFirstEntry(watchlist, jsonRepo);
                 return new ResponseEntity<>(HttpStatus.CREATED);
             } else {
-                runCreateItem.appendNewItems(watchlist, watchlist, jsonRepo);
+                runCreateItem.appendNewItems(watchlist, jsonRepo);
+                // runCreateItem.appendNewItems(watchlist, watchlist, jsonRepo);
                 return new ResponseEntity<>(HttpStatus.CREATED);
             }
         } catch (Exception e) {

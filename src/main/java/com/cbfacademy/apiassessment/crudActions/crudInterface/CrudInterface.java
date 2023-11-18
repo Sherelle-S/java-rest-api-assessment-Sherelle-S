@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.UUID;
 
 import com.cbfacademy.apiassessment.crudActions.appendingActions.createEntry.AddWatchlistItem;
+import com.cbfacademy.apiassessment.crudActions.appendingActions.createEntry.WriteToJsonFile;
 import com.cbfacademy.apiassessment.crudActions.appendingActions.deleteEntries.DeleteEntry;
 import com.cbfacademy.apiassessment.crudActions.appendingActions.read.ReadExistingWatchlist;
-import com.cbfacademy.apiassessment.crudActions.appendingActions.sharedCrudMethods.WriteToJsonFile;
 import com.cbfacademy.apiassessment.model.Watchlist;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

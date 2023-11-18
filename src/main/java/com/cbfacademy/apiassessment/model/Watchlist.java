@@ -19,8 +19,8 @@ public class Watchlist {
      private String currency;
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate datePurchased;
-    private double wantsVolStock;
-    private double ownsVolStock;
+    private Integer wantsVolStock;
+    private Integer ownsVolStock;
     private double purchasePrice;
     private double currentPrice;
     private double profit;
@@ -33,14 +33,14 @@ public class Watchlist {
     }
 
     // generating uuid with this constructor and implementing the logic so that it is generated if uuid is null
-    public Watchlist(UUID uuid, String stockName, String symbol, String currency, LocalDate datePurchased, double owns, double wants, double purchasePrice, double currentPrice, double profit, double pointsChange, double open, double close, double intradayHigh) {
+    public Watchlist(UUID uuid, String stockName, String symbol, String currency, LocalDate datePurchased, Integer ownsVolStock, Integer wantsVolStock, double purchasePrice, double currentPrice, double profit, double pointsChange, double open, double close, double intradayHigh) {
         this.uuid = uuid == null ? UUID.randomUUID() : uuid;
         this.stockName = stockName;
         this.symbol = symbol;
         this.currency = currency;
         this.datePurchased = datePurchased;
-        this.ownsVolStock = owns;
-        this.wantsVolStock = wants;
+        this.ownsVolStock = ownsVolStock;
+        this.wantsVolStock = wantsVolStock;
         this.purchasePrice = purchasePrice;
         this.currentPrice = currentPrice;
         this.profit = profit;
@@ -62,8 +62,8 @@ public class Watchlist {
         this.currency = (String) json.get("currency");
         String datePurchasedStr = (String) json.get("datePurchased");
         this.datePurchased = LocalDate.parse(datePurchasedStr, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        this.ownsVolStock = (double) json.get("has");
-        this.wantsVolStock = (double) json.get("wants");
+        this.ownsVolStock = (Integer) json.get("ownsVolStock");
+        this.wantsVolStock = (Integer) json.get("wantsVolStock");
         this.profit = (double) json.get("profit");
         this.pointsChange = (double) json.get("pointsChange");
         this.open = (double) json.get("open");
@@ -71,11 +71,11 @@ public class Watchlist {
         this.intradayHigh = (double) json.get("intradayHigh");
     }
 
-        public Watchlist(String currency, LocalDate datePurchased, Integer has, Integer wants, double purchasePrice, double currentPrice, double profit, double pointsChange, double open, double close, double intradayHigh) {
+        public Watchlist(String currency, LocalDate datePurchased, Integer ownsVolStock, Integer wantsVolStock, double purchasePrice, double currentPrice, double profit, double pointsChange, double open, double close, double intradayHigh) {
         this.currency = currency;
         this.datePurchased = datePurchased;
-        this.ownsVolStock = has;
-        this.wantsVolStock = wants;
+        this.ownsVolStock = ownsVolStock;
+        this.wantsVolStock = wantsVolStock;
         this.purchasePrice = purchasePrice;
         this.currentPrice = currentPrice;
         this.profit = profit;

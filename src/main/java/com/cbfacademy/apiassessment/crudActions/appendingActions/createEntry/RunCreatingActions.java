@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import com.cbfacademy.apiassessment.crudActions.appendingActions.read.ReadExistingWatchlist;
-import com.cbfacademy.apiassessment.crudActions.appendingActions.sharedCrudMethods.WriteToJsonFile;
 import com.cbfacademy.apiassessment.model.Watchlist;
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,17 +25,21 @@ public class RunCreatingActions {
     private AddWatchlistItem addEntry;
     private ObjectMapper mapper;
     private WriteToJsonFile writeToJson;
+    private ReadExistingWatchlist readList;
 
     
-       public RunCreatingActions(AddWatchlistItem addEntry, ObjectMapper mapper, WriteToJsonFile writeToJson) {
+       public RunCreatingActions(AddWatchlistItem addEntry, ObjectMapper mapper, ReadExistingWatchlist readList, WriteToJsonFile writeToJson) {
         this.addEntry = addEntry;
         this.mapper = mapper;
         this.mapper = mapper.registerModule(new JavaTimeModule());
         this.writeToJson = writeToJson;
+        this.readList = readList;
     }
 
-    public ResponseEntity<?> appendNewItems(List<Watchlist> watchlist, List<Watchlist> existingWatchlist, String jsonRepo) throws IOException{
+    // public ResponseEntity<?> appendNewItems(List<Watchlist> watchlist, List<Watchlist> existingWatchlist, String jsonRepo) throws IOException{
+        public ResponseEntity<?> appendNewItems(List<Watchlist> watchlist, String jsonRepo) throws IOException{
         try {
+            List<Watchlist> existingWatchlist = readList.readExistingWatchlist(jsonRepo, mapper);
             List<Watchlist> updatedWatchlist = addEntry.appendToWatchlist(watchlist, existingWatchlist);
             writeToJson.writeToJson(jsonRepo, mapper, updatedWatchlist);
             return new ResponseEntity<>(HttpStatus.CREATED);
