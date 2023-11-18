@@ -42,6 +42,11 @@ public class WatchlistController {
         return service.readWatchlist();
     }
 
+    @GetMapping("/sortedWatchlist")
+    public ResponseEntity<List<Watchlist>> sortedWatchlist() throws FailedToIOWatchlistException, ParseException {
+        return service.sortedWatchlist();
+    }
+
     @PostMapping(value = "/addEntry", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity <Void> create(@RequestBody List<Watchlist> watchlist) throws FailedToIOWatchlistException{
         return service.create(watchlist);      

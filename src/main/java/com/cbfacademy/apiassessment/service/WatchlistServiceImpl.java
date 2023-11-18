@@ -13,19 +13,25 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+
+import com.cbfacademy.apiassessment.SortAlgo;
 import com.cbfacademy.apiassessment.controller.WatchlistController;
+import com.cbfacademy.apiassessment.crudActions.SortWatchlistByName;
 import com.cbfacademy.apiassessment.crudActions.appendingActions.createEntry.CreateFirstItem;
 import com.cbfacademy.apiassessment.crudActions.appendingActions.createEntry.RunCreatingActions;
 import com.cbfacademy.apiassessment.crudActions.appendingActions.deleteEntries.RunDeleteEntry;
+import com.cbfacademy.apiassessment.crudActions.appendingActions.read.ReadExistingWatchlist;
 import com.cbfacademy.apiassessment.crudActions.appendingActions.read.RunGetWatchlist;
 import com.cbfacademy.apiassessment.crudActions.appendingActions.updateOneEntry.RunUpdatingMethods;
 import com.cbfacademy.apiassessment.crudActions.appendingActions.updateOneEntry.UpdateOneEntry;
 import com.cbfacademy.apiassessment.exceptions.FailedToIOWatchlistException;
+import com.cbfacademy.apiassessment.exceptions.InvalidInputException;
 import com.cbfacademy.apiassessment.exceptions.ItemNotFoundException;
 import com.cbfacademy.apiassessment.model.Watchlist;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
+// service layer, add business logic to controller methods 
 @Service
 @Component
 public class WatchlistServiceImpl implements WatchlistService {
@@ -37,22 +43,24 @@ public class WatchlistServiceImpl implements WatchlistService {
     private UpdateOneEntry updateOneEntry;
     private RunDeleteEntry deleteEntry;
     private ObjectMapper mapper;
+    private ReadExistingWatchlist readList;
     private RunCreatingActions runCreateItem;
     private RunGetWatchlist getWatchlist;
     private RunUpdatingMethods runUpdatingMethods;
-    
+    private SortWatchlistByName sortByName;
 
-
-    public WatchlistServiceImpl(CreateFirstItem createFirstItem, ObjectMapper mapper,
-            RunCreatingActions runCreateItem, RunDeleteEntry deleteEntry, RunGetWatchlist getWatchlist, RunUpdatingMethods runUpdatingMethods, UpdateOneEntry updateOneEntry) {
+    public WatchlistServiceImpl(CreateFirstItem createFirstItem, UpdateOneEntry updateOneEntry,
+            RunDeleteEntry deleteEntry, ObjectMapper mapper, RunCreatingActions runCreateItem,
+            RunGetWatchlist getWatchlist, RunUpdatingMethods runUpdatingMethods, SortWatchlistByName sortByName, SortAlgo quicksortWatchlist, ReadExistingWatchlist readList) {
         this.createFirstItem = createFirstItem;
-        this.mapper = mapper;
-        this.mapper = mapper.registerModule(new JavaTimeModule());
-        this.runCreateItem = runCreateItem;
+        this.updateOneEntry = updateOneEntry;
         this.deleteEntry = deleteEntry;
+        this.mapper = mapper.registerModule(new JavaTimeModule());
+        this.mapper = mapper;
+        this.runCreateItem = runCreateItem;
         this.getWatchlist = getWatchlist;
         this.runUpdatingMethods = runUpdatingMethods;
-        this.updateOneEntry = updateOneEntry;
+        this.sortByName = sortByName;
     }
 
     private static final Logger log = LoggerFactory.getLogger(WatchlistController.class);
@@ -127,12 +135,28 @@ public class WatchlistServiceImpl implements WatchlistService {
             
             deleteEntry.runDeleteItem(existingWatchlist, jsonRepo, mapper, uuid);
             return new ResponseEntity<>(HttpStatus.OK);
+        } catch (InvalidInputException e) {
+            log.error("Invalid input received", e.getMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (ItemNotFoundException e) {
             log.error("Unable to locate requested item", e.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (IOException e) {
             log.error("IOException has taken place in watchlist Service implementation while attempting to run method deleteEntry", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    // returns a sorted watchlist
+    @Override
+    public ResponseEntity<List<Watchlist>> sortedWatchlist() throws FailedToIOWatchlistException {
+            
+            try {
+                List<Watchlist> quickSortWatchlist = sortByName.sortedWatchlist(jsonRepo, mapper);
+                return ResponseEntity.ok(quickSortWatchlist);
+            } catch (IOException e) {
+                log.error("IOException while attempting to sort watchlist by name.", e.getMessage());
+                return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);            
         }
     }
 }
