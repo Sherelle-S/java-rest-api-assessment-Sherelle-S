@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cbfacademy.apiassessment.exceptions.FailedToIOWatchlistException;
+import com.cbfacademy.apiassessment.exceptions.WatchlistDataAccessException;
 import com.cbfacademy.apiassessment.model.Watchlist;
 import com.cbfacademy.apiassessment.service.WatchlistService;
 
@@ -37,35 +37,37 @@ public class WatchlistController {
         this.service = service;
     }
 
+    // shows all watchlist data 
     @GetMapping("/showWatchlist")
-    public ResponseEntity<List<Watchlist>> readWatchlist() throws FailedToIOWatchlistException, ParseException {
+    public ResponseEntity<List<Watchlist>> readWatchlist() throws WatchlistDataAccessException, ParseException {
         return service.readWatchlist();
     }
 
+    // returns watchlist data sorted by name
     @GetMapping("/sortedWatchlist")
-    public ResponseEntity<List<Watchlist>> sortedWatchlist() throws FailedToIOWatchlistException, ParseException {
+    public ResponseEntity<List<Watchlist>> sortedWatchlist() throws WatchlistDataAccessException, ParseException {
         return service.sortedWatchlist();
     }
 
+    // Creates new watchlist item on route 
     @PostMapping(value = "/addEntry", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity <Void> create(@RequestBody List<Watchlist> watchlist) throws FailedToIOWatchlistException{
+    public ResponseEntity <Void> create(@RequestBody List<Watchlist> watchlist) throws WatchlistDataAccessException{
         return service.create(watchlist);      
         // create some logic that means if client already has stock of item of x name in watchlist, they cannot add another item of that stock they must instead update.
     }
 
+    // maps to put routing searching by uuid 
     @PutMapping(value = "/updateEntry/{uuid}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity <Void> updateEntry(@PathVariable UUID uuid, @RequestBody Watchlist newEntry){
         return service.updateEntry(uuid, newEntry);
     }
     
 
+    // maps to delete routing
     @DeleteMapping(value = "/deleteEntry/{uuid}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Watchlist>> deleteWatchlistEntry(@PathVariable UUID uuid) throws IOException{
         log.info("Delete process has begun");
-
         return service.deleteWatchlistEntry(uuid);
-
     }
-
 }
     

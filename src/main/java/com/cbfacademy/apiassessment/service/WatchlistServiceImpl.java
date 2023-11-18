@@ -14,24 +14,24 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import com.cbfacademy.apiassessment.SortAlgo;
 import com.cbfacademy.apiassessment.controller.WatchlistController;
-import com.cbfacademy.apiassessment.crudActions.SortWatchlistByName;
 import com.cbfacademy.apiassessment.crudActions.appendingActions.createEntry.CreateFirstItem;
 import com.cbfacademy.apiassessment.crudActions.appendingActions.createEntry.RunCreatingActions;
 import com.cbfacademy.apiassessment.crudActions.appendingActions.deleteEntries.RunDeleteEntry;
 import com.cbfacademy.apiassessment.crudActions.appendingActions.read.ReadExistingWatchlist;
 import com.cbfacademy.apiassessment.crudActions.appendingActions.read.RunGetWatchlist;
+import com.cbfacademy.apiassessment.crudActions.appendingActions.read.sortWatchlistByName.SortAlgo;
+import com.cbfacademy.apiassessment.crudActions.appendingActions.read.sortWatchlistByName.SortWatchlistByName;
 import com.cbfacademy.apiassessment.crudActions.appendingActions.updateOneEntry.RunUpdatingMethods;
 import com.cbfacademy.apiassessment.crudActions.appendingActions.updateOneEntry.UpdateOneEntry;
-import com.cbfacademy.apiassessment.exceptions.FailedToIOWatchlistException;
+import com.cbfacademy.apiassessment.exceptions.WatchlistDataAccessException;
 import com.cbfacademy.apiassessment.exceptions.InvalidInputException;
 import com.cbfacademy.apiassessment.exceptions.ItemNotFoundException;
 import com.cbfacademy.apiassessment.model.Watchlist;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
-// service layer, add business logic to controller methods 
+// service layer, holds business logic to controller methods 
 @Service
 @Component
 public class WatchlistServiceImpl implements WatchlistService {
@@ -65,9 +65,9 @@ public class WatchlistServiceImpl implements WatchlistService {
 
     private static final Logger log = LoggerFactory.getLogger(WatchlistController.class);
 
+    // return response entity for creating watchlist
     @Override
-    public ResponseEntity<Void> create(List<Watchlist> watchlist) throws FailedToIOWatchlistException {
-        // List<Watchlist> existingWatchlist = new ArrayList<>();
+    public ResponseEntity<Void> create(List<Watchlist> watchlist) throws WatchlistDataAccessException {
         try {
             File file = new File(jsonRepo);
             if(!file.exists()){
@@ -78,18 +78,16 @@ public class WatchlistServiceImpl implements WatchlistService {
                 createFirstItem.CreateFirstEntry(watchlist, jsonRepo);
                 return new ResponseEntity<>(HttpStatus.CREATED);
             } else {
-                // existingWatchlist = getExistingWatchlist();
                 runCreateItem.appendNewItems(watchlist, jsonRepo);
                 return new ResponseEntity<>(HttpStatus.CREATED);
-                //  addWatchlistEntry(existingWatchlist);
             }
         } catch (Exception e) {
             log.error("Error processing file: " + e.getMessage());
-            // throw new FailedToIOWatchlistException("Failed to create or process the file");
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
+    // return response entity and watchlist for read requests
     @Override
     public ResponseEntity<List<Watchlist>> readWatchlist() {
         try {
@@ -105,6 +103,7 @@ public class WatchlistServiceImpl implements WatchlistService {
         }
     }
 
+    // returns logic for updating entries
     @Override
     public ResponseEntity<Void> updateEntry(UUID uuid, Watchlist newEntry) {
 
@@ -126,6 +125,7 @@ public class WatchlistServiceImpl implements WatchlistService {
         }
     }
 
+    // returns logic for deleting watchlist entries
     @Override
     public ResponseEntity<List<Watchlist>> deleteWatchlistEntry(UUID uuid) throws IOException {
         List<Watchlist> existingWatchlist = getWatchlist.getWatchlist(jsonRepo, mapper);
@@ -147,9 +147,9 @@ public class WatchlistServiceImpl implements WatchlistService {
         }
     }
 
-    // returns a sorted watchlist
+    // logic for returning sorted watchlist
     @Override
-    public ResponseEntity<List<Watchlist>> sortedWatchlist() throws FailedToIOWatchlistException {
+    public ResponseEntity<List<Watchlist>> sortedWatchlist() throws WatchlistDataAccessException {
             
             try {
                 List<Watchlist> quickSortWatchlist = sortByName.sortedWatchlist(jsonRepo, mapper);

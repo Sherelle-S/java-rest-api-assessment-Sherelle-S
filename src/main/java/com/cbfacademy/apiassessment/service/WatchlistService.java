@@ -4,24 +4,21 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
-import org.json.simple.parser.ParseException;
 import org.springframework.http.ResponseEntity;
-import com.cbfacademy.apiassessment.exceptions.FailedToIOWatchlistException;
+import com.cbfacademy.apiassessment.exceptions.WatchlistDataAccessException;
 import com.cbfacademy.apiassessment.model.Watchlist;
 
+// interface that tells watchlist service what methods it needs to implement but not how to implement them.
 public interface WatchlistService {
 
-    ResponseEntity<Void> create(List<Watchlist> watchlist) throws FailedToIOWatchlistException;
+    ResponseEntity<Void> create(List<Watchlist> watchlist) throws WatchlistDataAccessException;
 
-    ResponseEntity<List<Watchlist>> readWatchlist() throws FailedToIOWatchlistException;
+    ResponseEntity<List<Watchlist>> readWatchlist() throws WatchlistDataAccessException;
 
-    ResponseEntity<List<Watchlist>> sortedWatchlist() throws FailedToIOWatchlistException;
+    ResponseEntity<List<Watchlist>> sortedWatchlist() throws WatchlistDataAccessException;
 
-    // ResponseEntity <Void> updateEntry(Watchlist watchlist, UUID uuid);
     ResponseEntity<Void> updateEntry(UUID uuid, Watchlist newEntry);
 
     ResponseEntity<List<Watchlist>> deleteWatchlistEntry(UUID uuid) throws IOException;
-
-    // ResponseEntity<Void> update(Watchlist watchlist);
 
 } 

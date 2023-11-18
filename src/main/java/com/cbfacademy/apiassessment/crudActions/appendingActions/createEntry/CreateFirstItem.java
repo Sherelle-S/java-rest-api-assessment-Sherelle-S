@@ -9,8 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.cbfacademy.apiassessment.crudActions.appendingActions.sharedCrudMethods.WriteToJsonFile;
-import com.cbfacademy.apiassessment.exceptions.FailedToIOWatchlistException;
-import com.cbfacademy.apiassessment.exceptions.JsonWatchlistParsingException;
+import com.cbfacademy.apiassessment.exceptions.WatchlistDataAccessException;
+import com.cbfacademy.apiassessment.exceptions.WatchlistProcessingException;
 import com.cbfacademy.apiassessment.model.Watchlist;
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -41,10 +41,10 @@ public class CreateFirstItem {
             writeToJson.writeToJson(jsonRepo, mapper, newWatchlistEntry);
         } catch (JacksonException e) {
             log.error("Exception while trying to process json request with jackson", e.getMessage());
-            throw new JsonWatchlistParsingException("Exception ocurred while trying to parse json file.", e.getMessage());
+            throw new WatchlistProcessingException("Exception ocurred while trying to parse json file.", e.getMessage());
         } catch (IOException e) {
             log.error("Exception occurred while running Appending components to watchlist");
-            throw new FailedToIOWatchlistException("IOException ocurred while running appendWatchlist method.", e.getMessage());
+            throw new WatchlistDataAccessException("IOException ocurred while running appendWatchlist method.", e.getMessage());
         }
     }
 }

@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import com.cbfacademy.apiassessment.exceptions.FailedToIOWatchlistException;
+import com.cbfacademy.apiassessment.exceptions.WatchlistDataAccessException;
 import com.cbfacademy.apiassessment.exceptions.ItemNotFoundException;
 import com.cbfacademy.apiassessment.model.Watchlist;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -34,7 +34,7 @@ public class ReadExistingWatchlist {
             return thing;
         } catch (JsonProcessingException e) {
             log.error("Failed to read json file.", e.getMessage());
-            throw new FailedToIOWatchlistException("Processing json request failed.", e.getMessage());
+            throw new WatchlistDataAccessException("Processing json request failed.", e.getMessage());
         } catch (FileNotFoundException e) {
             log.error("json File could not be found.", e.getMessage());
             throw new ItemNotFoundException("jsonRepo could not be located.", e.getMessage());
