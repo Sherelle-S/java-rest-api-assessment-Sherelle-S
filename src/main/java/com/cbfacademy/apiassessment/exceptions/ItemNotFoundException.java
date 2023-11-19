@@ -3,7 +3,7 @@ package com.cbfacademy.apiassessment.exceptions;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(code = HttpStatus.NOT_FOUND)
+@ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
 public class ItemNotFoundException extends RuntimeException {
 
     

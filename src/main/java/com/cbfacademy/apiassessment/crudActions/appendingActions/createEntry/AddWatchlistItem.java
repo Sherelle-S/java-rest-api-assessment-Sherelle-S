@@ -33,10 +33,8 @@ public class AddWatchlistItem {
                 if(existingUuid != null && existingUuid.equals(newEntryUuid)){
                     entryExists = true;
                     updateExistingEntry.updateExistingEntry(existingEntry, newEntry);
-                    log.info("EXISTING ENTRY", existingEntry);
-                    log.info("NEW ENTRY", newEntry);
-                    // log.info("existingWatchlist at if existing uuid addWatchlist: {}", existingWatchlist);
-                    // log.info("watchlist at existing uuid: {}", watchlist);
+                    log.info("existingWatchlist at if existing uuid addWatchlist: {}", existingWatchlist);
+                    log.info("watchlist at existing uuid: {}", watchlist);
                     break;
                 }
             }
@@ -50,7 +48,5 @@ public class AddWatchlistItem {
         }
         log.info("Append new entry to watchlist object.");
         return existingWatchlist;
-    }
-// I thingk the problem here has something to do with moving existing Watchlist and newWatchlist 
-    
+    }    
 }

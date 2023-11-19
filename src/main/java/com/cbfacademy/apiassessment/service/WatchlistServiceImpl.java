@@ -19,11 +19,9 @@ import com.cbfacademy.apiassessment.crudActions.appendingActions.createEntry.Cre
 import com.cbfacademy.apiassessment.crudActions.appendingActions.createEntry.RunCreatingActions;
 import com.cbfacademy.apiassessment.crudActions.appendingActions.deleteEntries.RunDeleteEntry;
 import com.cbfacademy.apiassessment.crudActions.appendingActions.read.ReadExistingWatchlist;
-import com.cbfacademy.apiassessment.crudActions.appendingActions.read.RunGetWatchlist;
 import com.cbfacademy.apiassessment.crudActions.appendingActions.read.searchAndSort.BinarySearch;
 import com.cbfacademy.apiassessment.crudActions.appendingActions.read.searchAndSort.SortWatchlistByName;
 import com.cbfacademy.apiassessment.crudActions.appendingActions.updateOneEntry.RunUpdatingMethods;
-import com.cbfacademy.apiassessment.crudActions.appendingActions.updateOneEntry.UpdatePutEntry;
 import com.cbfacademy.apiassessment.exceptions.WatchlistDataAccessException;
 import com.cbfacademy.apiassessment.exceptions.InvalidInputException;
 import com.cbfacademy.apiassessment.exceptions.ItemNotFoundException;
@@ -71,7 +69,7 @@ public class WatchlistServiceImpl implements WatchlistService {
             List<Watchlist> currentWatchlist = readList.readExistingWatchlist(jsonRepo, mapper);
             return currentWatchlist;
         // } catch (WatchlistDataAccessException e) {
-        //     log.error("Watchlist data cannot be accessed, prroblem in watchlist service implementations", e.getMessage());
+        //     log.error("Watchlist data cannot be accessed, problem in watchlist service implementations", e.getMessage());
         //     throw new IOException(e.getMessage());
             
         // }
