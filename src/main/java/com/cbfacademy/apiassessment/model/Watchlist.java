@@ -189,7 +189,7 @@ public class Watchlist {
         return open;
     }
 
-    // sets steockmarket open price and calls calculate points change 
+    // sets stockMarket open price and calls calculate points change 
     public void setOpen(double open) {
         this.open = open;
         calculatePointsChange();
@@ -199,7 +199,7 @@ public class Watchlist {
         return close;
     }
 
-    // sets stockmarket closing price from user input and calculates points change
+    // sets stockMarket closing price from user input and calculates points change
     public void setClose(double close) {
         this.close = close;
         calculatePointsChange();
