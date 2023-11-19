@@ -1,6 +1,3 @@
-The purpose of the watchlist API is to build a watchlist where the user is able to have a build a list of stocks that they are interested in using full CRUD capabilities. the user will be able to add a stock its current price and if it is part of their current inventory/how many units. Or if they are just thinking about the stock option.
-
-
 # **Watchlist API User Guide**
 
 welcome to the watchlist API, this user guide will help you to understand how to use the watchlist API.
