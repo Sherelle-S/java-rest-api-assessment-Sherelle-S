@@ -25,15 +25,6 @@ public class RunDeleteEntry {
         this.deleteEntry = deleteEntry;
     }
 
-    
-    /** 
-     * @param existingWatchlist
-     * @param jsonRepo
-     * @param mapper
-     * @param uuid
-     * @return List<Watchlist>
-     * @throws IOException
-     */
     public List<Watchlist> runDeleteItem(List<Watchlist> existingWatchlist, String jsonRepo, ObjectMapper mapper, UUID uuid) throws IOException{
         try {
             log.info("Existing list has been read");

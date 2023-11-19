@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.cbfacademy.apiassessment.crudActions.appendingActions.read.RunGetWatchlist;
-import com.cbfacademy.apiassessment.exceptions.WatchlistDataAccessException;
-import com.cbfacademy.apiassessment.exceptions.WatchlistProcessingException;
 import com.cbfacademy.apiassessment.model.Watchlist;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

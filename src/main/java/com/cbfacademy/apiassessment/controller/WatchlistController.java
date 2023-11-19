@@ -69,7 +69,6 @@ public class WatchlistController {
     // maps to put routing searching by uuid 
     @PutMapping(value = "/updateEntry/{uuid}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity <Void> updateEntry(@PathVariable UUID uuid, @RequestBody Watchlist newEntry){
-        log.info("controller update");
         return service.updateEntry(uuid, newEntry);
     }
     

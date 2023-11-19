@@ -18,7 +18,6 @@ import com.cbfacademy.apiassessment.controller.WatchlistController;
 import com.cbfacademy.apiassessment.crudActions.appendingActions.createEntry.CreateFirstItem;
 import com.cbfacademy.apiassessment.crudActions.appendingActions.createEntry.RunCreatingActions;
 import com.cbfacademy.apiassessment.crudActions.appendingActions.deleteEntries.RunDeleteEntry;
-import com.cbfacademy.apiassessment.crudActions.appendingActions.read.ReadExistingWatchlist;
 import com.cbfacademy.apiassessment.crudActions.appendingActions.read.RunGetWatchlist;
 import com.cbfacademy.apiassessment.crudActions.appendingActions.read.searchAndSort.BinarySearch;
 import com.cbfacademy.apiassessment.crudActions.appendingActions.read.searchAndSort.SortWatchlistByName;
@@ -35,7 +34,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 @Component
 public class WatchlistServiceImpl implements WatchlistService {
 
-    String jsonRepo = "src\\test\\java\\com\\cbfacademy\\apiassessment\\resources\\JsonWatchlist.json";
+    String jsonRepo = "src\\main\\resources\\JsonWatchlist.json";
     // String jsonRepo = "JsonWatchlist.json";
 
     @Autowired
@@ -125,7 +124,7 @@ public class WatchlistServiceImpl implements WatchlistService {
         }
     }
 
-    //passes quicksorted watchlist though a binary search algorithm
+    //passes quicksort watchlist though a binary search algorithm
     @Override
     public ResponseEntity<List<Watchlist>> searchByName(String name) throws InvalidInputException {
         try {
@@ -151,7 +150,6 @@ public class WatchlistServiceImpl implements WatchlistService {
         try {
             List<Watchlist> existingWatchlist = getCurrentWatchlist();
             try {
-                log.info("service contacted");
                 runUpdatingMethods.runUpdatingMethods(existingWatchlist, jsonRepo, newEntry, uuid);
             } catch (ParseException e) {
                 log.error("Exception ocurred while parsing json data in watchlistServiceImplementation to update PUT request", e.getMessage());

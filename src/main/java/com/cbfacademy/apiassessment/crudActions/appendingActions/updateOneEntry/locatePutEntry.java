@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.cbfacademy.apiassessment.crudActions.appendingActions.read.ReadExistingWatchlist;
 import com.cbfacademy.apiassessment.crudActions.appendingActions.sharedCrudMethods.NewWatchlistConstructor;
 import com.cbfacademy.apiassessment.exceptions.ItemNotFoundException;
 import com.cbfacademy.apiassessment.model.Watchlist;
@@ -34,7 +33,6 @@ public class locatePutEntry {
     }
 
     public void locateEntry(List<Watchlist> existingWatchlist, UUID uuid, Watchlist newEntry) throws IOException {
-        log.info("locating watchlist item");
         try {
             for(Watchlist watchlistEntry : existingWatchlist) {
             if(watchlistEntry.getUuid().equals(uuid)){
@@ -50,7 +48,3 @@ public class locatePutEntry {
         
     }
 }
-
-
-// 6b76aa35-0fa9-4340-a821-c28b12ee809c
-

@@ -2,7 +2,6 @@ package com.cbfacademy.apiassessment.crudActions.appendingActions.sharedCrudMeth
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.cbfacademy.apiassessment.model.Watchlist;
@@ -15,7 +14,6 @@ public class NewWatchlistConstructor {
     // Updates One existing entry, to be used with the PUT operations.
     // @Autowired
     public Watchlist updateOneItem(Watchlist existingEntry, Watchlist newEntry){
-        log.infor("updating one item");
         existingEntry.setSymbol(newEntry.getSymbol());
         existingEntry.setOwnsVolStock(newEntry.getOwnsVolStock());
         existingEntry.setCurrency(newEntry.getCurrency());

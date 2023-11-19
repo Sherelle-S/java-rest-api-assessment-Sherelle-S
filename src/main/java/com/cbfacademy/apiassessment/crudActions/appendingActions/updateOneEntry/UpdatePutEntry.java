@@ -1,6 +1,5 @@
 package com.cbfacademy.apiassessment.crudActions.appendingActions.updateOneEntry;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -9,13 +8,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.cbfacademy.apiassessment.crudActions.appendingActions.read.ReadExistingWatchlist;
-import com.cbfacademy.apiassessment.crudActions.appendingActions.sharedCrudMethods.ExistingWatchlistConstructor;
 import com.cbfacademy.apiassessment.crudActions.appendingActions.sharedCrudMethods.NewWatchlistConstructor;
 import com.cbfacademy.apiassessment.exceptions.ItemNotFoundException;
 import com.cbfacademy.apiassessment.model.Watchlist;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 @Component
 public class UpdatePutEntry {

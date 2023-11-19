@@ -24,7 +24,7 @@ public class RunGetWatchlist {
         this.readList = readList;
     }
 
-    // 
+    // responsible for controlling the activities of a get request
     public List<Watchlist> getWatchlist(String jsonRepo, ObjectMapper mapper) throws IOException{
         try {
             List<Watchlist> watchlist = readList.readExistingWatchlist(jsonRepo, mapper);
