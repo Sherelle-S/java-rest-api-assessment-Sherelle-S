@@ -100,7 +100,7 @@ public class WatchlistServiceImpl implements WatchlistService {
     @Override
     public ResponseEntity<List<Watchlist>> readWatchlist() {
         try {
-            List<Watchlist> retrieveWatchlist = getCurrentWatchlist();;
+            List<Watchlist> retrieveWatchlist = getCurrentWatchlist();
             if(retrieveWatchlist.size() <= 0){
                 return (ResponseEntity<List<Watchlist>>) ResponseEntity.noContent();
             } else {
