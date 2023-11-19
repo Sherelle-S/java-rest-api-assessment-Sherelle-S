@@ -1,6 +1,5 @@
 package com.cbfacademy.apiassessment;
 
-import org.assertj.core.util.Arrays;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,9 +15,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.context.annotation.Description;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -58,6 +56,7 @@ import java.util.UUID;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
@@ -170,44 +169,6 @@ class AppTests {
 			e.getMessage();
 		}
 	}
-
-
-// 	@Test
-// 	@Description("/incoming api data is parsed into watchlist objects.")
-// 	public void externalInputToWatchlistIsWrittenToJsonObject() throws JsonMappingException, JsonProcessingException{
-// 		@JsonFormat(pattern = "M/d/yyyy")
-// private LocalDate datePurchased;
-		
-// 		String jsonInputSample = "[{\"stockName\":\"Microsoft\",\"symbol\":\"MSFT\",\"currency\":\"USD\",\"datePurchased\":\"11/15/2023\",\"wants\":235,\"has\":225,\"profit\":30.0,\"open\":200.0,\"close\":205.0,\"intradayHigh\":210.0}]";
-
-// 		ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule());
-//         List<Watchlist> sampleList = mapper.readValue(jsonInputSample, new TypeReference<>() {});
-// 		String sampleJsonString = "{\"stockName\": \"Microsoft\",\"symbol\": \"MSFT\",\"currency\": \"USD\",\"datePurchased\": \"11/15/2023\",\"wants\": 235,\"has\": 225, \"profit\": 30.0,\"open\": 200.0,\"close\": 205.0,\"intradayHigh\": 210.0}";
-// 		assertEquals(sampleJsonString, sampleList);
-
-// 	}
-
-
-	// @Test
-	// @Description("/if no json file exists in specified location, one is created")
-	// public void createsJsonFileInTestJsonFileLocationIfNotPresent() throws IOException{
-	// 	String testFile = tempDir.resolve(mockJsonFile).toString();
-		
-	// 		WatchlistServiceImpl watchlistServiceImpl = new WatchlistServiceImpl(binarySearch, createFirstItem, runDeleteItem, mapper, runCreatingActions, runUpdatingMethods, sortWatchlistByName, readExistingWatchlist);
-	// 		watchlistServiceImpl.create(new ArrayList<>());
-	// 		assertTrue(Files.exists(Path.of(testFile)), "File should have been created");
-	// 		// if(!testFile.exists()){
-	// 		// 	Assertions.Fail();
-	// 		// }
-	// }
-
-	// @Test
-	// @Description("/if file exists but data is empty data is written to file")
-	// public void newWatchlistDataIsWrittenToJsonFileIfOneExistsAndItIsEmpty(){
-	// 	List<Watchlist> watchlist = new ArrayList<>();
-
-	// 	when(null)
-	// }
 
 	@Test
 	@Description("new watchlist entries are converted to a json object in addWatchlistItem")
@@ -377,7 +338,7 @@ class AppTests {
 		// binarySearch.binarySearch(new QuicksortWatchlist());
 		QuicksortWatchlist quicksortWatchlist = new QuicksortWatchlist();
 		List<Watchlist> sortedWatchlist = quicksortWatchlist.sortAlgo(existingWatchlist);
-		List<Watchlist> foundEntires = binarySearch.binarySearchWatchlist(sortedWatchlist, "Testname");
+		List<Watchlist> foundEntires = binarySearch.binarySearchWatchlist(sortedWatchlist, "TestName");
 	}	
 
 	@Test
@@ -399,6 +360,69 @@ class AppTests {
     assertEquals(stockNameToSearch, foundEntries.get(0).getStockName());
     assertEquals(stockNameToSearch, foundEntries.get(1).getStockName());
     assertEquals(stockNameToSearch, foundEntries.get(2).getStockName());
-}
+	}
 
+	@Test
+	@Description("/watchlist route endpoint returns a list of the current items in the watchlist")
+	public void watchlist_endpointShowsEndpointOK() {
+		String url = "http://localhost:" +port +"/watchlist/";
+		ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+		HttpStatusCode statusCode = restTemplate.getForEntity(url, String.class).getStatusCode();
+		assertEquals(HttpStatus.OK, statusCode);
+	}
+
+	@Test
+	@Description("/watchlist route /sortedWatchlist returns a list of the current items in the watchlist")
+	public void sortedWatchlist_ExpectedResponseWithSortedWatchlist() {
+		String url = "http://localhost:" +port +"/watchlist/sortedWatchlist";
+		ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+		HttpStatusCode statusCode = restTemplate.getForEntity(url, String.class).getStatusCode();
+		assertEquals(HttpStatus.OK, statusCode);
+	}
+
+	
+	@Test
+	@Description("/watchlist root endpoint /deleteEntry/{uuid} returns HttpStatus ok")
+	public void deleteEntryUUID_ExpectedResponseWithCurrentDocumentAdded() {
+		String url = "http://localhost:" +port +"/watchlist/";
+		ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+		HttpStatusCode statusCode = restTemplate.getForEntity(url, String.class).getStatusCode();
+		assertEquals(HttpStatus.OK, statusCode);
+	}
+	
+	@Test
+    void binarySearchWatchlist_ItemFound() {
+        // Create a list of Watchlist items
+        List<Watchlist> watchlists = new ArrayList<>();
+        Watchlist watchlist1 = new Watchlist(/* Initialize with necessary parameters */);
+        // Add watchlist1 and more items to the list
+
+        // Mock the behavior of sortAlgo method
+        when(quicksortWatchlist.sortAlgo(anyList())).thenReturn(watchlists);
+
+        // Define the item name to search for
+        String itemName = "TestItem";
+
+        // Perform the binary search
+        List<Watchlist> result = binarySearch.binarySearchWatchlist(watchlists, itemName);
+
+        // Assert that the result contains the found item
+        assertNotNull(result);
+        assertFalse(result.isEmpty());
+        // Add more specific assertions based on the expected behavior
+    }
+
+    @Test
+    void binarySearchWatchlist_ItemNotFound() {
+        // Similar test for the scenario when the item is not found
+        List<Watchlist> watchlists = new ArrayList<>();
+        // Add watchlists to the list
+
+        when(quicksortWatchlist.sortAlgo(anyList())).thenReturn(watchlists);
+
+        String itemName = "NonExistingItem";
+
+        // Perform the binary search
+        assertThrows(ItemNotFoundException.class, () -> binarySearch.binarySearchWatchlist(watchlists, itemName));
+    }
 }
