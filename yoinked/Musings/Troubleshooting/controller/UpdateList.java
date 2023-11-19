@@ -11,6 +11,10 @@ public class UpdateList {
         this.newWatchlist = newWatchlist;
     }
 
+    
+    /** 
+     * @return Watchlist
+     */
     public Watchlist getOldWatchlist() {
         return oldWatchlist;
     }

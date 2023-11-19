@@ -24,6 +24,7 @@ public class RunGetWatchlist {
         this.readList = readList;
     }
 
+    // 
     public List<Watchlist> getWatchlist(String jsonRepo, ObjectMapper mapper) throws IOException{
         try {
             List<Watchlist> watchlist = readList.readExistingWatchlist(jsonRepo, mapper);
@@ -35,7 +36,7 @@ public class RunGetWatchlist {
             log.error("Exception ocurred while retrieving watchlist data", e.getMessage());
             throw new JsonParseException();
         } catch (IOException e) {
-            log.error("IOException while reading json file", e);
+            log.error("IOException while reading json file", e.getMessage());
             throw new IOException();//ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 

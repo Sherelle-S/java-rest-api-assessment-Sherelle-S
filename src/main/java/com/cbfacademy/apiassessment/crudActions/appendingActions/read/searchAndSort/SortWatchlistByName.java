@@ -28,9 +28,10 @@ public class SortWatchlistByName {
         this.sortAlgo = sortAlgo;
         this.getWatchlist = getWatchlist;
     }
-
-        public List<Watchlist> sortedWatchlist(List<Watchlist> existingWatchlist, String jsonWatchlist, ObjectMapper mapper) throws IOException{
+// some of these String Name and Object Mapper is necessary for Binary search algo which uses data returned from quicksort, they should not be removed.
+        public List<Watchlist> sortedWatchlist(List<Watchlist> existingWatchlist, String name, ObjectMapper mapper) throws IOException{
             List<Watchlist> sortedWatchlist = sortAlgo.sortAlgo(existingWatchlist);
+            log.info("Sort by name is processing quicksort request.");
             return sortedWatchlist;
     }
 }

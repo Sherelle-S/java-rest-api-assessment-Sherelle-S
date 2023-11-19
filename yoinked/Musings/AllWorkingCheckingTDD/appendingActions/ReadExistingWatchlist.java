@@ -23,6 +23,13 @@ public class ReadExistingWatchlist {
 
     private static final Logger log = LoggerFactory.getLogger(ReadExistingWatchlist.class);
 
+    
+    /** 
+     * @param jsonRepo
+     * @param mapper
+     * @return List<Watchlist>
+     * @throws IOException
+     */
     public List<Watchlist> readExistingWatchlist(String jsonRepo, ObjectMapper mapper) throws IOException {
 
         try {

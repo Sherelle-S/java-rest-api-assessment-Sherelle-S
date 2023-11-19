@@ -25,6 +25,10 @@ public class App implements CommandLineRunner{
 	 public App (MongoWatchlistRepository repository){
 		this.repository = repository;
 	 }
+	
+	/** 
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		SpringApplication.run(App.class, args);
 	}

@@ -17,6 +17,10 @@ public class UpdateWatchlist {
         this.deserializeToJSON = deserializeToJSON;
     }
 
+    
+    /** 
+     * @throws IOException
+     */
     public void add() throws IOException{
 // check if you can add an item to an arraylist but the list is actually a method 
 

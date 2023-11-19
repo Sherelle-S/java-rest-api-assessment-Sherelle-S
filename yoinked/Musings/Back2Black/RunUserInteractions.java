@@ -7,6 +7,10 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RunUserInteractions {
+    
+    /** 
+     * @return UserInteractions
+     */
     //initialiszing the user interactions object  passing in the neccessary scanner class.
     @Bean
     public UserInteractions userInteractions(){

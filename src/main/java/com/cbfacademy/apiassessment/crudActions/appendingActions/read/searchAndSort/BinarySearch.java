@@ -1,18 +1,17 @@
 package com.cbfacademy.apiassessment.crudActions.appendingActions.read.searchAndSort;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import com.cbfacademy.apiassessment.exceptions.ItemNotFoundException;
 import com.cbfacademy.apiassessment.model.Watchlist;
 
-// uses binary search to find watchlist object by name.
+// uses binary search to find watchlist object by name. sorted array comes from quicksort watchlist and user input.
 @Component
 public class BinarySearch {
 
@@ -25,20 +24,33 @@ public class BinarySearch {
             this.quicksortWatchlist = quicksortWatchlist;
         }
 
-    public Watchlist binarySearchWatchlist(List<Watchlist> existingWatchlist, String name){
+    public List<Watchlist> binarySearchWatchlist(List<Watchlist> existingWatchlist, String name){
         List<Watchlist> sortedWatchlist = quicksortWatchlist.sortAlgo(existingWatchlist);
+        List<Watchlist> foundEntries = new ArrayList<>();
 
         int index = binarySearch(sortedWatchlist, name);
-        log.info("pre search name is" + name );
+        log.info("looking for items containing stockName " + name + " in their.");
 
         if(index == -1){
             log.info(name + " cannot be found it our watchlist.");
+            log.info("Watchlist entries in binary search.", sortedWatchlist);
             throw new ItemNotFoundException(name + "Cannot be found in Watchlist");
         } else {
             log.info(name + " found at " + index);
-            // return new ResponseEntity<>(sortedWatchlist.get(index), HttpStatus.OK);
-            return existingWatchlist.get(index);
+            
+            int currentIndex = index;
+            while (currentIndex >= 0 && sortedWatchlist.get(currentIndex).getStockName().equalsIgnoreCase(name)) {
+                foundEntries.add(existingWatchlist.get(currentIndex));
+                currentIndex--; 
+            }
+            // return foundEntries;
+            currentIndex = index + 1;
+            while(currentIndex < existingWatchlist.size() && sortedWatchlist.get(currentIndex).getStockName().equalsIgnoreCase(name)){
+                foundEntries.add(existingWatchlist.get(currentIndex));
+                currentIndex++;
+            }
         }
+        return foundEntries;
     }
 
     private int binarySearch(List<Watchlist> sortedWatchlist, String name) {

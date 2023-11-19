@@ -25,6 +25,10 @@ public class SerializeWatchlist {
 
     private static final Logger log = LoggerFactory.getLogger(SerializeWatchlist.class);
 
+
+/** 
+ * @return String
+ */
 // `this.mapper.registerModule(new JavaTimeModule());`  is necessary to avoid `Java 8 date/time type `java.time.LocalDate` not supported by default` issue.
         // public ResponseEntity<String> serialize(Watchlist watchlist) throws FailedToIOWatchlistException {
     public String serialize(List<Watchlist> watchlist) throws FailedToIOWatchlistException{

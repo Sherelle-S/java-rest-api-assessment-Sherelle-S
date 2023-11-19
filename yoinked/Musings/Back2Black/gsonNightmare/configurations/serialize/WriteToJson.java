@@ -34,6 +34,10 @@ public class WriteToJson {
     Gson gson = new GsonBuilder().registerTypeAdapter(LocalDate.class, new DateTypeAdapter()).create();
     String jsonString = gson.toJson(createList);
 
+    
+    /** 
+     * @throws FailureToIOJsonException
+     */
     public void writeToJson() throws FailureToIOJsonException {
         String jsonRepo = "JsonWatchlist.json";
         try {

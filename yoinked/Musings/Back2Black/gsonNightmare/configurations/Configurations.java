@@ -11,6 +11,10 @@ import com.google.gson.GsonBuilder;
 @Configuration
 public class Configurations {
 
+    
+    /** 
+     * @return GsonHttpMessageConverter
+     */
     @Bean
     public GsonHttpMessageConverter gsonHttpMessageConverter() {
         Gson gson = new GsonBuilder().registerTypeAdapter(LocalDate.class, new DateTypeAdapter()).create();

@@ -40,7 +40,7 @@ public class WatchlistController {
     }
 
     // shows all watchlist data 
-    @GetMapping(value = "/showWatchlist")
+    @GetMapping(value = "/")
     public ResponseEntity<List<Watchlist>> readWatchlist() throws WatchlistDataAccessException, ParseException {
         return service.readWatchlist();
     }
@@ -53,7 +53,7 @@ public class WatchlistController {
 
     //search watchlist by stockName
     @GetMapping(value = "/searchName/{name}")
-    public ResponseEntity<Watchlist> searchByName(@PathVariable String name) throws InvalidInputException{
+    public ResponseEntity<List<Watchlist>> searchByName(@PathVariable String name) throws InvalidInputException{
         log.info("controller name is" + name );
         return service.searchByName(name);
 
@@ -69,6 +69,7 @@ public class WatchlistController {
     // maps to put routing searching by uuid 
     @PutMapping(value = "/updateEntry/{uuid}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity <Void> updateEntry(@PathVariable UUID uuid, @RequestBody Watchlist newEntry){
+        log.info("controller update");
         return service.updateEntry(uuid, newEntry);
     }
     

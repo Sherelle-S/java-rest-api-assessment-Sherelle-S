@@ -24,6 +24,10 @@ public class App implements CommandLineRunner{
 	 public App (CRUDWatchlistRepository repository){
 		this.repository = repository;
 	 }
+	
+	/** 
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		SpringApplication.run(App.class, args);
 	}

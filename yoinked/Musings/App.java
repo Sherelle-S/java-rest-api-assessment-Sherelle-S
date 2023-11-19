@@ -58,6 +58,10 @@ public class App implements CommandLineRunner{
 	 public App (CRUDWatchlistRepository repository){
 		this.repository = repository;
 	 }
+	
+	/** 
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		SpringApplication.run(App.class, args);
 	}
@@ -139,6 +143,6 @@ public class App implements CommandLineRunner{
 	// @DeleteMapping("/delete")
 	// // public
 
-	}
+	// }
 }
 >>>>>>> e2e2602ffccfe3b4a066249db4180796a5eba5c1

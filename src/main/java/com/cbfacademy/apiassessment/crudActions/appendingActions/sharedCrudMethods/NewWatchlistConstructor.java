@@ -15,11 +15,11 @@ public class NewWatchlistConstructor {
     // Updates One existing entry, to be used with the PUT operations.
     // @Autowired
     public Watchlist updateOneItem(Watchlist existingEntry, Watchlist newEntry){
+        log.infor("updating one item");
         existingEntry.setSymbol(newEntry.getSymbol());
         existingEntry.setOwnsVolStock(newEntry.getOwnsVolStock());
         existingEntry.setCurrency(newEntry.getCurrency());
         existingEntry.setWantsVolStock(newEntry.getWantsVolStock());
-        // double pointsChange = existingEntry.getClose() - existingEntry.getOpen();
         existingEntry.setCurrentPrice(newEntry.getCurrentPrice());
         existingEntry.setPurchasePrice(newEntry.getPurchasePrice());
         existingEntry.setProfit(newEntry.getProfit());

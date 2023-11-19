@@ -29,6 +29,10 @@ public class WatchlistController {
 
     @Autowired
     private WatchlistRepository watchlistRepository;
+    
+    /** 
+     * @return ResponseEntity<List<Watchlist>>
+     */
     // // this may need to be a service private WatchlistService service;
 
      @GetMapping("/")

@@ -13,6 +13,11 @@ public class UserInput {
         this.userInteractions = userInteractions;
     }
     
+    
+    /** 
+     * @return Watchlist
+     * @throws InvalidInputException
+     */
     protected Watchlist useDetails() throws InvalidInputException{
         Watchlist watchList = new Watchlist();
         

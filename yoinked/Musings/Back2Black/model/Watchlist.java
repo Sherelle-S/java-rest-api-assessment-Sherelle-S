@@ -44,6 +44,10 @@ public class Watchlist {
         this.close = close;
         this.intradayHigh = intradayHigh;
     }
+    
+    /** 
+     * @return Long
+     */
     @Id
     public Long getId() {
         return id;

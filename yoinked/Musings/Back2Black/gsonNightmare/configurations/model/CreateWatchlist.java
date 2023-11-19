@@ -52,6 +52,10 @@ public class CreateWatchlist extends Watchlist{
         this.intradayHigh = intradayHigh;
     }
 
+    
+    /** 
+     * @return UUID
+     */
     //  public CreateWatchlist() {
     // }
 

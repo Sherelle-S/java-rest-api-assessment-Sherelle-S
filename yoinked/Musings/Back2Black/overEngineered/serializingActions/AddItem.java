@@ -17,6 +17,13 @@ public class AddItem {
         this.deserializeWatchlist = deserializeWatchlist;
     }
 
+    
+    /** 
+     * @param newItem
+     * @param jsonRepo
+     * @return List<Watchlist>
+     * @throws IOException
+     */
     public List<Watchlist> addItemToWatchlist(Watchlist newItem, String jsonRepo) throws IOException {
         try {
             List<Watchlist> existingWatchlist = deserializeWatchlist.deserializeList(jsonRepo);

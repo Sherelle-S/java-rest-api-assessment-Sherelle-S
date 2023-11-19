@@ -41,6 +41,10 @@ public class Watchlist {
             this.intradayHigh = high;
         }
     
+    
+    /** 
+     * @return ObjectId
+     */
     public ObjectId getId() {
         return id;
     }

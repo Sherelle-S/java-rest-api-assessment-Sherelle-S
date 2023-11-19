@@ -6,6 +6,10 @@ public class AddListEntry {
     
     private List<Watchlist> newEntry;
 
+    
+    /** 
+     * @return List<Watchlist>
+     */
     // @JsonC
     public List<Watchlist> getNewEntry() {
         return newEntry;

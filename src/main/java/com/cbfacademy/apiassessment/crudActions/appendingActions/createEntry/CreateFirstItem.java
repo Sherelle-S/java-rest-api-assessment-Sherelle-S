@@ -16,6 +16,7 @@ import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
+// class creates the first item written to the json file. The first item written to json is done via a different method as it needs to create and initialize and empty Watchlist Arraylist so that it can be reused by other methods later.
 @Component
 public class CreateFirstItem {
     

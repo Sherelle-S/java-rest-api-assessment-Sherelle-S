@@ -19,7 +19,6 @@ public class ExistingWatchlistConstructor {
         existingEntry.setOwnsVolStock(newEntry.getOwnsVolStock());
         existingEntry.setCurrency(newEntry.getCurrency());
         existingEntry.setWantsVolStock(newEntry.getWantsVolStock());
-        // double pointsChange = existingEntry.getClose() - existingEntry.getOpen();
         existingEntry.setCurrentPrice(newEntry.getCurrentPrice());
         existingEntry.setPurchasePrice(newEntry.getPurchasePrice());
         existingEntry.setProfit(newEntry.getProfit());

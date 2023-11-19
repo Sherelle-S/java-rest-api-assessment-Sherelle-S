@@ -20,6 +20,14 @@ public class UpdateAndWrite {
 
     private static final Logger log = LoggerFactory.getLogger(UpdateAndWrite.class);
 
+    
+    /** 
+     * @param jsonRepo
+     * @param mapper
+     * @param existingWatchlist
+     * @throws StreamWriteException
+     * @throws IOException
+     */
     public void writeUpdatedWatchlist(String jsonRepo, ObjectMapper mapper, List<Watchlist> existingWatchlist) throws StreamWriteException, IOException {
         try {
             log.info("existingWatchlist at updateAndWrite: {}", existingWatchlist);

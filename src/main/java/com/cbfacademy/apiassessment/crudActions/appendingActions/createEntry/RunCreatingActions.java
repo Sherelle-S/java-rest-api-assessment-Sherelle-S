@@ -36,6 +36,10 @@ public class RunCreatingActions {
         this.readList = readList;
     }
 
+    
+    /** 
+     * @return ResponseEntity<?>
+     */
     // public ResponseEntity<?> appendNewItems(List<Watchlist> watchlist, List<Watchlist> existingWatchlist, String jsonRepo) throws IOException{
         public ResponseEntity<?> appendNewItems(List<Watchlist> watchlist, String jsonRepo) throws IOException{
         try {

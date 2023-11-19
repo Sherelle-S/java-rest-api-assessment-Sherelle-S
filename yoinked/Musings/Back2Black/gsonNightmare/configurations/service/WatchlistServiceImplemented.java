@@ -48,6 +48,10 @@ public class WatchlistServiceImplemented implements WatchlistService {
  
     }
 
+    
+    /** 
+     * @return CreateWatchlist
+     */
     public CreateWatchlist getWatchlistData(){
         return createWatchlist;
     }

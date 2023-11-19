@@ -8,6 +8,12 @@ import com.google.gson.stream.JsonWriter;
 
 public class ThreadLocalTypeAdapter extends TypeAdapter<ThreadLocal<?>> {
 
+    
+    /** 
+     * @param out
+     * @param value
+     * @throws IOException
+     */
     @Override
     public void write(JsonWriter out, ThreadLocal<?> value) throws IOException {
         return ;

@@ -32,6 +32,10 @@ public class Controller {
         this.userInteractions = userInteractions;
     }
 
+    
+    /** 
+     * @return ResponseEntity<List<Watchlist>>
+     */
     // @GetMapping("/")
     // public List<Watchlist> getAllWatchlist(){ //handles get requests
     //     return watchlistRepository.findAll();

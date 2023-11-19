@@ -33,19 +33,22 @@ public class RunUpdatingMethods {
     private WriteToJsonFile writeToJson;
     private UpdatePutEntry updateOneEntry;
 
+    // handles the methods that run all actions responsible for making a POST request together in one place
     public RunUpdatingMethods( ObjectMapper mapper, ReadExistingWatchlist readList,
             WriteToJsonFile writeToJson, UpdatePutEntry updateOneEntry) {
         this.mapper = mapper;
+        // this must be registered at the same time as mapper to prevent exceptions.
         this.mapper = mapper.registerModule(new JavaTimeModule());
         this.readList = readList;
         this.writeToJson = writeToJson;
         this.updateOneEntry = updateOneEntry;
     }
 
-    // runs all the components for updating one entry of watchlist 
+    // runs all the components for updating one entry of watchlist readsWatchlist updates one entry and writes back to json
     public ResponseEntity<Void> runUpdatingMethods(List<Watchlist> watchlist, String jsonRepo, Watchlist newEntry, UUID uuid) throws ParseException{
         try {
             readList.readExistingWatchlist(jsonRepo, mapper);
+            log.info("reader is working in run updating method");
             updateOneEntry.updateEntryViaUuid(watchlist, uuid, newEntry);
             writeToJson.writeToJson(jsonRepo, mapper, watchlist);
             log.info("Watchlist entry has successfully been updated.");

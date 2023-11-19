@@ -30,6 +30,12 @@ public class WriteToJsonFile {
         this.mapper = mapper.registerModule(new JavaTimeModule());
     }
     
+    
+    /** 
+     * @param watchlist
+     * @param jsonRepo
+     * @throws InvalidInputException
+     */
     public void writeListToJson(List<Watchlist> watchlist, String jsonRepo) throws InvalidInputException{
         
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(jsonRepo))) {

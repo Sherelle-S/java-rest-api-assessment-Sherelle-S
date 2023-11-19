@@ -17,6 +17,11 @@ public class MImplementService implements MWatchlistService{
         this.watchlistRepository = watchlistRepository;
     }
 
+    
+    /** 
+     * @param watchlist
+     * @return Watchlist
+     */
     @Override
     public Watchlist saveWatchlist(Watchlist watchlist) {
         return watchlistRepository.save(watchlist);

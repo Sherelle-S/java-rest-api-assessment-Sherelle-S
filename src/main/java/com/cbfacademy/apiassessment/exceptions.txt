@@ -1,0 +1,249 @@
+
+package com.cbfacademy.apiassessment.exceptions;
+
+import org.json.simple.parser.ParseException;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+import com.fasterxml.jackson.core.JsonLocation;
+import com.fasterxml.jackson.core.JsonProcessingException;
+
+// custom exception for processing json data
+@ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
+public class WatchlistProcessingException extends JsonProcessingException{
+
+    public WatchlistProcessingException(String msg, JsonLocation loc) {
+        super(msg, loc);
+    }
+
+    public WatchlistProcessingException(String msg, ParseException cause) {
+        super(msg);
+    }
+
+    public WatchlistProcessingException(String msg, Throwable rootCause) {
+        super(msg, rootCause);
+    }
+
+    public WatchlistProcessingException(String msg) {
+        super(msg);
+    }
+
+    public WatchlistProcessingException(String msg, String message) {
+        super(msg);
+    }
+
+}
+
+
+
+package com.cbfacademy.apiassessment.exceptions;
+
+import java.io.IOException;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+@ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
+public class WatchlistDataAccessException extends IOException{
+
+    public WatchlistDataAccessException(){}
+    public WatchlistDataAccessException(String message){
+        super(message);
+    }
+
+    public WatchlistDataAccessException(String message, String exception){
+        super(message);
+    }
+
+    public WatchlistDataAccessException(Throwable cause){
+    super(cause);
+    }
+
+    public WatchlistDataAccessException(String message, Throwable cause){
+        super(message, cause);
+    }
+    
+}
+package com.cbfacademy.apiassessment.exceptions;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+@ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
+public class ItemNotFoundException extends RuntimeException {
+
+    
+    public ItemNotFoundException(String id){
+        super("Could not find watchList item " + id);
+    }
+
+    public ItemNotFoundException(String message, String cause){
+        super(message);
+    }
+
+}
+package com.cbfacademy.apiassessment.exceptions;
+
+import java.io.IOException;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+@ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
+public class InvalidInputException extends IOException {
+    public InvalidInputException(){}
+    public InvalidInputException(String message){
+        super(message);
+    }
+
+public InvalidInputException(Throwable cause){
+    super(cause);
+    }
+
+    public InvalidInputException(String message, Throwable cause){
+        super(message, cause);
+    }
+}
+
+
+package com.cbfacademy.apiassessment.crudActions.appendingActions.updateOneEntry;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.UUID;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.cbfacademy.apiassessment.crudActions.appendingActions.read.ReadExistingWatchlist;
+import com.cbfacademy.apiassessment.crudActions.appendingActions.sharedCrudMethods.ExistingWatchlistConstructor;
+import com.cbfacademy.apiassessment.crudActions.appendingActions.sharedCrudMethods.NewWatchlistConstructor;
+import com.cbfacademy.apiassessment.exceptions.ItemNotFoundException;
+import com.cbfacademy.apiassessment.model.Watchlist;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
+@Component
+public class UpdatePutEntry {
+    
+     private static final Logger log = LoggerFactory.getLogger(UpdatePutEntry.class);
+    //  private ExistingEntryConstructor updateExistingEntry; removed
+    //  private locatePutEntry updateWatchlist;
+    //  private ReadExistingWatchlist readList;
+     private ObjectMapper mapper;
+     private NewWatchlistConstructor newWatchlist;
+    
+    @Autowired
+    public UpdatePutEntry(ObjectMapper mapper, NewWatchlistConstructor newWatchlist) {
+        this.mapper = mapper;
+        this.mapper = mapper.registerModule(new JavaTimeModule());
+        this.newWatchlist = newWatchlist;
+    }
+
+    
+    /** 
+     * @param existingWatchlist
+     * @param uuid
+     * @param newEntry
+     */
+    // updates one watchlist entry located by UUID
+    public void updateEntryViaUuid(List<Watchlist> existingWatchlist, UUID uuid, Watchlist newEntry){
+        log.info("Locating watchlist item with UUID: {}, uuid");
+        for(Watchlist watchlistEntry : existingWatchlist){
+            if(watchlistEntry.getUuid().equals(uuid)){
+                newWatchlist.updateOneItem(watchlistEntry, newEntry);
+                log.info("Item with UUID {} has been updated in watchlist.", uuid);
+                break;
+            }
+        }
+    }
+}
+
+package com.cbfacademy.apiassessment.crudActions.appendingActions.updateOneEntry;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.UUID;
+
+import org.json.simple.parser.ParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
+
+import com.cbfacademy.apiassessment.crudActions.appendingActions.createEntry.RunCreatingActions;
+import com.cbfacademy.apiassessment.crudActions.appendingActions.createEntry.WriteToJsonFile;
+import com.cbfacademy.apiassessment.crudActions.appendingActions.read.ReadExistingWatchlist;
+import com.cbfacademy.apiassessment.exceptions.ItemNotFoundException;
+import com.cbfacademy.apiassessment.model.Watchlist;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
+/**
+ * Handles the methods related to updating watchlist entries.
+ */
+@Component
+public class RunUpdatingMethods {
+    
+    /** Logger for logging events within this class. */
+    private static final Logger log = LoggerFactory.getLogger(RunCreatingActions.class);
+
+    /** Object Mapper for JSON serialization and deserialization. */
+    @Autowired
+    private ObjectMapper mapper;
+
+    /** Reads existing watchlist data. */
+    private ReadExistingWatchlist readList;
+
+    /** Writes updated watchlist data to JSON. */
+    private WriteToJsonFile writeToJson;
+
+    /** Handles updating individual watchlist entries. */
+    private UpdatePutEntry updateOneEntry;
+
+    /**
+     * Constructs a RunUpdatingMethods instance.
+     * 
+     * @param mapper         ObjectMapper for JSON processing.
+     * @param readList       Reads existing watchlist data.
+     * @param writeToJson    Writes updated watchlist data to JSON.
+     * @param updateOneEntry Handles updating individual watchlist entries.
+     */
+    public RunUpdatingMethods(ObjectMapper mapper, ReadExistingWatchlist readList,
+            WriteToJsonFile writeToJson, UpdatePutEntry updateOneEntry) {
+        this.mapper = mapper.registerModule(new JavaTimeModule());
+        this.readList = readList;
+        this.writeToJson = writeToJson;
+        this.updateOneEntry = updateOneEntry;
+    }
+
+    
+    /** 
+     * @param watchlist
+     * @param jsonRepo
+     * @param newEntry
+     * @param uuid
+     * @return ResponseEntity<Void>
+     * @throws ParseException
+     */
+    // runs all the components for updating one entry of watchlist 
+    public ResponseEntity<Void> runUpdatingMethods(List<Watchlist> watchlist, String jsonRepo, Watchlist newEntry, UUID uuid) throws ParseException{
+        try {
+            readList.readExistingWatchlist(jsonRepo, mapper);
+            updateOneEntry.updateEntryViaUuid(watchlist, uuid, newEntry);
+            writeToJson.writeToJson(jsonRepo, mapper, watchlist);
+            log.info("Watchlist entry has successfully been updated.");
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } catch (ItemNotFoundException e) {
+            log.error("The item that you are looking for could not be located", e);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (IOException e ) {
+            log.error("An error has ocurred while trying to update watchlist with your request.", e);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+}

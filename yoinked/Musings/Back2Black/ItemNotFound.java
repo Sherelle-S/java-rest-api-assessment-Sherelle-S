@@ -11,6 +11,11 @@ import com.cbfacademy.apiassessment.Exceptions.ItemNotFoundException;
 @ControllerAdvice
 public class ItemNotFound {
     
+    
+    /** 
+     * @param ex
+     * @return String
+     */
     @ResponseBody
     @ExceptionHandler(ItemNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)

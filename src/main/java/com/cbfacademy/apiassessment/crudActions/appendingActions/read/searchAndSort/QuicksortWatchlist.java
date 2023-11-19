@@ -2,19 +2,25 @@ package com.cbfacademy.apiassessment.crudActions.appendingActions.read.searchAnd
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.cbfacademy.apiassessment.model.Watchlist;
 
-// we use this sorting algorithm to sort our returned json data by name.
+// we use this sorting algorithm to sort our returned json objects in alphabetical order by name.
 @Component
 public class QuicksortWatchlist {
+
+        private static final Logger log = LoggerFactory.getLogger(QuicksortWatchlist.class);
+
 
         public List<Watchlist> sortAlgo(List<Watchlist> existingWatchlist){
         quickSort(existingWatchlist, 0, existingWatchlist.size() - 1);
         for(Watchlist watchlist : existingWatchlist) {
             System.out.println(watchlist.getStockName());
         }
+        log.info("Quicksort of json array has been complete");
             return existingWatchlist;
         }
         private static void quickSort(List<Watchlist> watchlist, int start, int end){

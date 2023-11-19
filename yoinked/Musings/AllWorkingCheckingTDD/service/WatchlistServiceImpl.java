@@ -47,6 +47,11 @@ public class WatchlistServiceImpl implements WatchlistService {
 
     String jsonRepo = "src/main/resources/JsonWatchlist.json";
  
+    
+    /** 
+     * @return List<Watchlist>
+     * @throws FailedToIOWatchlistException
+     */
     // gets an object of existing watchlsts
     private List<Watchlist> getExistingWatchlist() throws FailedToIOWatchlistException {
         try {

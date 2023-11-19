@@ -98,8 +98,6 @@ class AppTests {
 	private SortWatchlistByName sortWatchlistByName;
 	@Mock
 	private RunDeleteEntry runDeleteItem;
-	@Mock
-	private BinarySearch binarySearch;
 	@Mock 
 	private CreateFirstItem createFirstItem;
 	@Mock
@@ -116,6 +114,10 @@ class AppTests {
 	@TempDir
 	Path tempDir;
 
+	
+	/** 
+	 * @throws Exception
+	 */
 	@BeforeEach
 	public void setUp() throws Exception {
 		try {
@@ -411,6 +413,7 @@ class AppTests {
 
 	@Test
 	@Description("/sorted array is received from quicksort")
+
 	public void itemReceivedFromQuicksortIsSorted(){
 		List<Watchlist> existingWatchlist = new ArrayList<>();
 		existingWatchlist.add(new Watchlist(UUID.randomUUID(), "TestStock A", "XAG", "USD", LocalDate.now(), 150, 250, 80.0, 85.0, 5.0, 0.5, 75.0, 90.0, 95.0));
@@ -419,6 +422,34 @@ class AppTests {
 		binarySearch.binarySearch(new QuicksortWatchlist());
 		Watchlist watchlist = binarySearch.binarySearchWatchlist(existingWatchlist, "TestName");
 	}	
+
+	@Test
+	@Description("Binary search returns multiple entries for a given stock name")
+	public void binarySearch_ReturnsMultipleEntriesForStockName() {
+    List<Watchlist> mockWatchlist = new ArrayList<>();
+    mockWatchlist.add(new Watchlist(UUID.randomUUID(), "Amazon", "AMZN", "USD", LocalDate.now(), 10, 10, 300.0, 305.0, 50.0, 5.0, 300.0, 305.0, 310.0));
+    mockWatchlist.add(new Watchlist(UUID.randomUUID(), "Amazon", "AMZN", "USD", LocalDate.now(), 8, 8, 280.0, 290.0, 80.0, 8.0, 280.0, 290.0, 295.0));
+    mockWatchlist.add(new Watchlist(UUID.randomUUID(), "Amazon", "AMZN", "USD", LocalDate.now(), 15, 15, 320.0, 330.0, 150.0, 15.0, 320.0, 330.0, 335.0));
+
+    String stockNameToSearch = "Amazon";
+
+    doReturn(mockWatchlist).when(binarySearch).binarySearchWatchlist(anyList(), eq(stockNameToSearch));
+
+    List<Watchlist> foundEntries = binarySearch.binarySearchWatchlist(mockWatchlist, stockNameToSearch);
+
+    assertNotNull(foundEntries);
+    assertEquals(3, foundEntries.size());
+    assertEquals(stockNameToSearch, foundEntries.get(0).getStockName());
+    assertEquals(stockNameToSearch, foundEntries.get(1).getStockName());
+    assertEquals(stockNameToSearch, foundEntries.get(2).getStockName());
+}
+
+	@Test 
+// 	Test 3. the Array has data in it.
+// Test 4. items in the algo are being converted to toLowerCase() during the sort
+// Test 5. item is located.
+// Test 6. index is returned
+// Test 7. item itself is returned
 
 }
 

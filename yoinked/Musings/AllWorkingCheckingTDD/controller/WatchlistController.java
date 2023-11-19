@@ -45,6 +45,11 @@ public class WatchlistController {
         this.writeToJsonFile = writeToJsonFile;
     }
 
+    
+    /** 
+     * @return ResponseEntity<List<Watchlist>>
+     * @throws FailedToIOWatchlistException
+     */
     @GetMapping("/working")
     public ResponseEntity<List<Watchlist>> readWatchlist() throws FailedToIOWatchlistException {
         try {

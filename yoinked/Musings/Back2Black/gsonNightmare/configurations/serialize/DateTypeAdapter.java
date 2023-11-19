@@ -17,6 +17,14 @@ public class DateTypeAdapter implements JsonSerializer<LocalDate>, JsonDeseriali
 
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
+    
+    /** 
+     * @param json
+     * @param typeOfT
+     * @param context
+     * @return LocalDate
+     * @throws JsonParseException
+     */
     @Override
     public LocalDate deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context)
             throws JsonParseException {

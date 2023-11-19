@@ -26,6 +26,12 @@ public class DeserializeWatchlist {
         this.mapper.registerModule(new JavaTimeModule());
         }
 
+        
+        /** 
+         * @param jsonRepo
+         * @return List<Watchlist>
+         * @throws FailedToIOWatchlistException
+         */
         public List<Watchlist> deserializeList(String jsonRepo) throws FailedToIOWatchlistException{
         
         try {

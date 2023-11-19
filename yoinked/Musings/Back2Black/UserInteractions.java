@@ -16,6 +16,11 @@ public class UserInteractions {
 		this.scanner = scanner;
 	}
 
+		
+		/** 
+		 * @return String
+		 * @throws InvalidInputException
+		 */
 		public String inputStockName() throws InvalidInputException{
 			System.out.println("please enter the name of the stock item?");
 			String stockName = scanner.nextLine();

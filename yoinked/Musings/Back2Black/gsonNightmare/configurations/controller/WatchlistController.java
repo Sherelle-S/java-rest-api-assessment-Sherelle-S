@@ -30,6 +30,10 @@ public class WatchlistController {
     private WatchlistService service;
     private ReadFromJson readOutput;
 
+    
+    /** 
+     * @return ResponseEntity<WriteToJson>
+     */
     //  @GetMapping("/")
     // public ResponseEntity<List<ReadFromJson>> getAllWatchlist() {
     //     return service.getAllWatchlist();

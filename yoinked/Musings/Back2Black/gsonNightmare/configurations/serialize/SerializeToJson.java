@@ -17,6 +17,11 @@ public class SerializeToJson {
 
     private static final Logger log = LoggerFactory.getLogger(WriteToJson.class);
     Gson gson = new GsonBuilder().registerTypeAdapter(LocalDate.class, new DateTypeAdapter()).create();
+
+/** 
+ * @param incomingList
+ * @throws FailureToIOJsonException
+ */
 // see if we can take in the arrayList to be serialized as a parameter
     public void serializeToJson(List<Watchlist> incomingList) throws FailureToIOJsonException{
         String jsonRepo = "JsonWatchlist.json";

@@ -13,6 +13,10 @@ public class Configuration {
         private static final Logger log = LoggerFactory.getLogger(WatchlistController.class);
 
     
+        
+        /** 
+         * @return Jackson2ObjectMapperBuilder
+         */
         @Bean
         public Jackson2ObjectMapperBuilder objectMapperBuilder() {
         Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();

@@ -8,6 +8,10 @@ public class Watchlist {
 //     @JsonProperty
     private static final Map<String, Integer> stockNameIncrement = new HashMap<>();
 
+    
+    /** 
+     * @return Map<String, Integer>
+     */
     public static Map<String, Integer> getStockNameIncrement() {
         return stockNameIncrement;
     }

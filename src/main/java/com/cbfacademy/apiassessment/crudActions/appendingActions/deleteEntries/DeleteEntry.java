@@ -16,6 +16,7 @@ import com.cbfacademy.apiassessment.exceptions.ItemNotFoundException;
 import com.cbfacademy.apiassessment.model.Watchlist;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+ // checks if item has the same UUID as the one in question and removes it from database.
 @Component
 public class DeleteEntry {
 
@@ -30,7 +31,7 @@ public class DeleteEntry {
         this.writeToJson = writeToJson;
     }
 
-    // checks if item has the same UUID as the one in question and removes it from database.
+   
         private void deleteWatchlistItem(List<Watchlist> existingWatchlist, UUID uuid){
             Iterator<Watchlist> iterator = existingWatchlist.iterator();
             while(iterator.hasNext()){
@@ -42,7 +43,7 @@ public class DeleteEntry {
             log.info("item with the UUID of " + uuid + " has been located.");
         }
   
-        // delete watchlist entry and update json file.
+        // deletes watchlist entry and update json file.
     public List<Watchlist> deleteEntry(List<Watchlist> existingWatchlist, String jsonRepo, ObjectMapper mapper, UUID uuid){
         try {
             deleteWatchlistItem(existingWatchlist, uuid);

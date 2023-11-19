@@ -26,6 +26,10 @@ public class ReadFromJson {
             
         }
 
+    
+    /** 
+     * @return CreateWatchlist
+     */
     // public void getAllWatchlist() throws FailureToIOJsonException{
         public CreateWatchlist getAllWatchlist() throws FailureToIOJsonException{
     //  path to be read from 

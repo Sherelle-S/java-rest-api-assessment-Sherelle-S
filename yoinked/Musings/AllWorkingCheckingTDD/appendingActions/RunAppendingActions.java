@@ -35,6 +35,12 @@ public class RunAppendingActions {
         this.updateAndWrite = updateAndWrite;
     }
 
+    
+    /** 
+     * @param watchlist
+     * @param jsonRepo
+     * @throws IOException
+     */
     public void runAppendingActions(List<Watchlist> watchlist, String jsonRepo) throws IOException{
 
         try {

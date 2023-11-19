@@ -21,27 +21,26 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 public class UpdatePutEntry {
     
      private static final Logger log = LoggerFactory.getLogger(UpdatePutEntry.class);
-    //  private ExistingEntryConstructor updateExistingEntry; removed
-    //  private locatePutEntry updateWatchlist;
-    //  private ReadExistingWatchlist readList;
-     private ObjectMapper mapper;
+ ;
+  
      private NewWatchlistConstructor newWatchlist;
     
     @Autowired
-    public UpdatePutEntry(ObjectMapper mapper, NewWatchlistConstructor newWatchlist) {
-        this.mapper = mapper;
-        this.mapper = mapper.registerModule(new JavaTimeModule());
+    public UpdatePutEntry(NewWatchlistConstructor newWatchlist) {
         this.newWatchlist = newWatchlist;
     }
 
-    // updates one watchlist entry located by UUID
+    // updates one watchlist entry located by UUID if uuid cannot be found we throw exception
     public void updateEntryViaUuid(List<Watchlist> existingWatchlist, UUID uuid, Watchlist newEntry){
+        log.info("updatePutEntry is running");
         log.info("Locating watchlist item with UUID: {}, uuid");
         for(Watchlist watchlistEntry : existingWatchlist){
             if(watchlistEntry.getUuid().equals(uuid)){
                 newWatchlist.updateOneItem(watchlistEntry, newEntry);
                 log.info("Item with UUID {} has been updated in watchlist.", uuid);
                 break;
+            } else {
+                throw new ItemNotFoundException("The item with the uuid you are looking for cannot be found.");
             }
         }
     }

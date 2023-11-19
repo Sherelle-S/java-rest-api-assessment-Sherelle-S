@@ -14,6 +14,11 @@ import com.cbfacademy.apiassessment.model.Watchlist;
 public class AddWatchlistItem {
 
     private static final Logger log = LoggerFactory.getLogger(AddWatchlistItem.class);
+
+/** 
+ * @param watchlist
+ * @param existingWatchlist
+ */
 // we iterate through each item of our watchlist checking if we do not already have that uuid we add it to existingWatchlist
     public void appendToWatchlist(List<Watchlist> watchlist, List<Watchlist> existingWatchlist) {
         for(Watchlist entry : watchlist) {

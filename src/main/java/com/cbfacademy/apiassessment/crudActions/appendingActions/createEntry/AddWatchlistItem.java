@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import com.cbfacademy.apiassessment.crudActions.appendingActions.sharedCrudMethods.ExistingWatchlistConstructor;
 import com.cbfacademy.apiassessment.model.Watchlist;
 
-// File appends data to existing temporary watchlist object
+// File appends data to existing temporary watchlist object, adding the new entry. it then writes the temporary watchlist with all data including the new entry to json if 'WriteToJsonFile' is called.
 @Component
 public class AddWatchlistItem {
 

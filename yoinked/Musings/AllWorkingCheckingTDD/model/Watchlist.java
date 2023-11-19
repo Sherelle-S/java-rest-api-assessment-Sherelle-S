@@ -77,6 +77,10 @@ public class Watchlist {
         this.intradayHigh = intradayHigh;
     }
 
+    
+    /** 
+     * @return UUID
+     */
     public UUID getUuid() {
         return uuid;
     }

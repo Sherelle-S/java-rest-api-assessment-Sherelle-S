@@ -23,6 +23,10 @@ public class WatchlistServices {
         this.repository.saveAll(defaultWatchlist());
     }
 
+    
+    /** 
+     * @return List<Watchlist>
+     */
     private static List<Watchlist> defaultWatchlist(){
         return List.of(
             //new Wathclist()

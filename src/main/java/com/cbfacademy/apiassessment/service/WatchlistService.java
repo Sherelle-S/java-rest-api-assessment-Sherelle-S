@@ -19,7 +19,7 @@ public interface WatchlistService {
 
     ResponseEntity<List<Watchlist>> sortedWatchlist() throws WatchlistDataAccessException;
 
-    public ResponseEntity<Watchlist> searchByName(String name) throws InvalidInputException;
+    ResponseEntity<List<Watchlist>> searchByName(String name) throws InvalidInputException;
 
     ResponseEntity<Void> updateEntry(UUID uuid, Watchlist newEntry);
 
