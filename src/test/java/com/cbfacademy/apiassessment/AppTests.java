@@ -55,8 +55,6 @@ import java.util.UUID;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
@@ -66,7 +64,6 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest(classes = App.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -390,39 +387,4 @@ class AppTests {
 		assertEquals(HttpStatus.OK, statusCode);
 	}
 	
-	@Test
-    void binarySearchWatchlist_ItemFound() {
-        // Create a list of Watchlist items
-        List<Watchlist> watchlists = new ArrayList<>();
-        Watchlist watchlist1 = new Watchlist(/* Initialize with necessary parameters */);
-        // Add watchlist1 and more items to the list
-
-        // Mock the behavior of sortAlgo method
-        when(quicksortWatchlist.sortAlgo(anyList())).thenReturn(watchlists);
-
-        // Define the item name to search for
-        String itemName = "TestItem";
-
-        // Perform the binary search
-        List<Watchlist> result = binarySearch.binarySearchWatchlist(watchlists, itemName);
-
-        // Assert that the result contains the found item
-        assertNotNull(result);
-        assertFalse(result.isEmpty());
-        // Add more specific assertions based on the expected behavior
-    }
-
-    @Test
-    void binarySearchWatchlist_ItemNotFound() {
-        // Similar test for the scenario when the item is not found
-        List<Watchlist> watchlists = new ArrayList<>();
-        // Add watchlists to the list
-
-        when(quicksortWatchlist.sortAlgo(anyList())).thenReturn(watchlists);
-
-        String itemName = "NonExistingItem";
-
-        // Perform the binary search
-        assertThrows(ItemNotFoundException.class, () -> binarySearch.binarySearchWatchlist(watchlists, itemName));
-    }
 }

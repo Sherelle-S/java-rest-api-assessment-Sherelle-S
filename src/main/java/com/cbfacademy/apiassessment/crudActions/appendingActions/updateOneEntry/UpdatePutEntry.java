@@ -29,14 +29,17 @@ public class UpdatePutEntry {
     public void updateEntryViaUuid(List<Watchlist> existingWatchlist, UUID uuid, Watchlist newEntry){
         log.info("updatePutEntry is running");
         log.info("Locating watchlist item with UUID: {}, uuid");
+        boolean found = false;
         for(Watchlist watchlistEntry : existingWatchlist){
             if(watchlistEntry.getUuid().equals(uuid)){
                 newWatchlist.updateOneItem(watchlistEntry, newEntry);
                 log.info("Item with UUID {} has been updated in watchlist.", uuid);
+                found = true;
                 break;
-            } else {
-                throw new ItemNotFoundException("The item with the uuid you are looking for cannot be found.");
-            }
+            } 
+        }
+        if(!found){
+            throw new ItemNotFoundException("The item with the uuid you are looking for cannot be found.");
         }
     }
 }

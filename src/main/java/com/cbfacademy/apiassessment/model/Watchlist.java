@@ -16,7 +16,7 @@ public class Watchlist {
     private UUID uuid;
     private String stockName;
     private String symbol;
-     private String currency;
+    private String currency;
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate datePurchased;
     private Integer wantsVolStock;
