@@ -1,3 +1,4 @@
+[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/iDPpP-d0)
 # **Java API Assessment**
 
 ## **Introduction**
@@ -45,7 +46,7 @@ Onward with this assessment, you're set for a deep dive into API development wit
 
 ### **Learning Outcomes:**
 - Hone your skills in effective version control.
-- Recognise the value of a well-curated repository.
+- Recognize the value of a well-curated repository.
 
 ## **Code Quality & Structure**
 
